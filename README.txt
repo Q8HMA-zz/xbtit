@@ -1,20 +1,20 @@
 #--------------------------#
-# Welcome to the xbtit v.2 #
+# XBTIT
 #--------------------------#
 Just a few words about this piece of script and some credits ;)
 
 The script is released under modified BSD, which mean you can freely use and
 modify it (read LICENSE for more info)
 
-xbtit is a complete rewrite of our BtiTracker base code. Every file has been changed, it is impracticable to list all the changes here. xbtit is the concentration of biteam.org's years of experience developing, hacking, and operating, tracker software. We are confident you are going to enjoy this release
+xbtit is a complete rewrite of our BtiTracker base code. Every file has been changed, it is impracticable to list all the changes here. xbtit is the concentration of biteam.org's years of experience developing, hacking, and operating, tracker software. We are confident you are going to enjoy this software
 
 To upgrade your modified Btit 1.4.x to xbtit it is necessary to upgrade your current db using upgrade.php (not included in the standard package) and then reapply your hacks to the new xbtit code. Although xbtit has a hack template system designed to make the application of hacks easy, none of our 1.4.x hacks have yet been packaged for xbtit, these will arrive in time as the community adopts the new code
 
 xbtit has two bittorrent tracker systems - a PHP tracker and xbtt. The PHP tracker is designed for platforms without access to the system root, or where your tracker is not expected to run with greater than 5-10,000 peers. A PHP tracker can generate a high volume of TCP traffic, potentially millions of hits per day on port 80, you have been cautioned. The second tracker system is xbtt by Olaf van der Spek. xbtt is an efficient C++ tracker capable of running millions of peers at very low overhead, you are recommended in all cases to use the xbtt system
 
-The tracker is professionally supported for a small fee at http://www.xbtit.com where you will also find private hacks, modifications, and styles
-
-The opensource free support forum is http://www.btiteam.org
+The opensource free support forum is
+BTITeam http://www.btiteam.org
+DPWS Media - http://dpwsmedia.com (Future Versions from 2.5.0 upwards)
 
 #----------------#
 # MAJOR FEATURES #
@@ -51,6 +51,8 @@ The opensource free support forum is http://www.btiteam.org
 We are working on a wiki which will give information, installation steps, how to, etc ...
 at the moment it is a "work in progress" site: http://wiki.btiteam.org
 
+We are working to implement the documents at DPWS Media for future versions
+
 #---------#
 # CREDITS #
 #---------#
@@ -78,5 +80,5 @@ TreeTopClimber
 
 Many thanks to all guys who participated for the testing and for addons/styles etc.
 
-Btiteam
+Btiteam / DPWS Media
 
