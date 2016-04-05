@@ -14,7 +14,6 @@ xbtit has two bittorrent tracker systems - a PHP tracker and xbtt. The PHP track
 
 The opensource free support forum is
 BTITeam http://www.btiteam.org
-DPWS Media - http://dpwsmedia.com (Future Versions from 2.5.0 upwards)
 
 #----------------#
 # MAJOR FEATURES #
@@ -51,8 +50,6 @@ DPWS Media - http://dpwsmedia.com (Future Versions from 2.5.0 upwards)
 We are working on a wiki which will give information, installation steps, how to, etc ...
 at the moment it is a "work in progress" site: http://wiki.btiteam.org
 
-We are working to implement the documents at DPWS Media for future versions
-
 #---------#
 # CREDITS #
 #---------#
@@ -80,5 +77,5 @@ TreeTopClimber
 
 Many thanks to all guys who participated for the testing and for addons/styles etc.
 
-Btiteam / DPWS Media
+Btiteam 
 
