@@ -87,7 +87,7 @@ if ($act=="confirm") {
       $random2=rand(10000, 60000);
       $res=do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `id_level`=3".((substr($FORUMLINK,0,3)=="smf" || $FORUMLINK=="ipb") ? ", `random`=$random2" : "")." WHERE `id_level`=2 AND `random`=$random",true);
       if (!$res)
-         die("ERROR: " . ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) . "\n");
+      	die("ERROR: ".mysqli_error($GLOBALS['conn'])."\n");
       else {
           if(substr($FORUMLINK,0,3)=="smf")
           {
@@ -578,7 +578,7 @@ if ($VALIDATION=="user")
       write_log("Signup new user $utente ($email)","add");
       }
    else
-       die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+   	die("ERROR: ".mysqli_error($GLOBALS['conn'])."\n");
    }
 
 return ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false));
