@@ -76,7 +76,7 @@ Thanks to style maker:
 TreeTopClimber
 
 Founders: Lupin
-Maintainers: Gh0st4unt3r
+Maintainers: Gh0st4unt3r, King Cobra
 
 Many thanks to all guys who participated for the testing and for addons/styles etc.
 
