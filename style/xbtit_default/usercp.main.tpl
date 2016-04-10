@@ -11,16 +11,16 @@ function popusers(url)
   <ul class='nav navbar-nav navbar-right'>
     <li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>Private Messages<b class='caret'></b></a>
       <ul class='dropdown-menu'>
-        <li><a href='index.php?page=torrents&search=&category=0&active=0'>New PM</a></li>
-        <li><a href='index.php?page=torrents&search=&category=0&active=0'>Inbox</a></li>
-        <li><a href='index.php?page=torrents&search=&category=0&active=0'>Sent / Outbox</a></li>
+        <li><a href='#'>New PM</a></li>
+        <li><a href='#'>Inbox</a></li>
+        <li><a href='#'>Sent / Outbox</a></li>
       </ul>
     </li>
     <li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>Edit Profile<b class='caret'></b></a>
       <ul class='dropdown-menu'>
-        <li><a href='index.php?page=torrents&search=&category=0&active=0'>Edit Profile Details</a></li>
-        <li><a href='index.php?page=torrents&search=&category=0&active=0'>Change Password</a></li>
-        <li><a href='index.php?page=torrents&search=&category=0&active=0'>Change PID</a></li>
+        <li><a href='#'>Edit Profile Details</a></li>
+        <li><a href='#'>Change Password</a></li>
+        <li><a href='#'>Change PID</a></li>
       </ul>
     </li>
   </ul>
