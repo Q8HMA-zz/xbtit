@@ -8,8 +8,11 @@ function popusers(url)
 }
 </script>
 <!-- TODO new user menu needs some work needs user id -->
-<div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
-  <ul class='nav navbar-nav navbar-right'>
+<!-- TODO Create icons when the menu callapse -->
+<!-- <div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1' style='width:100%;float:none;position:relative;'> -->
+<div class='navbar-collapse' id='bs-example-navbar-collapse-1' style='width:100%;float:none;position:relative;'>
+  <ul class='nav navbar-nav navbar-right' style='width:auto;white-space: nowrap;'>
+    <li><a href='#'>UCP Home</a></li>
     <li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>Private Messages<b class='caret'></b></a>
       <ul class='dropdown-menu'>
         <li><a href='#'>New PM</a></li>
