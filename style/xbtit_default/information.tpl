@@ -11,8 +11,7 @@
         <img src="<tag:information_image />" alt="" style="float:left; margin:5px" />
         <br />
         <tag:information_message />
-        <br />
-        <br />        
+
       </td>
     </tr>
   </table>

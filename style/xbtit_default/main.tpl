@@ -82,7 +82,7 @@
  <if:HAS_RIGHT_COL>
   <!-- Content Column -->
             <div class="col-md-2">
-<tag:main_right /> 
+<tag:main_right />
 </div>
 </if:HAS_RIGHT_COL>
 </noscript>
@@ -98,8 +98,8 @@
             <div class="row">
                 <div class="col-lg-12">
 				    
-                    <p>Copyright &copy; 2016 BTITeam / DPWS Media LTD <noscript><tag:style_copyright />&nbsp;<tag:xbtit_version /></noscript></p>
-					<p><tag:xbtit_debug /></p>
+                    <p align="center">Copyright &copy; 2016 XBTIT <tag:style_copyright />&nbsp;<tag:xbtit_version /></p>
+					<p align="center"><tag:xbtit_debug /></p>
                 </div>
             </div>
         </footer>
