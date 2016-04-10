@@ -8,7 +8,7 @@ function popusers(url)
 }
 </script>
 <!-- TODO new user menu needs some work needs user id -->
-<!-- TODO Create icons when the menu callapse -->
+<!-- TODO Create icons when the menu callapse  the collapse disabled at the moment -->
 <!-- <div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1' style='width:100%;float:none;position:relative;'> -->
 <div class='navbar-collapse' id='bs-example-navbar-collapse-1' style='width:100%;float:none;position:relative;'>
   <ul class='nav navbar-nav navbar-right' style='width:auto;white-space: nowrap;'>
