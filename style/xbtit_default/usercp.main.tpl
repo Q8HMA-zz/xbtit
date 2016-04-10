@@ -7,6 +7,7 @@ function popusers(url)
   if (window.focus) {newwindow.focus()}
 }
 </script>
+<!-- TODO new user menu needs some work needs user id -->
 <div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
   <ul class='nav navbar-nav navbar-right'>
     <li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>Private Messages<b class='caret'></b></a>
