@@ -60,34 +60,13 @@
 <tag:main_header />
 <!-- Content Row -->
         <div class="row">
-<if:HAS_LEFT_COL>
-            <!-- Sidebar Column -->
-            <div class="col-md-2">
-<tag:main_left />
-</div>
-
-    <div class="col-md-10">
-
-    <tag:main_content />
-    <tag:main_footer />
-</div>
-<else:HAS_LEFT_COL>
             <!-- Content Column -->
-			<!-- if right column is live again make the below col-md8 -->
             <div class="col-md-12">
 <tag:main_content />
 <tag:main_footer />
  </div>
- </if:HAS_LEFT_COL>
- <!-- Right side is not needed for now as it repeats some of the top and left -->
- <noscript>
- <if:HAS_RIGHT_COL>
-  <!-- Content Column -->
-            <div class="col-md-2">
-<tag:main_right />
-</div>
-</if:HAS_RIGHT_COL>
-</noscript>
+
+
 </div>
 <else:IS_DISPLAYED_2>
 <tag:main_content />

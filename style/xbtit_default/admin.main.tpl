@@ -41,6 +41,30 @@ function Show_News()
 
 //-->
 </script>
+<div class='navbar-collapse' id='bs-example-navbar-collapse-1' style='width:100%;float:none;position:relative;'>
+    <ul class='nav navbar-nav navbar-right' style='width:auto;white-space: nowrap;'>
+        <li><a href='#'>UCP Home</a></li>
+        <li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>Private Messages<b class='caret'></b></a>
+            <ul class='dropdown-menu'>
+                <li><a href='#'>New PM</a></li>
+                <li><a href='#'>Inbox</a></li>
+                <li><a href='#'>Sent / Outbox</a></li>
+            </ul>
+        </li>
+        <li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>Edit Profile<b class='caret'></b></a>
+            <ul class='dropdown-menu'>
+                <li><a href='#'>Edit Profile Details</a></li>
+                <li><a href='#'>Change Password</a></li>
+                <li><a href='#'>Change PID</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4><i class="fa fa-fw fa-users"></i>Admin Panel</h4>
+    </div>
+    <div class="panel-body">
 <b><tag:language.ADMINCP_NOTES /></b>
 <table border="0" class="lista" align="center" width="100%">
 <tr>
@@ -74,4 +98,6 @@ function Show_News()
   </td>
   </tr>
 </table>
+ </div>
+    </div>
 <script type="text/javascript">Show_News();</script>
