@@ -27,7 +27,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-	<tag:more_css />
+
     <tag:main_jscript />
 	
 </head>
@@ -65,7 +65,9 @@
             <div class="col-md-2">
 <tag:main_left />
 </div>
-<div class="col-md-10">
+
+    <div class="col-md-10">
+
     <tag:main_content />
     <tag:main_footer />
 </div>

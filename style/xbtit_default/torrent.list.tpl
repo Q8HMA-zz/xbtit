@@ -1,4 +1,10 @@
-<div align="center">
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4><i class="fa fa-fw fa-files-o"></i>Torrents</h4>
+  </div>
+  <div class="panel-body">
+
+  <div align="center">
 <form action="<tag:torrent_script />" method="get" name="torrent_search">
   <input type="hidden" name="page" value="torrents" />
   <table border="0" class="lista" align="center">
@@ -94,3 +100,5 @@
     <td colspan="2" align="center"> <tag:torrent_pagerbottom /></td>
   </tr>
 </table>
+    </div>
+  </div>

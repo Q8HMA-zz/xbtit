@@ -1,5 +1,10 @@
 <!-- VIEWNEWS.PHP Template - Just plain HTML and CSS + Template TAGS-->
 
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4><i class="fa fa-fw fa-newspaper-o"></i>News</h4>
+  </div>
+  <div class="panel-body">
 <table cellpadding="4" cellspacing="1" border="0" width="100%" style="font-family:Verdana;font-size:10px">
   <if:news_exists>
   <loop:viewnews>
@@ -37,3 +42,5 @@
     </tr>
   </if:news_exists>
 </table>
+  </div>
+</div>

@@ -83,32 +83,28 @@ if ($CURUSER["view_users"]=="yes")
 /*  just tidying up a little here */ 
 
 /*print("<li><a href='#'>".$language['USER_MENU']."</a>\n");
-    print("<ul>\n");
-*/
+    print("<ul>\n");*/
+
 	
-/*if ($CURUSER["view_users"]=="yes")
+if ($CURUSER["view_users"]=="yes")
 		{
-    print("<li><a class='fly' href='#'>".$language["USER_CP"]."</a>\n");
-    print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
-    print("<ul class='level3'>\n");
+   /* print("<ul class='level3'>\n");
     print("<li><a href='index.php?page=usercp&amp;uid=".$CURUSER["uid"]."'>".$language['MNU_UCP_HOME']."</a></li>\n");
-		
     print("<li><a class='fly' href='#'>".$language["MNU_UCP_PM"]."</a>\n");
-		print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
+	print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
     print("<ul class='level4'>");
     print("<li><a href='index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=list&what=inbox'>".$language['MNU_UCP_IN']."</a></li>\n");
     print("<li><a href='index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=list&what=outbox'>".$language['MNU_UCP_OUT']."</a></li>\n");
     print("<li><a href='index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=edit&uid=".$CURUSER["uid"]."&what=new'>".$language['MNU_UCP_NEWPM']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
-
     print("<li><a class='fly' href='#'>".$language["MNU_UCP_INFO"]."</a>\n");
-		print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
     print("<ul class='level4'>\n");
     print("<li><a href='index.php?page=usercp&do=user&action=change&uid=".$CURUSER["uid"]."'>".$language['MNU_UCP_INFO']."</a></li>\n");
     print("<li><a href='index.php?page=usercp&do=pwd&action=change&uid=".$CURUSER["uid"]."'>".$language['MNU_UCP_CHANGEPWD']."</a></li>\n");
-    print("<li><a href='index.php?page=usercp&do=pid_c&action=change&uid=".$CURUSER["uid"]."'>".$language['CHANGE_PID']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
-    print("</ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
-} */
-	
+    print("<li><a href='index.php?page=usercp&do=pid_c&action=change&uid=".$CURUSER["uid"]."'>".$language['CHANGE_PID']."</a></li></ul></li>\n");
+    print("</ul></li>\n");*/
+
+} 
+
 /* same as above there is an admin link so there is not really much need as its accessable via admin link unless its really needed in menu. */	
 /*if ($CURUSER["admin_access"]=="yes")
     {

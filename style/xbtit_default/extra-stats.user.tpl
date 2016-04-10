@@ -1,4 +1,4 @@
-<table width="98%" class="lista" align="center">
+<table width="100%" class="lista" align="center">
     <tr>
       <td class="header" align="center"><tag:language.RANK /></td>
       <td class="header" align="center"><tag:language.USER_NAME /></td>

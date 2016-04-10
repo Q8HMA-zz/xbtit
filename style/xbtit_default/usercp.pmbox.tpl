@@ -29,6 +29,12 @@ function popusers(url)
 }
  -->
 </script>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4><i class="fa fa-fw fa-user"></i></h4>
+    </div>
+    <div class="panel-body">
+
 <if:MSG_LIST>
 <form action="<tag:pmbox.frm_action />" name="deleteall" method="post">
   <table class="lista" width="100%" align="center">
@@ -138,3 +144,5 @@ function popusers(url)
 </if:MSG_MENU>
   </table>
 </if:MSG_READ>
+        </div>
+    </div>

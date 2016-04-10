@@ -1,4 +1,10 @@
-<div align="center">
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4><i class="fa fa-fw fa-users"></i>Members</h4>
+  </div>
+  <div class="panel-body">
+
+  <div align="center">
   <form action="index.php" name="ricerca" method="get">
   <input type="hidden" name="page" value="users" />
     <table border="0" class="lista">
@@ -52,4 +58,6 @@
       </if:no_users>
     </table>
 </div>
-<br />
+    <br />
+</div>
+  </div>

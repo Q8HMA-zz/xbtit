@@ -1,10 +1,16 @@
-<table class="lista" width="100%">
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4><i class="fa fa-fw fa-user"></i><tag:userdetail_username /><tag:userdetail_send_pm /><tag:userdetail_edit /><tag:userdetail_delete /></h4>
+  </div>
+  <div class="panel-body">
+
+  <table class="lista" width="100%">
 
   <tr>
 
-    <td width="20%" class="header"><tag:language.USERNAME /></td>
+   <td width="20%" class="header"></td>
 
-    <td width="80%" class="lista"><tag:userdetail_username /><tag:userdetail_send_pm /><tag:userdetail_edit /><tag:userdetail_delete /></td>
+    <td width="80%" class="lista"></td>
 
     <if:userdetail_has_avatar>
 
@@ -341,3 +347,5 @@
 <center><tag:userdetail_back /></center>
 
 <br />
+    </div>
+  </div>
