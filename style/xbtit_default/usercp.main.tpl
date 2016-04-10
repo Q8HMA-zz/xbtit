@@ -7,7 +7,24 @@ function popusers(url)
   if (window.focus) {newwindow.focus()}
 }
 </script>
-
+<div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
+  <ul class='nav navbar-nav navbar-right'>
+    <li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>Private Messages<b class='caret'></b></a>
+      <ul class='dropdown-menu'>
+        <li><a href='index.php?page=torrents&search=&category=0&active=0'>New PM</a></li>
+        <li><a href='index.php?page=torrents&search=&category=0&active=0'>Inbox</a></li>
+        <li><a href='index.php?page=torrents&search=&category=0&active=0'>Sent / Outbox</a></li>
+      </ul>
+    </li>
+    <li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>Edit Profile<b class='caret'></b></a>
+      <ul class='dropdown-menu'>
+        <li><a href='index.php?page=torrents&search=&category=0&active=0'>Edit Profile Details</a></li>
+        <li><a href='index.php?page=torrents&search=&category=0&active=0'>Change Password</a></li>
+        <li><a href='index.php?page=torrents&search=&category=0&active=0'>Change PID</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
 <div class="panel panel-default">
   <div class="panel-heading">
     <h4><i class="fa fa-fw fa-users"></i>UserCP</h4>
