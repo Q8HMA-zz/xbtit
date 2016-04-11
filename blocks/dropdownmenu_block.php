@@ -164,17 +164,13 @@ if ($CURUSER["view_users"]=="yes")
     }
 
 	
-	if ($CURUSER["uid"]==1 || !$CURUSER)
-{
-    print("<li><a href='index.php?page=login'>".$language["LOGIN"]."</a></li>\n");
-}
-else
-{
-    print("<li><a href='logout.php'>".$language["LOGOUT"]."</a></li>\n");
-}
-
-    /*print("</ul></li>\n");
-		print("</ul></li>\n");*/
+	if ($CURUSER["uid"]==1 || !$CURUSER) {
+        print("<li><a href='index.php?page=login'>".$language["LOGIN"]."</a></li>\n");
+    }
+    else {
+        print("<li><a href='logout.php'>".$language["LOGOUT"]."</a></li>\n");
+    }
+    
 }
 
 print("</ul>");

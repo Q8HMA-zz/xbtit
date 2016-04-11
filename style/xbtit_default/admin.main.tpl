@@ -63,7 +63,7 @@ function Show_News()
        </tr>
      </table>
   </td>
-  <td valign="top" width="250"><br />
+  <td valign="top" width="250">
     <table border="0" class="lista" align="center" width="100%">
            <tr><td class="block" align="center"><b>Some statistic/system info:</b></td></tr>
            <tr><td class="lista"><tag:admin.lastsanity /></td></tr>
