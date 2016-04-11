@@ -47,7 +47,8 @@ if ($CURUSER["view_torrents"]=="yes")
     print("<li><a href='index.php?page=torrents&search=&category=0&active=0'>".$language["ALL"]."</a></li>\n");
     print("<li><a href='index.php?page=torrents&search=&category=0&active=1'>".$language["ACTIVE_ONLY"]."</a></li>\n");
     print("<li><a href='index.php?page=torrents&search=&category=0&active=2'>".$language["DEAD_ONLY"]."</a></li>\n");
-
+    print("<li><a href='index.php?page=extra-stats'>".$language["MNU_STATS"]."</a></li>\n");
+    
 if ($CURUSER["can_upload"]=="yes")                
 {
 
@@ -57,9 +58,9 @@ if ($CURUSER["can_upload"]=="yes")
 	
     print("</ul></li>");
 
-    print("<li><a href='index.php?page=extra-stats'>".$language["MNU_STATS"]."</a></li>\n");                  
-
-
+if ($CURUSER["view_users"]=="yes")
+    print("<li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>Community<b class='caret'></b></a>\n");
+    print("<ul class='dropdown-menu'>\n");    
 if ($CURUSER["view_forum"]=="yes")
     {
         if ($GLOBALS["FORUMLINK"]=="" || $GLOBALS["FORUMLINK"]=="internal" || substr($GLOBALS["FORUMLINK"],0,3)=="smf" || $GLOBALS["FORUMLINK"]=="ipb")
@@ -67,16 +68,17 @@ if ($CURUSER["view_forum"]=="yes")
         else
             print("<li><a href='".$GLOBALS["FORUMLINK"]."'>".$language["MNU_FORUM"]."</a></li>\n");
     }
-
+if ($CURUSER["view_users"]=="yes")
+    {
+        print("<li><a href='index.php?page=users'>".$language["MNU_MEMBERS"]."</a><b></b></li>\n");
+    }    
+    print("</ul></li>");
+    
 if ($CURUSER["view_news"]=="yes")
     {
         print("<li><a href='index.php?page=viewnews'>".$language['MNU_NEWS']."</a></li>\n");
     }
 
-if ($CURUSER["view_users"]=="yes")
-		{    
-    print("<li><a href='index.php?page=users'>".$language["MNU_MEMBERS"]."</a><b></b></li>\n");
-    }
 
 /* there is already a my panel to edit profiles no need to waste space unless really needed in top menu*/
 
@@ -88,20 +90,22 @@ if ($CURUSER["view_users"]=="yes")
 	
 if ($CURUSER["view_users"]=="yes")
 		{
-   /* print("<ul class='level3'>\n");
+    print("<li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>My Account<b class='caret'></b></a>\n");
+    print("<ul class='dropdown-menu'>\n");
     print("<li><a href='index.php?page=usercp&amp;uid=".$CURUSER["uid"]."'>".$language['MNU_UCP_HOME']."</a></li>\n");
-    print("<li><a class='fly' href='#'>".$language["MNU_UCP_PM"]."</a>\n");
-	print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
-    print("<ul class='level4'>");
+    print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>".$language["MNU_UCP_PM"]."</a>\n");
+    print("<ul class='dropdown-menu'>\n");
     print("<li><a href='index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=list&what=inbox'>".$language['MNU_UCP_IN']."</a></li>\n");
     print("<li><a href='index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=list&what=outbox'>".$language['MNU_UCP_OUT']."</a></li>\n");
-    print("<li><a href='index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=edit&uid=".$CURUSER["uid"]."&what=new'>".$language['MNU_UCP_NEWPM']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
-    print("<li><a class='fly' href='#'>".$language["MNU_UCP_INFO"]."</a>\n");
-    print("<ul class='level4'>\n");
+    print("<li><a href='index.php?page=usercp&uid=".$CURUSER["uid"]."&do=pm&action=edit&uid=".$CURUSER["uid"]."&what=new'>".$language['MNU_UCP_NEWPM']."</a></li>\n");
+    print("</ul></li>");
+    print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>".$language["MNU_UCP_INFO"]."</a>\n");
+    print("<ul class='dropdown-menu'>\n");
     print("<li><a href='index.php?page=usercp&do=user&action=change&uid=".$CURUSER["uid"]."'>".$language['MNU_UCP_INFO']."</a></li>\n");
     print("<li><a href='index.php?page=usercp&do=pwd&action=change&uid=".$CURUSER["uid"]."'>".$language['MNU_UCP_CHANGEPWD']."</a></li>\n");
-    print("<li><a href='index.php?page=usercp&do=pid_c&action=change&uid=".$CURUSER["uid"]."'>".$language['CHANGE_PID']."</a></li></ul></li>\n");
-    print("</ul></li>\n");*/
+    print("<li><a href='index.php?page=usercp&do=pid_c&action=change&uid=".$CURUSER["uid"]."'>".$language['CHANGE_PID']."</a></li>\n");
+    print("</ul></li>\n");
+    print("</ul></li>\n");
 
 } 
     
