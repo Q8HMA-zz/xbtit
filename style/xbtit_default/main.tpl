@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:tag="http://www.w3.org/1999/html">
 
 <head>
 
@@ -56,24 +56,17 @@
 
     <!-- Page Content -->
     <div class="container">
-<if:IS_DISPLAYED_2>
 <tag:main_header />
 <!-- Content Row -->
         <div class="row">
             <!-- Content Column -->
+            <tag:admin_dropdown />
             <div class="col-md-12">
 <tag:main_content />
 <tag:main_footer />
  </div>
-
-
 </div>
-<else:IS_DISPLAYED_2>
-<tag:main_content />
-</if:IS_DISPLAYED_2>
-
-
-        <!-- /.row -->
+<!-- /.row -->
     <!-- Footer -->
         <footer>
             <div class="row">

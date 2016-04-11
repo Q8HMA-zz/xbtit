@@ -76,4 +76,5 @@ function right_menu() {
 function bottom_menu() {
   return get_menu('b');
 }
+
 ?>

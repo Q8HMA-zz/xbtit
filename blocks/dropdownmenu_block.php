@@ -105,67 +105,88 @@ if ($CURUSER["view_users"]=="yes")
 
 } 
 
-/* same as above there is an admin link so there is not really much need as its accessable via admin link unless its really needed in menu. */	
-/*if ($CURUSER["admin_access"]=="yes")
-    {
+/* same as above there is an admin link so there is not really much need as its accessable via admin link unless its really needed in menu. */
+
+    if ($CURUSER["admin_access"]=="yes") {
         require_once(load_language("lang_admin.php"));
-        print("<li><a class='fly' href='#'>".$language["ADMIN_ACCESS"]."</a>\n");
-        print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
-        print("<ul class='level3'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."'>".$language["MNU_ADMINCP"]."</a></li>");
-        
-        print("<li><a class='fly' href='#'>".$language['TRACKER_SETTINGS']."</a>\n");
-        print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
-        print("<ul class='level4'>\n");
+        print("<li class='dropdown'><a href='#' class='dropdown-toggle' data-toggle='dropdown'>".$language["ADMIN_ACCESS"]."<b class='caret'></b></a>\n");
+        print("<ul class='dropdown-menu'>\n");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."'>".$language["MNU_ADMINCP"]."</a></li>\n");
+        print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown''>".$language['TRACKER_SETTINGS']."</a>\n");
+        print("<ul class='dropdown-menu'>\n");
         print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=config&action=read'>".$language['TRACKER_SETTINGS']."</a></li>\n");
         print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=banip&action=read'>".$language['ACP_BAN_IP']."</a></li>\n");
         print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=language&action=read'>".$language['ACP_LANGUAGES']."</a></li>\n");
         print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=style&action=read'>".$language['ACP_STYLES']."</a></li>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=security_suite'>".$language["ACP_SECSUI_SET"]."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
-        
-        print("<li><a class='fly' href='#'>".$language['ACP_FRONTEND']."</a>\n");
-				print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
-        print("<ul class='level4'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=category&action=read'>".$language['ACP_CATEGORIES']."</a></li>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=poller&action=read'>".$language['ACP_POLLS']."</a></li>");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=badwords&action=read'>".$language["ACP_CENSORED"]."</a></li>");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=blocks&action=read'>".$language['ACP_BLOCKS']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
-        
-        print("<li><a class='fly' href='#'>".$language['ACP_USERS_TOOLS']."</a>\n");
-				print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
-        print("<ul class='level4'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=groups&action=read'>".$language['ACP_USER_GROUP']."</a></li>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=masspm&action=write'>".$language['ACP_MASSPM']."</a></li>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=pruneu'>".$language['ACP_PRUNE_USERS']."</a></li>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=searchdiff'>".$language['ACP_SEARCH_DIFF']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
-        
-        print("<li><a class='fly' href='#'>".$language['ACP_TORRENTS_TOOLS']."</a>\n");
-				print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
-        print("<ul class='level4'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=prunet'>".$language['ACP_PRUNE_TORRENTS']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
-        
-        print("<li><a class='fly' href='#'>".$language['ACP_FORUM']."</a>\n");
-				print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
-        print("<ul class='level4'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=forum&action=read'>".$language['ACP_FORUM']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
-        
-        print("<li><a class='fly' href='#'>".$language['ACP_OTHER_TOOLS']."</a>");
-        print("<ul class='level4'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=dbutil'>".$language['ACP_DBUTILS']."</a></li>");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=mysql_stats'>".$language['ACP_MYSQL_STATS']."</a></li>");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=logview'>".$language['ACP_SITE_LOG']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
-        
-        print("<li><a class='fly' href='#'>".$language['ACP_MODULES']."</a>\n");
-				print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
-        print("<ul class='level4'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=module_config&action=manage'>".$language['ACP_MODULES_CONFIG']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
-        
-        print("<li><a class='fly' href='#'>".$language['ACP_HACKS']."</a>\n");
-				print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
-        print("<ul class='level4'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=hacks&action=read'>".$language['ACP_HACKS_CONFIG']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
-        print("</ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
-    }*/	
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=security_suite'>".$language["ACP_SECSUI_SET"]."</a></li>\n");
+        print("</ul></li>");
+        print("<li><a href='index.php?page=torrents&search=&category=0&active=1'>".$language['ACP_FRONTEND']."</a></li>\n");
+        print("<li><a href='index.php?page=torrents&search=&category=0&active=2'>" . $language["DEAD_ONLY"] . "</a></li>\n");
+
+        print("</ul></li>");
+    }
+
+
+        /*if ($CURUSER["admin_access"]=="yes")
+        {
+            require_once(load_language("lang_admin.php"));
+            print("<li><a class='fly' href='#'>".$language["ADMIN_ACCESS"]."</a>\n");
+            print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
+            print("<ul class='level3'>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."'>".$language["MNU_ADMINCP"]."</a></li>");
+            
+            print("<li><a class='fly' href='#'>".$language['TRACKER_SETTINGS']."</a>\n");
+            print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
+            print("<ul class='level4'>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=config&action=read'>".$language['TRACKER_SETTINGS']."</a></li>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=banip&action=read'>".$language['ACP_BAN_IP']."</a></li>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=language&action=read'>".$language['ACP_LANGUAGES']."</a></li>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=style&action=read'>".$language['ACP_STYLES']."</a></li>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=security_suite'>".$language["ACP_SECSUI_SET"]."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
+            
+            print("<li><a class='fly' href='#'>".$language['ACP_FRONTEND']."</a>\n");
+                    print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
+            print("<ul class='level4'>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=category&action=read'>".$language['ACP_CATEGORIES']."</a></li>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=poller&action=read'>".$language['ACP_POLLS']."</a></li>");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=badwords&action=read'>".$language["ACP_CENSORED"]."</a></li>");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=blocks&action=read'>".$language['ACP_BLOCKS']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
+            
+            print("<li><a class='fly' href='#'>".$language['ACP_USERS_TOOLS']."</a>\n");
+                    print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
+            print("<ul class='level4'>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=groups&action=read'>".$language['ACP_USER_GROUP']."</a></li>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=masspm&action=write'>".$language['ACP_MASSPM']."</a></li>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=pruneu'>".$language['ACP_PRUNE_USERS']."</a></li>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=searchdiff'>".$language['ACP_SEARCH_DIFF']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
+            
+            print("<li><a class='fly' href='#'>".$language['ACP_TORRENTS_TOOLS']."</a>\n");
+                    print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
+            print("<ul class='level4'>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=prunet'>".$language['ACP_PRUNE_TORRENTS']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
+            
+            print("<li><a class='fly' href='#'>".$language['ACP_FORUM']."</a>\n");
+                    print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
+            print("<ul class='level4'>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=forum&action=read'>".$language['ACP_FORUM']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
+            
+            print("<li><a class='fly' href='#'>".$language['ACP_OTHER_TOOLS']."</a>");
+            print("<ul class='level4'>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=dbutil'>".$language['ACP_DBUTILS']."</a></li>");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=mysql_stats'>".$language['ACP_MYSQL_STATS']."</a></li>");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=logview'>".$language['ACP_SITE_LOG']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
+            
+            print("<li><a class='fly' href='#'>".$language['ACP_MODULES']."</a>\n");
+                    print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
+            print("<ul class='level4'>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=module_config&action=manage'>".$language['ACP_MODULES_CONFIG']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
+            
+            print("<li><a class='fly' href='#'>".$language['ACP_HACKS']."</a>\n");
+                    print("<!--[if gte IE 7]><!--></a><!--<![endif]--><!--[if lte IE 6]><table><tr><td><![endif]-->\n");
+            print("<ul class='level4'>\n");
+            print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=hacks&action=read'>".$language['ACP_HACKS_CONFIG']."</a></li></ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
+            print("</ul><!--[if lte IE 6]></td></tr></table></a><![endif]--></li>\n");
+        }*/
 	
 	if ($CURUSER["uid"]==1 || !$CURUSER)
 {

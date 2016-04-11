@@ -211,6 +211,7 @@ function print_designer() {
      $design_copyright='';
   return $design_copyright;
 }
+
 function print_top()
 {
   return '<a href=\'#\'>Back To Top</a>';
@@ -1096,7 +1097,8 @@ function stdfoot($normalpage=true, $update=true, $adminpage=false, $torrentspage
             $tpl->set("TYPE4_EXCLUSIVE_4", true, true);
             $tpl->set("TYPE4_EXCLUSIVE_5", true, true);
         }
-        echo $tpl->fetch(load_template('main.tpl'));
+       echo $tpl->fetch(load_template('main.tpl'));
+        
     }
     else
     {
@@ -1123,7 +1125,7 @@ function stdfoot($normalpage=true, $update=true, $adminpage=false, $torrentspage
                 echo $tpl->fetch(load_template('main.no_header_1_column.tpl'));
             else
                 echo $tpl->fetch(load_template('main.tpl'));
-        } 
+        }
     }
     ob_end_flush();
 
