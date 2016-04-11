@@ -1,3 +1,8 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4><i class="fa fa-fw fa-cogs"></i>Forum Settings</h4>
+  </div>
+  <div class="panel-body">
 <if:read>
 <table class="lista" width="100%" align="center">
   <tr>
@@ -74,3 +79,5 @@
   </table>
 </form>
 </if:read>
+    </div>
+  </div>

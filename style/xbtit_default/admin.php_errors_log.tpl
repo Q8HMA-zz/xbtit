@@ -67,6 +67,11 @@ table#inputs
 table-layout:fixed;
 }
 </style>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4><i class="fa fa-fw fa-cogs"></i>Site Error Logs</h4>
+	</div>
+	<div class="panel-body" align="center">
 <table width="100%" valign="top">
 <tr>
 <td align="center" class="lista">
@@ -119,3 +124,5 @@ table-layout:fixed;
 </td>
 </tr>
 </table>
+		</div>
+	</div>

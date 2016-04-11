@@ -27,7 +27,11 @@ function show(obj)
       obj1.style.visibility = 'visible';
   }
 </script>
-
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4><i class="fa fa-fw fa-cogs"></i>Security Suite</h4>
+  </div>
+  <div class="panel-body" align="center">
 <div align='center'>
   <form name='security_suite' method='post' action='index.php?page=admin&user=<tag:uid />&code=<tag:random />&do=security_suite'>
     <table>
@@ -151,3 +155,5 @@ function show(obj)
     </table>
   </form>
 </div>
+    </div>
+  </div>

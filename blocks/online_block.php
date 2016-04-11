@@ -37,7 +37,13 @@ if (!$CURUSER || $CURUSER["view_users"]=="no")
    }
 else
     {
-
+?>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4><i class="fa fa-fw fa-users"></i>Who's Online</h4>
+            </div>
+            <div class="panel-body" align="center">
+<?
      //block_begin("Online Users");
      print("\n<table class=\"lista\" width=\"100%\">\n");
 
@@ -75,5 +81,9 @@ else
      //print($print. $gueststr . ($guest_num>0 && $regusers>0?" ".$language["WORD_AND"]." ":"") . ($regusers>0?"$regusers ".($regusers>1?$language["MEMBERS"]:$language["MEMBER"])."): ":")") . $users ."\n</td></tr>");
      block_end();
      print("</table>\n");
+?>
+</div>
+</div>        
+<?                
 } // end if user can view
 ?>

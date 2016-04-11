@@ -1,3 +1,8 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4><i class="fa fa-fw fa-cogs"></i>Hack Settings</h4>
+  </div>
+  <div class="panel-body" align="center">
 <if:ftp>
 <form name="ftp_data" action="<tag:form_action />" method="post">
 <input type="hidden" name="add_hack_folder" value="<tag:hack_folder />" />
@@ -142,3 +147,5 @@ function valid_folder(value) {
 
 </if:test>
 </if:ftp>
+    </div>
+  </div>

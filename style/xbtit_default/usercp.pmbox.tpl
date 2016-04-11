@@ -31,9 +31,9 @@ function popusers(url)
 </script>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4><i class="fa fa-fw fa-user"></i></h4>
+        <h4><i class="fa fa-fw fa-user"></i>New Private Message</h4>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" align="center">
 
 <if:MSG_LIST>
 <form action="<tag:pmbox.frm_action />" name="deleteall" method="post">

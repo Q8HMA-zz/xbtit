@@ -1,3 +1,8 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4><i class="fa fa-fw fa-cogs"></i>Styles Settings</h4>
+  </div>
+  <div class="panel-body" align="center">
 <div align="center">
 <tag:language.STYLE_NOTE />
 </div>
@@ -57,3 +62,5 @@
   </tr>
   </table>
 </if:style_add>
+    </div>
+  </div>

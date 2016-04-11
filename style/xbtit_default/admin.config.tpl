@@ -1,3 +1,8 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4><i class="fa fa-fw fa-cogs"></i>Tracker Settings</h4>
+  </div>
+  <div class="panel-body">
 <script type="text/javascript" src="jscript/btit_functions.js"></script>
 <form action="<tag:frm_action />" name="config" method="post" onsubmit="return test_smtp_password()">
   <table class="lista" width="100%" align="center">
@@ -205,3 +210,5 @@
     </tr>
   </table>
 </form>
+    </div>
+  </div>

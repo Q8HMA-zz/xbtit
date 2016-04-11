@@ -1,3 +1,8 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4><i class="fa fa-fw fa-cogs"></i>User/Member Settings</h4>
+  </div>
+  <div class="panel-body" align="center">
 <script type="text/javascript">
 function convert() {
 // gb
@@ -148,4 +153,6 @@ function convert() {
   </tr>
 </table>
 </if:edit_user>
+</div>
+  </div>
 

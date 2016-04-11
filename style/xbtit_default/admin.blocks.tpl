@@ -1,3 +1,8 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4><i class="fa fa-fw fa-cogs"></i>Manage Blocks</h4>
+  </div>
+  <div class="panel-body">
 <form name="blocks" action="<tag:frm_action />" method="post">
 <if:edit_block>
   <table class="lista" border="1">
@@ -29,7 +34,7 @@
 <else:edit_block>
   <table class="lista" width="100%" border="1">
     <tr>
-      <td colspan="3" valign="top"><a href="<tag:add_new_block />"><tag:language.BLOCK_ADD_NEW /></a></td>
+      <td colspan="3" valign="top"><span class="btn btn-default"><a href="<tag:add_new_block />"><tag:language.BLOCK_ADD_NEW /></a></span></td>
     </tr>
     <if:top_blocks>
     <tr>
@@ -205,4 +210,5 @@
 </div>
 </form>
 <br />
-
+</div>
+  </div>

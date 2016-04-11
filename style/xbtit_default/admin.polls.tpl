@@ -1,3 +1,8 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4><i class="fa fa-fw fa-cogs"></i>Poll Settings</h4>
+  </div>
+  <div class="panel-body" align="center">
 <tag:poll_script />
 <form action="<tag:frm_action />" method="post">
   <if:show_poller>
@@ -106,3 +111,5 @@
   </if:new_poll>
   </if:show_poller>
 </form>
+    </div>
+  </div>
