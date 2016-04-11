@@ -150,10 +150,6 @@ if ($CURUSER["view_users"]=="yes")
         print("<ul class='dropdown-menu'>\n");
         print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=module_config&action=manage'>".$language['ACP_MODULES_CONFIG']."</a></li>");
         print("</ul></li>");
-        print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown''>".$language['ACP_MODULES']."</a>\n");
-        print("<ul class='dropdown-menu'>\n");
-        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=module_config&action=manage'>".$language['ACP_MODULES_CONFIG']."</a></li>");
-        print("</ul></li>");
         print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown''>".$language['ACP_HACKS']."</a>\n");
         print("<ul class='dropdown-menu'>\n");
         print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=hacks&action=read'>".$language['ACP_HACKS_CONFIG']."</a></li>");
