@@ -51,7 +51,7 @@ INSERT INTO `{$db_prefix}blocks` (`blockid`, `content`, `position`, `sortid`, `s
 (8, 'online', 'b', 0, 1, 'BLOCK_ONLINE', 'no', 3, 8),
 (10, 'toptorrents', 'c', 5, 1, 'BLOCK_TOPTORRENTS', 'no', 3, 8),
 (11, 'lasttorrents', 'c', 4, 1, 'BLOCK_LASTTORRENTS', 'no', 3, 8),
-(12, 'news', 'c', 1, 1, 'BLOCK_NEWS', 'no', 1, 8),
+(12, 'news', 'c', 1, 0, 'BLOCK_NEWS', 'no', 1, 8),
 (13, 'mainmenu', 'e', 1, 1, 'BLOCK_MENU', 'no', 1, 8),
 (14, 'maintrackertoolbar', 't', 2, 1, 'BLOCK_MAINTRACKERTOOLBAR', 'no', 3, 8),
 (15, 'mainusertoolbar', 't', 2, 1, 'BLOCK_MAINUSERTOOLBAR', 'no', 1, 8),
@@ -59,7 +59,7 @@ INSERT INTO `{$db_prefix}blocks` (`blockid`, `content`, `position`, `sortid`, `s
 (17, 'poller', 'l', 3, 1, 'BLOCK_POLL', 'no', 3, 8),
 (18, 'seedwanted', 'c', 3, 1, 'BLOCK_SEEDWANTED', 'no', 3, 8),
 (19, 'paypal', 'r', 1, 1, 'BLOCK_PAYPAL', 'no', 3, 8),
-(20, 'ajax_shoutbox', 'c', 2, 1, 'BLOCK_SHOUTBOX', 'no', 3, 8),
+(20, 'ajax_shoutbox', 'c', 2, 0, 'BLOCK_SHOUTBOX', 'no', 3, 8),
 (21, 'dropdownmenu', 'd', 1, 1, 'BLOCK_DDMENU', 'no', 1, 8);
 
 
@@ -539,7 +539,7 @@ INSERT INTO `{$db_prefix}language` (`id`, `language`, `language_url`) VALUES
 (7, 'Russian','language/russian'),
 (8, 'German','language/german'),
 (9, 'Hungarian','language/hungarian'),
-(10, 'Français', 'language/french'),
+(10, 'Franï¿½ais', 'language/french'),
 (11, 'Finnish','language/finnish'),
 (12, 'Vietnamese','language/vietnamese'),
 (13, 'Greek','language/greek'),
