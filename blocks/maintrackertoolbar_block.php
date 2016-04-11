@@ -79,9 +79,13 @@ else
    $upld=0+$row["upld"];
    $traffic=makesize($dled+$upld);
 ?>
-<table class="tool" cellpadding="2" cellspacing="0" width="100%">
-<tr>
-<td class="lista" style="text-align:center;" align="center"><?php echo $language["BLOCK_INFO"]; ?>:</td>
+       <div class="row">
+       <div class="col-md-6">
+       <div class="panel panel-default">
+       <div class="panel-heading">
+          <h4><i class="fa fa-fw fa-files-o"></i><?php echo $language["BLOCK_INFO"]; ?></h4>
+       </div>
+       <div class="panel-body">
 <td class="lista" style="text-align:center;" align="center"><?php echo $language["MEMBERS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $users; ?></td>
 <td class="lista" style="text-align:center;" align="center"><?php echo $language["TORRENTS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $torrents; ?></td>
 <td class="lista" style="text-align:center;" align="center"><?php echo $language["SEEDERS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $seeds; ?></td>
@@ -89,7 +93,12 @@ else
 <td class="lista" style="text-align:center;" align="center"><?php echo $language["PEERS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $peers; ?></td>
 <td class="lista" style="text-align:center;" align="center"><?php echo $language["SEEDERS"]."/".$language["LEECHERS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $percent."%"; ?></td>
 <td class="lista" style="text-align:center;" align="center"><?php echo $language["TRAFFIC"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $traffic; ?></td>
-</tr></table>
+
+          <a href="#" class="btn btn-default">View Torrents</a>
+        </div>
+    </div>
+</div>
+    
 <?php
 } // end if user can view
 ?>

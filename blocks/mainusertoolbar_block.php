@@ -45,70 +45,51 @@ window.location='index.php?page=usercp&uid=<?php echo $CURUSER["uid"]; ?>&do=pm&
 
   if (isset($CURUSER) && $CURUSER && $CURUSER["uid"]>1)
   {
-  print("<form name=\"jump1\" action=\"index.php\" method=\"post\">\n");
+  print("<form name=\"jump1\" action=\"index.php\" method=\"post\">");
 ?>
-<table class="lista" cellpadding="0" cellspacing="0" width="100%">
-<tr>
+      
 <?php
 $style=style_list();
 $langue=language_list();
-print("<td align=\"left\" style=\"text-align:left;\"><b>".$language["WELCOME_BACK"]." ".$CURUSER["username"]."</b></td>\n");
-print("<td style=\"text-align:left;\" align=\"left\"><b>".$language["USER_LEVEL"].": ".$CURUSER["level"]."</b></td></tr><tr>\n");
-print("<td class=\"green\" style=\"text-align:right;\" align=\"center\">&uarr;&nbsp;".makesize($CURUSER['uploaded']));
-print("</td><td class=\"red\" style=\"text-align:center;\" align=\"left\">&nbsp;&darr;&nbsp;".makesize($CURUSER['downloaded']));
-print("</td><td class=\"yellow\" style=\"text-align:left;\" align=\"left\">&nbsp;(SR ".($CURUSER['downloaded']>0?number_format($CURUSER['uploaded']/$CURUSER['downloaded'],2):"---").")</td>\n");
-if ($CURUSER["admin_access"]=="yes")
-   print("<td align=\"center\" style=\"text-align:center;\"><a class=\"mainuser\" href=\"index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."\">".$language["MNU_ADMINCP"]."</a></td>\n");
+print("<div class='col-md-6'><div class='panel panel-default'><div class='panel-heading'><h4><i class='fa fa-fw fa-user'></i>".$language['WELCOME_BACK']." ".$CURUSER['username']."</h4></div><div class='panel-body'>");
+print("<td style=\"text-align:left;\" align=\"left\"><b>".$language["USER_LEVEL"].": ".$CURUSER["level"]."</b></td></tr><tr> ||\n");
+      if(substr($FORUMLINK, 0, 3)=="smf")
+          $resmail=get_result("SELECT `unread".(($FORUMLINK=="smf")?"M":"_m")."essages` `ur` FROM `{$db_prefix}members` WHERE ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."=".$CURUSER["smf_fid"],true,$btit_settings['cache_duration']);
+      elseif($FORUMLINK=="ipb")
+          $resmail=get_result("SELECT `msg_count_new` `ur` FROM `{$ipb_prefix}members` WHERE `member_id`=".$CURUSER["ipb_fid"],true,$btit_settings['cache_duration']);
+      else
+          $resmail=get_result("SELECT COUNT(*) `ur` FROM `{$TABLE_PREFIX}messages` WHERE `readed`='no' AND `receiver`=".$CURUSER["uid"],true,$btit_settings['cache_duration']);
+      if ($resmail && count($resmail)>0)
+      {
+          $mail=$resmail[0];
+          if ($mail['ur']>0) {
 
-print("<td style=\"text-align:center;\" align=\"center\"><a class=\"mainuser\" href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."\">".$language["USER_CP"]."</a></td>\n");
+              if (substr($_SERVER['PHP_SELF'], -10)!="index.php?page=usercp")
+                  print( "<script language=\"javascript\">newpm();</script>");
+              print("<td style=\"text-align:center;\" align=\"center\"><a class=\"mainuser\" href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a> (<font color=\"#FF0000\"><b>".$mail['ur']."</b></font>)</td>\n");
+          }
 
-if(substr($FORUMLINK, 0, 3)=="smf")
-    $resmail=get_result("SELECT `unread".(($FORUMLINK=="smf")?"M":"_m")."essages` `ur` FROM `{$db_prefix}members` WHERE ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."=".$CURUSER["smf_fid"],true,$btit_settings['cache_duration']);
-elseif($FORUMLINK=="ipb")
-    $resmail=get_result("SELECT `msg_count_new` `ur` FROM `{$ipb_prefix}members` WHERE `member_id`=".$CURUSER["ipb_fid"],true,$btit_settings['cache_duration']);
-else
-    $resmail=get_result("SELECT COUNT(*) `ur` FROM `{$TABLE_PREFIX}messages` WHERE `readed`='no' AND `receiver`=".$CURUSER["uid"],true,$btit_settings['cache_duration']);
-if ($resmail && count($resmail)>0)
-   {
-    $mail=$resmail[0];
-    if ($mail['ur']>0) {
+          else
 
-       if (substr($_SERVER['PHP_SELF'], -10)!="index.php?page=usercp")
-       print( "<script language=\"javascript\">newpm();</script>");
-       print("<td style=\"text-align:center;\" align=\"center\"><a class=\"mainuser\" href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a> (<font color=\"#FF0000\"><b>".$mail['ur']."</b></font>)</td>\n");
-}
+              print("<td style=\"text-align:center;\" align=\"center\"><a class=\"mainuser\" href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a></td>\n");
+      }
+      else
+          print("<td style=\"text-align:center;\" align=\"center\"><a class=\"mainuser\" href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a></td>\n");
 
-    else
-		
-        print("<td style=\"text-align:center;\" align=\"center\"><a class=\"mainuser\" href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a></td>\n");
-   }
-else
-    print("<td style=\"text-align:center;\" align=\"center\"><a class=\"mainuser\" href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."&amp;do=pm&amp;action=list\">".$language["MAILBOX"]."</a></td>\n");
-
-print("<td style=\"text-align:center;\"><select name=\"style\" size=\"1\" onchange=\"location=document.jump1.style.options[document.jump1.style.selectedIndex].value\">");
-
-foreach($style as $a)
-               {
-               print("<option ");
-               if ($a["id"]==$CURUSER["style"])
-                  print("selected=\"selected\"");
-               print(" value=\"account_change.php?style=".$a["id"]."&amp;returnto=".urlencode($_SERVER['REQUEST_URI'])."\">".$a["style"]."</option>");
-               }
-print("</select></td>");
-
-print("<td style=\"text-align:center;\"><select name=\"langue\" size=\"1\" onchange=\"location=document.jump1.langue.options[document.jump1.langue.selectedIndex].value\">");
-foreach($langue as $a)
-               {
-               print("<option ");
-               if ($a["id"]==$CURUSER["language"])
-                  print("selected=\"selected\"");
-               print(" value=\"account_change.php?langue=".$a["id"]."&amp;returnto=".urlencode($_SERVER['REQUEST_URI'])."\">".$a["language"]."</option>");
-               }
+      print(" || <td style=\"text-align:center;\" align=\"center\"><a class=\"mainuser\" href=\"index.php?page=usercp&amp;uid=".$CURUSER["uid"]."\">".$language["USER_CP"]."</a></td><br />\n");
+      print("<spam style=\"text-align:right; color: #00C900\" align=\"center\">&uarr;&nbsp;".makesize($CURUSER['uploaded']));
+      print("</span><span style=\"text-align:center; color: #bd362f;\" align=\"left\">&nbsp;&darr;&nbsp;".makesize($CURUSER['downloaded']));
+      print("</span><span style=\"text-align:left; color: #636311;\" align=\"left\">&nbsp;(SR ".($CURUSER['downloaded']>0?number_format($CURUSER['uploaded']/$CURUSER['downloaded'],2):"---").")</span> \n");
+      
 print("</select></td>");
 
 ?>
-</tr>
-</table>
+           
+       </div>
+       </div>
+ </div>
+      </div>
+
 </form>
 <?php
 }

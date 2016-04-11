@@ -27,7 +27,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-
+<!-- we need some older JS so we are keeping this tag in place until phased out -->
     <tag:main_jscript />
 	
 </head>
@@ -60,7 +60,6 @@
 <!-- Content Row -->
         <div class="row">
             <!-- Content Column -->
-            <tag:admin_dropdown />
             <div class="col-md-12">
 <tag:main_content />
 <tag:main_footer />
