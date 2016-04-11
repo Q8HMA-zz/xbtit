@@ -3511,7 +3511,7 @@ tbody.collapse.in {
   margin-left: 2px;
   vertical-align: middle;
   border-top: 4px dashed;
-  border-top: 4px solid \9;
+  border-top: 4px solid orangered;
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
 }
@@ -3529,13 +3529,13 @@ tbody.collapse.in {
   z-index: 1000;
   display: none;
   float: left;
-  min-width: 160px;
+  min-width: 180px;
   padding: 5px 0;
   margin: 2px 0 0;
   font-size: 14px;
   text-align: left;
   list-style: none;
-  background-color: #fff;
+  background-color: #cbdbde;
   -webkit-background-clip: padding-box;
           background-clip: padding-box;
   border: 1px solid #ccc;
@@ -6786,7 +6786,7 @@ button.close {
   border-color:transparent;
   border-style:solid;
   border-width:5px 0 5px 5px;
-  border-left-color:#cccccc;
+  border-left-color:#464c4d;
   margin-top:5px;
   margin-right:-10px;
 }
