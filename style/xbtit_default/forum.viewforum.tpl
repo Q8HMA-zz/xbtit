@@ -1,3 +1,8 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4><i class="fa fa-fw fa-users"></i><tag:forum_name /></h4>
+  </div>
+  <div class="panel-body">
 <if:HAS_SUBFORUMS>
 <br />
 <table class="lista" border="0" width="100%" cellspacing="1" cellpadding="4">
@@ -30,15 +35,13 @@
     </td>
     <if:can_create>
     <td align="right" valign="middle">
-      <span class="pager"><a href="<tag:forum_action />"><tag:language.NEW_TOPIC /></a></span>
+      <span class="btn btn-default"><a href="<tag:forum_action />"><tag:language.NEW_TOPIC /></a></span>
     </td>
     </if:can_create>
   </tr>
 </table>
 <table class="lista" border="0" width="100%" cellspacing="1" cellpadding="4">
-  <tr>
-    <td class="header" align="center" colspan="7"><tag:forum_name /></td>
-  </tr>
+
   <tr>
     <td class="header" align="center" width="2%">&nbsp;</td>
     <td class="header" align="center"><tag:language.TOPIC /></td>
@@ -85,5 +88,7 @@
     </tr>
   </table>
 </div>
+    </div>
+  </div>
 <br />
 

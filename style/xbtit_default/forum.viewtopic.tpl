@@ -1,8 +1,9 @@
-<table width="100%">
-  <tr>
-    <td class="header"><a name="top" /><tag:topic_title /></td>
-  </tr>
-</table>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4><i class="fa fa-fw fa-comments"></i><tag:topic_title /></h4>
+  </div>
+  <div class="panel-body">
+
 <table width="100%" align="center">
   <tr>
     <td align="center" valign="middle">
@@ -11,7 +12,7 @@
             <td align="left" valign="middle"><tag:forum_pager /></td>
             <td align="right" valign="middle">
             <if:can_write>
-              <span class="pager"><a href="<tag:forum_action />"><tag:language.ADD_REPLY /></a></span>
+              <span class="btn btn-default"><a href="<tag:forum_action />"><tag:language.ADD_REPLY /></a></span>
             </if:can_write>
             </td>
           </tr>
@@ -77,7 +78,7 @@
           <td align="left" valign="middle"><tag:topic_locked /></td>
           <td align="right" valign="middle">
           <if:can_write_1>
-            <span class="pager"><a href="<tag:forum_action />"><tag:language.ADD_REPLY /></a></span>
+            <span class="btn btn-default"><a href="<tag:forum_action />"><tag:language.ADD_REPLY /></a></span>
           </if:can_write_1>
           </td>
         </tr>
@@ -107,7 +108,7 @@ function windowunder(link)
 </script>
 <br />
 <div align="left" style="width:98%">
-<span class="pager"><a name="expand" href="#expand" onclick="javascript:ShowHide('moderator','modoption');"><tag:language.MOD_OPTION /></a></span>
+<span class="btn btn-default"><a name="expand" href="#expand" onclick="javascript:ShowHide('moderator','modoption');"><tag:language.MOD_OPTION /></a></span>
 </div>
 <div id="moderator" style="display:none">
 <br />
@@ -181,4 +182,5 @@ function windowunder(link)
 <div id="modoption" style="display:block"><br />
 </div>
 </if:moderator>
-
+</div>
+  </div>
