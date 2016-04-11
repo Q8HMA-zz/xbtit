@@ -1,7 +1,7 @@
 v.2.5.0
 -------------------
 Fixed some mysqli functions in account.php - Spotted by King Cobra
-Updated to a fresh look mobile & desktop friendly design
+Updated to a fresh look mobile & desktop friendly on the default design
 Using bootstrap for the default design
 
 13/01/2015 Started with xbtit 2.3.0 rev. 757
