@@ -34,11 +34,11 @@ global $CURUSER, $FORUMLINK, $db_prefix, $btit_settings, $language, $ipb_prefix;
 ?>
 <script type="text/javascript">
 function newpm() {
-<!--
+/*
 var answer = confirm ("You have a new PM, please click OK to go to your PM Inbox.")
 if (answer)
 window.location='index.php?page=usercp&uid=<?php echo $CURUSER["uid"]; ?>&do=pm&action=list&what=inbox'
-// -->
+*/
 }
 </script>
 <?php
