@@ -42,6 +42,11 @@ else
   block_begin('LAST_TORRENTS');
 
   ?>
+        <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4><i class="fa fa-fw fa-files-o"></i>Latest Torrents</h4>
+        </div>
+        <div class="panel-body">      
   <table cellpadding="4" cellspacing="1" width="100%">
   <?php
 
@@ -158,7 +163,10 @@ if (max(0,$CURUSER["WT"])>0)
   }
 
   print("\n</table>");
-
+?>
+  </div>
+</div>        
+<?      
   block_end();
 
 } // end if user can view

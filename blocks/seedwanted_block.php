@@ -51,6 +51,11 @@ else
        block_begin("Seeder Wanted");
 
        ?>
+         <div class="panel panel-default">
+         <div class="panel-heading">
+             <h4><i class="fa fa-fw fa-files-o"></i>Seeders Wanted</h4>
+         </div>
+         <div class="panel-body">
        <table cellpadding="4" cellspacing="1" width="100%">
        <tr>
          <td colspan="2" align="center" class="header">&nbsp;<?php echo $language["TORRENT_FILE"]; ?>&nbsp;</td>
@@ -148,10 +153,12 @@ else
        }
 
        print("</table>");
-
+?>
+         </div>
+         </div>
+<?
        block_end();
     }
-    else
-      echo "<table class=\"lista\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" align=\"center\"><tr><td><div align=\"center\" style=\"text-align: center;\">".$language["NO_TORRENTS"]."</div></td></tr></table>";
+
 } // end if user can view
 ?>

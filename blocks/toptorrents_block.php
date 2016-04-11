@@ -49,7 +49,14 @@ else
 
      $row = get_result($sql,true,$btit_settings['cache_duration']);
   ?>
-  <table cellpadding="4" cellspacing="1" width="100%">
+
+        <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4><i class="fa fa-fw fa-files-o"></i>Top Torrents</h4>
+        </div>
+        <div class="panel-body">
+
+        <table cellpadding="4" cellspacing="1" width="100%">
   <tr>
       <td align="center" width="20" class="header">&nbsp;<?php echo $language["DOWN"]; ?>&nbsp;</td>
     <td align="center" width="55%" class="header">&nbsp;<?php echo $language["TORRENT_FILE"]; ?>&nbsp;</td>
@@ -156,7 +163,12 @@ if (max(0,$CURUSER["WT"])>0)
 
   print("</table>");
 
-  block_end();
+ ?>
+     </div>
+ </div>
+ <?
+
+        block_end();
 
 } // end if user can view
 ?>

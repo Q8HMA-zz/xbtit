@@ -17,6 +17,11 @@ function windowunder(link)
   window.close();
 }
 </script>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4><i class="fa fa-fw fa-files-o"></i>Torrents Details</h4>
+  </div>
+  <div class="panel-body">
     <div align="center">
       <table width="100%" class="lista" border="0" cellspacing="5" cellpadding="5">
         <tr>
@@ -108,6 +113,14 @@ function windowunder(link)
         </tr>
         </if:EXTERNAL>
       </table>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4><i class="fa fa-fw fa-files-o"></i>Torrents Comments</h4>
+    </div>
+    <div class="panel-body">
       <a name="comments" />
       <br />
       <br />
@@ -136,8 +149,9 @@ function windowunder(link)
         </loop:comments>
         </if:NO_COMMENTS>
       </table>
+      </div>
     </div>
-    <br />
+
     <br />
     <div align="center">
       <tag:torrent_footer />

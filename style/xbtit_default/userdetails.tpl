@@ -26,9 +26,9 @@
 
   <tr>
 
-    <td class="header"><tag:language.EMAIL /></td>
+    <td width="20%" class="header"><tag:language.EMAIL /></td>
 
-    <td class="lista"><tag:userdetail_email /></td>
+    <td width="80%" class="lista"><tag:userdetail_email /></td>
 
   </tr>
 
