@@ -51,7 +51,7 @@ window.location='index.php?page=usercp&uid=<?php echo $CURUSER["uid"]; ?>&do=pm&
 <?php
 $style=style_list();
 $langue=language_list();
-print("<div class='col-md-6'><div class='panel panel-default'><div class='panel-heading'><h4><i class='fa fa-fw fa-user'></i>".$language['WELCOME_BACK']." ".$CURUSER['username']."</h4></div><div class='panel-body'>");
+print("<div class='col-md-6'><div class='panel panel-default'><div class='panel-heading'><h4><i class='fa fa-fw fa-user'></i>".$language['WELCOME_BACK']." ".$CURUSER['username']."</h4></div><div class='panel-body' align='center'>");
 print("<td style=\"text-align:left;\" align=\"left\"><b>".$language["USER_LEVEL"].": ".$CURUSER["level"]."</b></td></tr><tr> ||\n");
       if(substr($FORUMLINK, 0, 3)=="smf")
           $resmail=get_result("SELECT `unread".(($FORUMLINK=="smf")?"M":"_m")."essages` `ur` FROM `{$db_prefix}members` WHERE ".(($FORUMLINK=="smf")?"`ID_MEMBER`":"`id_member`")."=".$CURUSER["smf_fid"],true,$btit_settings['cache_duration']);
