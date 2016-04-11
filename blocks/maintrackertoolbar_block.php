@@ -83,18 +83,16 @@ else
        <div class="col-md-6">
        <div class="panel panel-default">
        <div class="panel-heading">
-          <h4><i class="fa fa-fw fa-files-o"></i><?php echo $language["BLOCK_INFO"]; ?></h4>
+          <h4><i class="fa fa-fw fa-files-o"></i><?php echo $language["BLOCK_INFO"]; ?> </h4>
        </div>
-       <div class="panel-body">
-<td class="lista" style="text-align:center;" align="center"><?php echo $language["MEMBERS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $users; ?></td>
-<td class="lista" style="text-align:center;" align="center"><?php echo $language["TORRENTS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $torrents; ?></td>
-<td class="lista" style="text-align:center;" align="center"><?php echo $language["SEEDERS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $seeds; ?></td>
-<td class="lista" style="text-align:center;" align="center"><?php echo $language["LEECHERS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $leechers; ?></td>
-<td class="lista" style="text-align:center;" align="center"><?php echo $language["PEERS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $peers; ?></td>
-<td class="lista" style="text-align:center;" align="center"><?php echo $language["SEEDERS"]."/".$language["LEECHERS"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $percent."%"; ?></td>
-<td class="lista" style="text-align:center;" align="center"><?php echo $language["TRAFFIC"]; ?>:</td><td style="text-align:center;" align="right"><?php echo $traffic; ?></td>
-
-          <a href="#" class="btn btn-default">View Torrents</a>
+       <div class="panel-body" align="center">
+<b><?php echo $language["MEMBERS"]; ?>:</b>&nbsp;&nbsp;<?php echo $users; ?>&nbsp;||&nbsp;
+<b><?php echo $language["TORRENTS"]; ?>:</b>&nbsp;&nbsp;<?php echo $torrents; ?>&nbsp;||&nbsp;
+<b><?php echo $language["SEEDERS"]; ?>:</b>&nbsp;&nbsp;<?php echo $seeds; ?>&nbsp;||&nbsp;
+<b><?php echo $language["LEECHERS"]; ?>:</b>&nbsp;&nbsp;<?php echo $leechers; ?>&nbsp;||&nbsp;
+<b><?php echo $language["PEERS"]; ?>:</b>&nbsp;&nbsp;<?php echo $peers; ?><br />
+<b><?php echo $language["SEEDERS"]."/".$language["LEECHERS"]; ?>:&nbsp;&nbsp;</b><?php echo $percent."%"; ?>&nbsp;||&nbsp;
+<b><?php echo $language["TRAFFIC"]; ?>:</b>&nbsp;&nbsp;<?php echo $traffic; ?>
         </div>
     </div>
 </div>
