@@ -30,7 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-error_reporting(E_ALL & ~E_NOTICE);
+
 if (!defined("IN_BTIT"))
       die("non direct access!");
 
@@ -86,13 +86,7 @@ default;
 	  {
 	  // Open file and read contents
       $fd=fopen($log, "r");
-      $file_size = filesize($log);
-      if ($file_size){
-          //We are clearly greater than 0 now, as 0 = false to PHP
-          $data = fread ($fd, filesize ( $log ) );
-      } else {
-      echo 'The file is empty';
-      }
+      $data = fread ($fd, filesize ( $log ) );
       fclose($fd);
       // Create an array out of each line
       $data_array=explode("\n", $data);
