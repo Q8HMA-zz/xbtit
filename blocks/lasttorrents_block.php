@@ -162,11 +162,8 @@ if (max(0,$CURUSER["WT"])>0)
     echo "\n<tr><td class=\"lista\" colspan=\"9\" align=\"center\" style=\"text-align: center;\">" . $language["NO_TORRENTS"] . "</td></tr>";
   }
 
-  print("\n</table>");
-?>
-  </div>
-</div>        
-<?      
+  print("\n</table></div></div>");
+     
   block_end();
 
 } // end if user can view
