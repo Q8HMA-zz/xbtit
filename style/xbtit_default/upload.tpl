@@ -56,7 +56,7 @@ function CheckForm()
 </script>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4><i class="fa fa-fw fa-users"></i>Members</h4>
+        <h4><i class="fa fa-fw fa-files-o"></i>Upload Torrent</h4>
     </div>
     <div class="panel-body" align="center">
 <tag:language.INSERT_DATA /><br /><br /><tag:language.ANNOUNCE_URL /><br /><b><tag:upload.announces /></b><br />
