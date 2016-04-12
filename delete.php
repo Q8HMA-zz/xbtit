@@ -35,7 +35,7 @@ if (!defined("IN_BTIT"))
       die("non direct access!");
 
 
-$id = mysqli_real_escape_string($DBDT,$_GET["info_hash"]);
+$id = mysqli_query($GLOBALS["___mysqli_ston"],$_GET["info_hash"]);
 
 if (!isset($id) || !$id)
     die("Error ID");

@@ -173,7 +173,7 @@ header("Content-type: text/plain");
 header("Pragma: no-cache");
 
 // Error: no web browsers allowed
-$agent = mysqli_real_escape_string($DBDT,$_SERVER["HTTP_USER_AGENT"]);
+$agent =  mysqli_query($GLOBALS["___mysqli_ston"],$_SERVER["HTTP_USER_AGENT"]);
 // Deny access made with a browser...
 
 if (preg_match("/^Mozilla|^Opera|^Links|^Lynx/i", $agent))
@@ -304,7 +304,7 @@ if (isset($_GET["numwant"]))
 if (isset($_GET["trackerid"]))
 {
     if (is_numeric($_GET["trackerid"]))
-        $GLOBALS["trackerid"] = mysqli_real_escape_string($DBDT,$_GET["trackerid"]);
+        $GLOBALS["trackerid"] =  mysqli_query($GLOBALS["___mysqli_ston"],$_GET["trackerid"]);
 }
 if (!is_numeric($port) || !is_numeric($downloaded) || !is_numeric($uploaded) || !is_numeric($left))
     show_error("Invalid numerical field(s) from client");
@@ -381,7 +381,7 @@ function getPeerInfo($user, $hash)
 
 function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded=0, $upid="")
 {
-  global $BASEURL, $TABLE_PREFIX , $DBDT;
+  global $BASEURL, $TABLE_PREFIX ;
 
     if (isset($_GET["ip"]) && $GLOBALS["ip_override"])
     {
@@ -389,13 +389,13 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
         if ($_GET["ip"]!=long2ip(ip2long($_GET["ip"])))
             show_error("Invalid IP address. Must be standard dotted decimal (hostnames not allowed)");
 
-         $ip = mysqli_real_escape_string($DBDT,$_GET["ip"]);
+         $ip =  mysqli_query($GLOBALS["___mysqli_ston"],$_GET["ip"]);
     }
     else
         $ip = getip();
 
-    $ip = mysqli_real_escape_string($DBDT,$ip);
-    $agent = mysqli_real_escape_string($DBDT,$_SERVER["HTTP_USER_AGENT"]);
+    $ip =  mysqli_query($GLOBALS["___mysqli_ston"],$ip);
+    $agent =  mysqli_query($GLOBALS["___mysqli_ston"],$_SERVER["HTTP_USER_AGENT"]);
     $remotedns = gethostbyaddr($ip);
 
     if (isset($_GET["ip"])) $nuIP = $_GET["ip"];
@@ -407,7 +407,7 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
         $remotedns = strtoupper($remotedns);
         preg_match('/^(.+)\.([A-Z]{2,3})$/', $remotedns, $tldm);
     if (!empty($tldm[2]))
-          $remotedns = mysqli_real_escape_string($DBDT,$tldm[2]);
+          $remotedns =  mysqli_query($GLOBALS["___mysqli_ston"],$tldm[2]);
     else
       $remotedns = "AA";
       }
@@ -424,9 +424,9 @@ function start($info_hash, $ip, $port, $peer_id, $left, $downloaded=0, $uploaded
 
 
 
-    $compact = mysqli_real_escape_string($DBDT,str_pad(pack('Nn', ip2long($ip), $port),6));
-    $peerid = mysqli_real_escape_string($DBDT,'2:ip' . strlen($ip) . ':' . $ip . '7:peer id20:' . hex2bin($peer_id) . "4:porti{$port}e");
-    $no_peerid = mysqli_real_escape_string($DBDT,'2:ip' . strlen($ip) . ':' . $ip . "4:porti{$port}e");
+    $compact = mysqli_query($GLOBALS["___mysqli_ston"],str_pad(pack('Nn', ip2long($ip), $port),6));
+    $peerid = mysqli_query($GLOBALS["___mysqli_ston"],'2:ip' . strlen($ip) . ':' . $ip . '7:peer id20:' . hex2bin($peer_id) . "4:porti{$port}e");
+    $no_peerid = mysqli_query($GLOBALS["___mysqli_ston"],'2:ip' . strlen($ip) . ':' . $ip . "4:porti{$port}e");
 
 
     $results = @mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO {$TABLE_PREFIX}peers SET infohash=\"$info_hash\", peer_id=\"$peer_id\", port=\"$port\", ip=\"$ip\", lastupdate=UNIX_TIMESTAMP(), bytes=\"$left\", status=\"$status\", natuser=\"$nat\", client=\"$agent\", dns=\"$remotedns\", downloaded=$downloaded, uploaded=$uploaded, pid=\"$upid\"");

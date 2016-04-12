@@ -35,8 +35,6 @@ require_once($BASEDIR."/include/settings.php");
 require_once($BASEDIR."/include/functions.php");
 require_once($BASEDIR."/language/english/lang_ipb_import.php");
 
-Global $DBDT;
-
 // Lets open a connection to the database
 ((bool)mysqli_query( ($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost, $dbuser, $dbpass)), "USE $database"));
 
@@ -253,7 +251,7 @@ elseif($act=="init_setup"  && $confirm=="yes")
     $array=unserialize($row["cs_value"]);
     $array["no_reg"]=1;
     $cs_value=serialize($array);
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}cache_store` SET `cs_value`='".mysqli_real_escape_string($DBDT,$cs_value)."' WHERE `cs_key`='settings'");
+    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}cache_store` SET `cs_value`='".mysqli_query($GLOBALS["___mysqli_ston"],$cs_value)."' WHERE `cs_key`='settings'");
     @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE {$ipb_prefix}core_sys_conf_settings` SET `conf_value`=1 WHERE `conf_key`='no_reg'");
 
     // Update the registration closed message to something more appropriate
@@ -274,7 +272,7 @@ elseif($act=="init_setup"  && $confirm=="yes")
     fwrite($fd,$lang_data);
     fclose($fd);
 
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}core_sys_lang_words` SET `word_default`='".mysqli_real_escape_string($DBDT,$lang_replace)."' WHERE `lang_id`=1 AND
+    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}core_sys_lang_words` SET `word_default`='" mysqli_query($GLOBALS["___mysqli_ston"],$lang_replace)."' WHERE `lang_id`=1 AND
     `word_pack`='public_error' AND `word_key`='registration_disabled'");
 
     // Make sure there is an ipb_fid column in the users table, if not add one
@@ -320,19 +318,19 @@ elseif($act=="member_bridge" && $confirm=="yes")
             else
                 $passhash=array("ffffffffffffffffffffffffffffffff", "fffff");
             // Try a username check
-            $res=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT `member_id` FROM `{$ipb_prefix}members` WHERE `name`='".mysqli_real_escape_string($DBDT,$account["username"])."'");
+            $res=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT `member_id` FROM `{$ipb_prefix}members` WHERE `name`='". mysqli_query($GLOBALS["___mysqli_ston"],$account["username"])."'");
             if(@mysqli_num_rows($res)==1)
             {
                 // Excellent we have a match, let's bridge the accounts and update the forum rank to match
                 $row=mysqli_fetch_assoc($res);
                 mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$TABLE_PREFIX}users` SET `ipb_fid`=".$row["member_id"]." WHERE `id`=".$account["id"]);
-                mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}members` SET `member_group_id`='".$account["id_level"]."', `members_pass_hash`='".mysqli_real_escape_string($DBDT,$passhash[0])."', `members_pass_salt`='".mysqli_real_escape_string($DBDT,$passhash[1])."', `conv_password`=NULL WHERE `member_id`='".$row["member_id"]."'");
+                mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}members` SET `member_group_id`='".$account["id_level"]."', `members_pass_hash`='". mysqli_query($GLOBALS["___mysqli_ston"],$passhash[0])."', `members_pass_salt`='" mysqli_query($GLOBALS["___mysqli_ston"],$passhash[1])."', `conv_password`=NULL WHERE `member_id`='".$row["member_id"]."'");
                 $counter++;
             }
             else
             {
                 // Damn, no match. Let's try a match on their email address instead.
-                $res=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT `member_id` FROM `{$ipb_prefix}members` WHERE `email`='".mysqli_real_escape_string($DBDT,$account["email"])."'");
+                $res=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT `member_id` FROM `{$ipb_prefix}members` WHERE `email`='" mysqli_query($GLOBALS["___mysqli_ston"],$account["email"])."'");
                 if(@mysqli_num_rows($res)==1)
                 {
                     // Excellent we have a match, let's bridge the accounts and update the forum rank to match

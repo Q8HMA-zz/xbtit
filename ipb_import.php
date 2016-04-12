@@ -260,7 +260,7 @@ elseif($act=="init_setup"  && $confirm=="yes")
     $array=unserialize($row["cs_value"]);
     $array["no_reg"]=1;
     $cs_value=serialize($array);
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}cache_store` SET `cs_value`='".mysqli_real_escape_string($DBDT,$cs_value)."' WHERE `cs_key`='settings'");
+    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}cache_store` SET `cs_value`='".mysqli_query($GLOBALS["___mysqli_ston"],$cs_value)."' WHERE `cs_key`='settings'");
     @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE {$ipb_prefix}core_sys_conf_settings` SET `conf_value`=1 WHERE `conf_key`='no_reg'");
 
     // Update the registration closed message to something more appropriate
@@ -281,7 +281,7 @@ elseif($act=="init_setup"  && $confirm=="yes")
     fwrite($fd,$lang_data);
     fclose($fd);
 
-    @mysqli_query($GLOBALS["___mysqli_ston"],"UPDATE `{$ipb_prefix}core_sys_lang_words` SET `word_default`='".mysqli_real_escape_string($DBDT,$lang_replace)."' WHERE `lang_id`=1 AND
+    @mysqli_query($GLOBALS["___mysqli_ston"],"UPDATE `{$ipb_prefix}core_sys_lang_words` SET `word_default`='".mysqli_query($GLOBALS["___mysqli_ston"],$lang_replace)."' WHERE `lang_id`=1 AND
     `word_pack`='public_error' AND `word_key`='registration_disabled'");
 
     // Make sure there is an ipb_fid column in the users table, if not add one
@@ -340,7 +340,7 @@ elseif($act=="member_import" && $confirm=="yes")
             $ip_address=long2ip($account["lip"]);
             $posts=(($account["id"]==2)?($account["posts"]+1):$account["posts"]);
 
-            @mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO `{$ipb_prefix}members` (`name`, `member_group_id`, `email`, `joined`, `ip_address`, `posts`, `allow_admin_mails`, `time_offset`, `language`, `members_display_name`, `members_seo_name`, `members_created_remote`, `members_l_display_name`, `members_l_username`, `members_pass_hash`, `members_pass_salt`, `bday_day`, `bday_month`, `bday_year`, `msg_show_notification`, `last_visit`, `last_activity`) VALUES ('".mysqli_real_escape_string($DBDT,$username)."', ".$id_level.", '".mysqli_real_escape_string($DBDT,$email)."', ".$joined.", '".mysqli_real_escape_string($DBDT,$ip_address)."', ".$posts.", 1, '".$account["time_offset"]."', 1, '".mysqli_real_escape_string($DBDT,$username)."', '".mysqli_real_escape_string($DBDT,$seo_username)."', 1, '".mysqli_real_escape_string($DBDT,$l_username)."', '".mysqli_real_escape_string($DBDT,$l_username)."', '".mysqli_real_escape_string($DBDT,$hash)."', '".mysqli_real_escape_string($DBDT,$salt)."', 0, 0, 0, 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+            @mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO `{$ipb_prefix}members` (`name`, `member_group_id`, `email`, `joined`, `ip_address`, `posts`, `allow_admin_mails`, `time_offset`, `language`, `members_display_name`, `members_seo_name`, `members_created_remote`, `members_l_display_name`, `members_l_username`, `members_pass_hash`, `members_pass_salt`, `bday_day`, `bday_month`, `bday_year`, `msg_show_notification`, `last_visit`, `last_activity`) VALUES ('".mysqli_query($GLOBALS["___mysqli_ston"],$username)."', ".$id_level.", '".mysqli_query($GLOBALS["___mysqli_ston"],$email)."', ".$joined.", '".mysqli_query($GLOBALS["___mysqli_ston"],$ip_address)."', ".$posts.", 1, '".$account["time_offset"]."', 1, '".mysqli_query($GLOBALS["___mysqli_ston"],$username)."', '".mysqli_query($GLOBALS["___mysqli_ston"],$seo_username)."', 1, '".mysqli_query($GLOBALS["___mysqli_ston"],$l_username)."', '".mysqli_query($GLOBALS["___mysqli_ston"],$l_username)."', '".mysqli_query($GLOBALS["___mysqli_ston"],$hash)."', '".mysqli_query($GLOBALS["___mysqli_ston"],$salt)."', 0, 0, 0, 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
             $ipb_fid=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
             @mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO `{$ipb_prefix}pfields_content` (`member_id`) VALUES (".$ipb_fid.")");
             @mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO `{$ipb_prefix}profile_portal` (`pp_member_id`, `pp_setting_count_friends`, `pp_setting_count_comments`) VALUES (".$ipb_fid.", 1, 1)");
@@ -348,9 +348,9 @@ elseif($act=="member_import" && $confirm=="yes")
 
             if($account["id"]==2)
             {
-                @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}forums` SET `last_poster_id`='".$ipb_fid."', `last_poster_name`='".mysqli_real_escape_string($DBDT,$username)."' WHERE `id`=2");
-                @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}posts` SET `author_id`= '".$ipb_fid."', `author_name`='".mysqli_real_escape_string($DBDT,$username)."' WHERE `pid`=1");
-                @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}topics` SET `starter_id`='".$ipb_fid."', `last_poster_id`='".$ipb_fid."', `starter_name`='".mysqli_real_escape_string($DBDT,$username)."', `last_poster_name`='".mysqli_real_escape_string($DBDT,$username)."', `seo_last_name`='".mysqli_real_escape_string($DBDT,$seo_username)."', `seo_first_name`='".mysqli_real_escape_string($DBDT,$seo_username)."' WHERE `tid`=1");
+                @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}forums` SET `last_poster_id`='".$ipb_fid."', `last_poster_name`='".mysqli_query($GLOBALS["___mysqli_ston"],$username)."' WHERE `id`=2");
+                @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}posts` SET `author_id`= '".$ipb_fid."', `author_name`='".mysqli_query($GLOBALS["___mysqli_ston"],$username)."' WHERE `pid`=1");
+                @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}topics` SET `starter_id`='".$ipb_fid."', `last_poster_id`='".$ipb_fid."', `starter_name`='".mysqli_query($GLOBALS["___mysqli_ston"],$username)."', `last_poster_name`='".mysqli_query($GLOBALS["___mysqli_ston"],$username)."', `seo_last_name`='".mysqli_query($GLOBALS["___mysqli_ston"],$seo_username)."', `seo_first_name`='".mysqli_query($GLOBALS["___mysqli_ston"],$seo_username)."' WHERE `tid`=1");
             }
 
         }
@@ -369,7 +369,7 @@ elseif($act=="member_import" && $confirm=="yes")
     $in["last_mem_id"]=$myrow["ipb_fid"];
     $in["last_mem_name_seo"]=IPSText::makeSeoTitle($myrow["username"]);
     $out=serialize($in);
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}cache_store` SET `cs_value`='".mysqli_real_escape_string($DBDT,$out)."'  WHERE `cs_key`='stats'");
+    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}cache_store` SET `cs_value`='".mysqli_query($GLOBALS["___mysqli_ston"],$out)."'  WHERE `cs_key`='stats'");
     print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SELF"]."?act=completed&counter=$counter'</script>");
 }
 elseif($act=="completed")

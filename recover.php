@@ -145,7 +145,7 @@ if ($random!=$arr["random"])
     $multipass=hash_generate(array("salt" => ""), $newpassword, $arr["username"]);
     $i=$btit_settings["secsui_pass_type"];
 
- do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `password`='".mysqli_real_escape_string($DBDT,$multipass[$i]["rehash"])."', `salt`='".mysqli_real_escape_string($DBDT,$multipass[$i]["salt"])."', `pass_type`='".$i."', `dupe_hash`='".mysqli_real_escape_string($DBDT,$multipass[$i]["dupehash"])."' WHERE `id`=$id AND `random`=$random",true);
+ do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `password`='".mysqli_query($GLOBALS["___mysqli_ston"],$multipass[$i]["rehash"])."', `salt`='".mysqli_query($GLOBALS["___mysqli_ston"],$multipass[$i]["salt"])."', `pass_type`='".$i."', `dupe_hash`='".mysqli_query($GLOBALS["___mysqli_ston"],$multipass[$i]["dupehash"])."' WHERE `id`=$id AND `random`=$random",true);
 
     if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"]))
         stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);

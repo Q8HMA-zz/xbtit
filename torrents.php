@@ -113,7 +113,7 @@ if (isset($_GET["search"])) {
       $search = "search=" . implode("+",$testocercato);
     for ($k=0; $k < count($testocercato); $k++) {
         if ( isset( $query_select ) ) {
-            $query_select .= " filename LIKE '%" . mysqli_real_escape_string($DBDT,$testocercato[$k]) . "%'";
+            $query_select .= " filename LIKE '%" .  mysqli_query($GLOBALS["___mysqli_ston"],$testocercato[$k]) . "%'";
         }
         if ($k<count($testocercato)-1)
            $query_select .= " AND ";

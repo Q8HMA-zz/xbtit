@@ -417,7 +417,7 @@ elseif($act=="init_setup"  && $confirm=="yes")
         @mysqli_query($GLOBALS["___mysqli_ston"], $query1);
         @mysqli_query($GLOBALS["___mysqli_ston"], $query2);
         @mysqli_query($GLOBALS["___mysqli_ston"], $query3);
-        @mysqli_query($GLOBALS["___mysqli_ston"],"UPDATE `{$TABLE_PREFIX}users_level` SET `smf_group_mirror`=".$rank["id_level"]." WHERE `level`='".mysqli_real_escape_string($DBDT,$rank["level"])."'");
+        @mysqli_query($GLOBALS["___mysqli_ston"],"UPDATE `{$TABLE_PREFIX}users_level` SET `smf_group_mirror`=".$rank["id_level"]." WHERE `level`='".mysqli_query($GLOBALS["___mysqli_ston"],$rank["level"])."'");
     }
     // Allow all ranks to see the initial test forum
     @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$db_prefix}boards` SET `member".(($smf_type=="smf")?"G":"_g")."roups`='".substr($ranklist,0,strlen($ranklist)-1).",-1' WHERE ".(($smf_type=="smf")?"`ID_BOARD`":"`id_board`")."=1");
@@ -577,8 +577,8 @@ elseif($act=="import_forum" && $confirm=="yes")
         else
             $sqlquery.="(`id_cat`, `board_order`, `member_groups`, `name`, `description`) ";
         $sqlquery.="VALUES ($ourcat, $nextboard, '".$forumlist[$i]["permissions"]."', ";
-        $sqlquery.=" '".mysqli_real_escape_string($DBDT,$forumlist[$i]["name"])."', ";
-        $sqlquery.="'".mysqli_real_escape_string($DBDT,$forumlist[$i]["description"])."')";
+        $sqlquery.=" '".mysqli_query($GLOBALS["___mysqli_ston"],$forumlist[$i]["name"])."', ";
+        $sqlquery.="'".mysqli_query($GLOBALS["___mysqli_ston"],$forumlist[$i]["description"])."')";
 
         @mysqli_query($GLOBALS["___mysqli_ston"], $sqlquery) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
         $forumlist[$i]["newid"]=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
@@ -641,7 +641,7 @@ elseif($act=="import_forum" && $confirm=="yes")
 
         if(isset($topics[$posts[$i]["topicid"]]["newtopicid"]) && !empty($topics[$posts[$i]["topicid"]]["newtopicid"]))
         {
-            $sqlquery.="VALUES (".$topics[$posts[$i]["topicid"]]["newtopicid"].", ".$forumlist[$topics[$posts[$i]["topicid"]]["forumid"]]["newid"].", ".$posts[$i]["added"].", ".$posts[$i]["userid"].", '".mysqli_real_escape_string($DBDT,$topics[$posts[$i]["topicid"]]["subject"])."', '".$posts[$i]["username"]."', '".$posts[$i]["email"]."', '".long2ip($posts[$i]["lip"])."', 1, ".$posts[$i]["editedat"].", '".(($posts[$i]["editedby"]==0) ? "" : $posts[$i]["edit_username"])."', '".mysqli_real_escape_string($DBDT,$posts[$i]["body"])."')";
+            $sqlquery.="VALUES (".$topics[$posts[$i]["topicid"]]["newtopicid"].", ".$forumlist[$topics[$posts[$i]["topicid"]]["forumid"]]["newid"].", ".$posts[$i]["added"].", ".$posts[$i]["userid"].", '".mysqli_query($GLOBALS["___mysqli_ston"],$topics[$posts[$i]["topicid"]]["subject"])."', '".$posts[$i]["username"]."', '".$posts[$i]["email"]."', '".long2ip($posts[$i]["lip"])."', 1, ".$posts[$i]["editedat"].", '".(($posts[$i]["editedby"]==0) ? "" : $posts[$i]["edit_username"])."', '".mysqli_query($GLOBALS["___mysqli_ston"],$posts[$i]["body"])."')";
             @mysqli_query($GLOBALS["___mysqli_ston"], $sqlquery) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
             $posts[$i]["newpostid"]=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
         }
