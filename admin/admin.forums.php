@@ -167,14 +167,15 @@ case "edit":
             $minclasscreate=max(1,$_POST["createlevel"]);
             $description=sqlesc($_POST["description"]);
             $parent_forum=max(0,$_POST["parent"]);
-            $sort=($_POST["sortorder"]);
+            // We do need to provide a null or 0 for sort if left blank // Fixed //
+            $sort=sqlesc($_POST["sortorder"]);
             $name=sqlesc($_POST["name"]);
             if ($what!="new")
                {
                $id=intval($_GET["id"]);
                do_sqlquery("UPDATE {$TABLE_PREFIX}forums SET sort=$sort,name=$name,description=$description,minclassread=$minclassread,minclasswrite=$minclasswrite,minclasscreate=$minclasscreate, id_parent=$parent_forum WHERE id=$id",true);
-             }
-            else
+               }
+             else
                 {
                do_sqlquery("INSERT INTO {$TABLE_PREFIX}forums SET sort=$sort,name=$name,description=$description,minclassread=$minclassread,minclasswrite=$minclasswrite,minclasscreate=$minclasscreate, id_parent=$parent_forum",true);
              }

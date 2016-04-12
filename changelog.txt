@@ -4,6 +4,7 @@ Fixed some mysqli functions in account.php - Spotted by King Cobra
 Updated to a fresh look mobile & desktop friendly on the default design
 Using bootstrap/fontawesome for the default design
 Added btiteam donation button in admin
+Fixed added new forum mysql error when sort is blank
 
 13/01/2015 Started with xbtit 2.3.0 rev. 757
 -------------------
