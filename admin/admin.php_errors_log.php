@@ -86,7 +86,11 @@ default;
 	  {
 	  // Open file and read contents
       $fd=fopen($log, "r");
-      $data=fread($fd, filesize($log));
+ if (is_readable($fname)) {
+     $data = fread ( $fd, filesize ( $log ) );
+ } else {
+     echo 'The file is empty or not readable';
+ }
       fclose($fd);
       // Create an array out of each line
       $data_array=explode("\n", $data);
