@@ -200,11 +200,13 @@ switch ($action)
                             style=".sqlesc($btit_settings["default_style"]).",
                             torrentsperpage=".sqlesc($btit_settings["max_torrents_per_page"])." WHERE id=1") or stderr($language["ERROR"],((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
 
-        if($alter===true)
-        {
-            mysqli_query($GLOBALS["___mysqli_ston"], "ALTER TABLE `{$TABLE_PREFIX}users` CHANGE `torrentsperpage` `torrentsperpage` TINYINT( 3 ) UNSIGNED NOT NULL DEFAULT ".sqlesc($btit_settings["max_torrents_per_page"]));
-            mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$TABLE_PREFIX}users` SET `torrentsperpage`=".sqlesc($btit_settings["max_torrents_per_page"])." WHERE `torrentsperpage`=".sqlesc($old_setting));
-        }
+            if ( isset( $alter ) ) {
+                if($alter===true)
+                {
+                    mysqli_query($GLOBALS["___mysqli_ston"], "ALTER TABLE `{$TABLE_PREFIX}users` CHANGE `torrentsperpage` `torrentsperpage` TINYINT( 3 ) UNSIGNED NOT NULL DEFAULT ".sqlesc($btit_settings["max_torrents_per_page"]));
+                    mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$TABLE_PREFIX}users` SET `torrentsperpage`=".sqlesc($btit_settings["max_torrents_per_page"])." WHERE `torrentsperpage`=".sqlesc($old_setting));
+                }
+            }
 
         unset($values);
         
