@@ -55,7 +55,8 @@ $row=get_result("SELECT (SELECT COUNT(*) FROM `".$topicsTable."`) AS `tc`, (SELE
 $topics=$row[0]['tc'];
 $posts=$row[0]['pc'];
 $postsAvg=($posts==0)?0:number_format(($topics/$posts)*100,0);
-$realLastPosts=$btit_settings['forumblocktype']; # 0=topics, 1=posts
+// if null
+$realLastPosts=(isset($btit_settings['forumblocktype']) ? $btit_settings['forumblocktype'] : null); # 0=topics, 1=posts
 
 # check number of topics
 if ($topics!=0) {
