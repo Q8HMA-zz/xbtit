@@ -30,6 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
+error_reporting(E_ALL & ~E_NOTICE);
 global $STYLEURL,$btit_settings, $language;
 
 if ($GLOBALS["ajax_poller"])
@@ -66,13 +67,13 @@ if ($GLOBALS["ajax_poller"])
       }      
       ?>      
       <!-- <a href="#poll" onclick="castMyVote(<?php echo $pollerId; ?>,document.forms['poller'])"><img src="images/vote_button.gif"></a> -->
-      <img src="images/vote_button.gif" alt="<?php if (isset($language['CAST_VOTE'])) {echo $language['CAST_VOTE'];} ?>" title="<?php if (isset($language['CAST_VOTE'])) {echo $language['CAST_VOTE'];} ?>" onclick="castMyVote(<?php if (isset($pollerId)) {echo $pollerId;} ?>,document.forms['poller'])" style="cursor:pointer;"/>
+      <img src="images/vote_button.gif" alt="<?php echo $language['CAST_VOTE']; ?>" title="<?php echo $language['CAST_VOTE']; ?>" onclick="castMyVote(<?php echo $pollerId; ?>,document.forms['poller'])" style="cursor:pointer;"/>
 
       </div>
-      <div class="poller_waitMessage" id="poller_waitMessage<?php if (isset($pollerId)) {echo $pollerId;} ?>" align="center">
-        <br /><br /><br /><br /><table border="0" cellspacing="0" cellpadding="4"><tr><td align="center" style="background-image: url('images/ajax-loader.gif'); background-repeat: no-repeat; background-position:center center; width:16px; height:16px;"></td><td align="left"><?php if (isset($language["FETCHING_RESULTS"])) {echo $language["FETCHING_RESULTS"];} ?></td></tr></table><br /><br /><br /><br /><br />
+      <div class="poller_waitMessage" id="poller_waitMessage<?php echo $pollerId; ?>" align="center">
+        <br /><br /><br /><br /><table border="0" cellspacing="0" cellpadding="4"><tr><td align="center" style="background-image: url('images/ajax-loader.gif'); background-repeat: no-repeat; background-position:center center; width:16px; height:16px;"></td><td align="left"><?php echo $language["FETCHING_RESULTS"]; ?></td></tr></table><br /><br /><br /><br /><br />
       </div>
-      <div class="poller_results" style="padding-left:5px; padding-right:5px;" id="poller_results<?php if (isset($pollerId)) {echo $pollerId;} ?>">
+      <div class="poller_results" style="padding-left:5px; padding-right:5px;" id="poller_results<?php echo $pollerId; ?>">
       <!-- This div will be filled from Ajax, so leave it empty --></div>
       <br />
       <br />

@@ -30,7 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-
+error_reporting(E_ALL & ~E_NOTICE);
 if (!defined("IN_BTIT"))
       die("non direct access!");
 
@@ -85,7 +85,7 @@ if ($res)
 unset($ad);
 unset($xbt_tables);
 unset($xbt_in_db);
-
+         
 unset($result);
 ((mysqli_free_result($res) || (is_object($res) && (get_class($res) == "mysqli_result"))) ? true : false);
 
@@ -160,32 +160,18 @@ if (!empty($your_version))
    $admin["xbtit_version"]=$your_version."<br />\n";
 */
 
-if ( isset( $admin[ "infos" ] ) ) {
-    $admin["infos"].=("<br />\n<table border=\"0\">\n");
-}
-if ( isset( $admin[ "infos" ] ) ) {
-    $admin["infos"].=("<tr><td class=\"header\" align=\"center\">Server's OS</td></tr><tr><td align=\"left\">".php_uname()."</td></tr>");
-}
-if ( isset( $admin[ "infos" ] ) ) {
-    $admin["infos"].=("<tr><td class=\"header\" align=\"center\">PHP version</td></tr><tr><td align=\"left\">".phpversion()."</td></tr>");
-}
+$admin["infos"].=("<br />\n<table border=\"0\">\n");
+$admin["infos"].=("<tr><td class=\"header\" align=\"center\">Server's OS</td></tr><tr><td align=\"left\">".php_uname()."</td></tr>");
+$admin["infos"].=("<tr><td class=\"header\" align=\"center\">PHP version</td></tr><tr><td align=\"left\">".phpversion()."</td></tr>");
 
 $sqlver=mysqli_fetch_row(do_sqlquery("SELECT VERSION()"));
-if ( isset( $admin[ "infos" ] ) ) {
-    $admin["infos"].=("\n<tr><td class=\"header\" align=\"center\">MYSQL version</td></tr><tr><td align=\"left\">$sqlver[0]</td></tr>");
-}
+$admin["infos"].=("\n<tr><td class=\"header\" align=\"center\">MYSQL version</td></tr><tr><td align=\"left\">$sqlver[0]</td></tr>");
 $sqlver=mysqli_stat($GLOBALS["___mysqli_ston"]);
 $sqlver=explode('  ',$sqlver);
-if ( isset( $admin[ "infos" ] ) ) {
-    $admin["infos"].=("\n<tr><td valign=\"top\" class=\"header\" align=\"center\">MYSQL stats</td></tr>\n");
-}
+$admin["infos"].=("\n<tr><td valign=\"top\" class=\"header\" align=\"center\">MYSQL stats</td></tr>\n");
 for ($i=0;$i<count($sqlver);$i++)
-    if ( isset( $admin[ "infos" ] ) ) {
-        $admin["infos"].=("<tr><td align=\"left\">$sqlver[$i]</td></tr>\n");
-    }
-if ( isset( $admin[ "infos" ] ) ) {
-    $admin["infos"].=("\n</table><br />\n");
-}
+      $admin["infos"].=("<tr><td align=\"left\">$sqlver[$i]</td></tr>\n");
+$admin["infos"].=("\n</table><br />\n");
 
 unset($sqlver);
 
