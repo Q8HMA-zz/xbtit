@@ -2,7 +2,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 // xbtit - Bittorrent tracker/frontend
 //
-// Copyright (C) 2004 - 2007  Btiteam
+// Copyright (C) 2004 - 2015  Btiteam
 //
 //    This file is part of xbtit.
 //
@@ -62,9 +62,9 @@ $install_lang["mysql_settings_username"] = "MySQL Username";
 $install_lang["mysql_settings_password"] = "MySQL Password";
 $install_lang["mysql_settings_database"] = "MySQL Database";
 $install_lang["mysql_settings_prefix"]  = "MySQL Table Prefix";
-$install_lang["cache_folder"]           = "Cache Folder";
-$install_lang["torrents_folder"]        = "Torrents Folder";
-$install_lang["acces"]                  = "Acces_code Folder";
+$install_lang["cache_folder"]           = "cache Folder";
+$install_lang["torrents_folder"]        = "torrents Folder";
+$install_lang["access_code"]            = "access_code Folder";
 $install_lang["badwords_file"]          = "badwords.txt";
 $install_lang["chat.php"]               = "chat.php";
 $install_lang["write_succes"]           = "<span style=\"color:#00FF00; font-weight: bold;\">is writable!</span>";
@@ -76,11 +76,11 @@ $install_lang["mysql_succes"]           = "<span style=\"color:#00FF00; font-wei
 $install_lang["mysql_fail"]             = "<span style=\"color:#FF0000; font-weight: bold;\">Failed, the connection couldn't be astablished!</span>";
 $install_lang["back_to_settings"]       = "Go back and fill in the neccesary info.";
 $install_lang["saved"]                  = "saved";
-$install_lang["file_not_writeable"]     = "The file <b>./include/settings.php</b> is not writeable.";
-$install_lang["file_not_exists"]        = "The file <b>./include/settings.php</b> doesn't exists.";
+$install_lang["file_not_writeable"]     = "The file <b>include/settings.php</b> is not writeable.";
+$install_lang["file_not_exists"]        = "The file <b>include/settings.php</b> doesn't exists.";
 $install_lang["not_continue_settings"]  = "You can not continue with the install without this file being writable.";
 $install_lang["not_continue_settings2"] = "You can not continue with this file.";
-$install_lang["settings.php"]           = "./include/settings.php";
+$install_lang["settings.php"]           = "include/settings.php";
 $install_lang["can_continue"]           = "You can continue and change this later.";
 $install_lang["mysql_import"]           = "MySQL Import";
 $install_lang["mysql_import_step"]      = "SQL Imp.";

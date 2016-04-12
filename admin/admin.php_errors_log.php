@@ -30,7 +30,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
-
+error_reporting(E_ALL & ~E_NOTICE);
 if (!defined("IN_BTIT"))
       die("non direct access!");
 
@@ -58,9 +58,9 @@ break;
 
 case 'save':
     
-	(isset($_POST["php_log_path"]) && !empty($_POST["php_log_path"])) ? $log_settings["php_log_path"]=mysqli_real_escape_string($DBDT,str_replace("\\", "/", $_POST["php_log_path"])) : $log_settings["php_log_path"]="";
-	$log_settings["php_log_name"]=isset($_POST["php_log_name"])?mysqli_real_escape_string($DBDT,htmlentities($_POST["php_log_name"])):$log_settings["php_log_name"]="";
-	$log_settings["php_log_lines"]=isset($_POST["php_log_lines"])?mysqli_real_escape_string($DBDT,intval(0+$_POST["php_log_lines"])):$log_settings["php_log_lines"]="";
+	(isset($_POST["php_log_path"]) && !empty($_POST["php_log_path"])) ? $log_settings["php_log_path"]=mysqli_query($GLOBALS["___mysqli_ston"],str_replace("\\", "/", $_POST["php_log_path"])) : $log_settings["php_log_path"]="";
+	$log_settings["php_log_name"]=isset($_POST["php_log_name"])?mysqli_query($GLOBALS["___mysqli_ston"],htmlentities($_POST["php_log_name"])):$log_settings["php_log_name"]="";
+	$log_settings["php_log_lines"]=isset($_POST["php_log_lines"])?mysqli_query($GLOBALS["___mysqli_ston"],intval(0+$_POST["php_log_lines"])):$log_settings["php_log_lines"]="";
 	
 	foreach($log_settings as $key=>$value)
           {

@@ -45,7 +45,7 @@ global $tracker_version, $tracker_revision;
 
 // getting globals
 $GLOBALS["btit-tracker"]         = "xbtit";
-$GLOBALS["current_btit_version"] = $tracker_version . " (r".$tracker_revision.", svn ".$kc_svn_revision.")";
+$GLOBALS["current_btit_version"] = $tracker_version . " (r".$tracker_revision.")";
 $GLOBALS["btit_installer"]       = "xbtit Installer ::";
 
 // getting needed files
@@ -214,10 +214,10 @@ if ($action == 'welcome')
     // listing the 777 files
     echo ("".$install_lang["list_chmod"]."");
     echo ("<ul>");
-    echo ("<li>./include/settings.php</li>");
-    echo ("<li>./cache/</li>");
-    echo ("<li>./torrents/</li>");
     echo ("<li>./access_code/</li>");
+    echo ("<li>./cache/</li>");
+    echo ("<li>./include/settings.php</li>");
+    echo ("<li>./torrents/</li>");
     echo ("<li>./badwords.txt</li>");
     echo ("</ul>");
 
@@ -231,16 +231,6 @@ if ($action == 'welcome')
 elseif ($action == 'reqcheck') {
     step ($install_lang["requirements_check"],$install_lang["step"]."&nbsp;".$install_lang["reqcheck"],"1");
 
-// check cache folder
-if (file_exists(dirname(__FILE__)."/cache"))
-  {
-  if (is_writable(dirname(__FILE__)."/cache"))
-        $cache=$install_lang["write_succes"];
-  else
-        $cache=$install_lang["write_fail"]."&nbsp;&nbsp;&nbsp;".$install_lang["can_continue"];
-  }
-else
-  $cache=$install_lang["write_file_not_found"];
 // check access_code folder
 if(file_exists(dirname(__file__)."/access_code"))
   {
@@ -251,6 +241,17 @@ if(file_exists(dirname(__file__)."/access_code"))
   }
   else
         $accesscode = $install_lang["write_file_not_found"];
+// check cache folder
+if (file_exists(dirname(__FILE__)."/cache"))
+  {
+  if (is_writable(dirname(__FILE__)."/cache"))
+        $cache=$install_lang["write_succes"];
+  else
+        $cache=$install_lang["write_fail"]."&nbsp;&nbsp;&nbsp;".$install_lang["can_continue"];
+  }
+else
+  $cache=$install_lang["write_file_not_found"];
+
 // check torrents folder
 if (file_exists(dirname(__FILE__)."/torrents"))
   {
@@ -289,11 +290,11 @@ else
   
     echo ("<h2>".$install_lang["requirements_check"]."</h2>");
     echo ("<table width=\"100%\" cellpadding=\"4\" cellspacing=\"4\" border=\"0\" style=\"margin-bottom: 2ex;\">");
+    echo ("<tr><td width=\"40%\" valign=\"top\">".$install_lang["access_code"].":</td><td>".$accesscode."</td></tr>");
     echo ("<tr><td width=\"40%\" valign=\"top\">".$install_lang["cache_folder"].":</td><td>".$cache."</td></tr>");
-    echo ("<tr><td width=\"40%\" valign=\"top\">".$install_lang["accesscode"].":</td><td>".$accesscode."</td></tr>");
+    echo ("<tr><td width=\"40%\" valign=\"top\">".$install_lang["settings.php"].":</td><td>".$settings."</td></tr>");
     echo ("<tr><td width=\"40%\" valign=\"top\">".$install_lang["torrents_folder"].":</td><td>".$torrents."</td></tr>");
     echo ("<tr><td width=\"40%\" valign=\"top\">".$install_lang["badwords_file"].":</td><td>".$badwords."</td></tr>");
-    echo ("<tr><td width=\"40%\" valign=\"top\">".$install_lang["settings.php"].":</td><td>".$settings."</td></tr>");
     echo ("<tr><td width=\"40%\" valign=\"top\">".$install_lang["allow_url_fopen"].":</td><td>".$allow_url_fopen."</td></tr>");
     echo ("</table>");
     // don't continue if this file doesn't exists
