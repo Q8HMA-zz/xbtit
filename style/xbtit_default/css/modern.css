@@ -188,7 +188,7 @@ select.drop_pager {
 }
 /* this is new for the mainmenu_block*/
 .tcat {
-  background: url(images/titlebg2.jpg) #b7c5d2 repeat-x;
+  background: url(../images/titlebg2.jpg) #b7c5d2 repeat-x;
 	height:25px;
 }
 /* this is new  for the login/logout */
@@ -301,7 +301,7 @@ select.drop_pager {
 	line-height: 20px;
 	font-weight: normal;
 	color: #010101;
-	background-image: url(images/titlebg2.jpg);
+	background-image: url(../images/titlebg2.jpg);
 	text-align: left;
 	display: block;
 	overflow: hidden;
