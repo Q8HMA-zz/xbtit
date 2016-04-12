@@ -29,7 +29,7 @@
 // EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 ////////////////////////////////////////////////////////////////////////////////////
-
+error_reporting(E_ALL & ~E_NOTICE);
 if (!defined("IN_BTIT"))
       die("non direct access!");
 
