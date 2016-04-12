@@ -86,7 +86,7 @@ default;
 	  {
 	  // Open file and read contents
       $fd=fopen($log, "r");
- if (is_readable($fname)) {
+ if (is_readable($log)) {
      $data = fread ( $fd, filesize ( $log ) );
  } else {
      echo 'The file is empty or not readable';
