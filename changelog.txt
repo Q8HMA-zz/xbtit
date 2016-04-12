@@ -5,6 +5,7 @@ Updated to a fresh look mobile & desktop friendly on the default design
 Using bootstrap/fontawesome for the default design
 Added btiteam donation button in admin
 Fixed added new forum mysql error when sort is blank
+Error Reporting error_reporting(E_ALL & ~E_NOTICE); has been added
 
 13/01/2015 Started with xbtit 2.3.0 rev. 757
 -------------------
