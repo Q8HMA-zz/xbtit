@@ -113,7 +113,9 @@ case "edit":
         while($reslevel=mysqli_fetch_assoc($rlevel))
             $alevel[]=$reslevel;
 
+    if ( isset( $parents ) ) {
         $parents=get_result("SELECT id, name FROM {$TABLE_PREFIX}forums WHERE id_parent=0".(max(0,$id)>0?" AND id<>$id":""));
+    }
 
         if (!isset($id)) $id = "";
         
@@ -124,28 +126,50 @@ case "edit":
         $forum=array();
         $forum["name"]=($what == "new" ? "" : unesc($result["name"]));
         $forum["description"]=($what == "new" ? "" : unesc($result["description"]));
+    if ( isset( $forum[ "combo_parent" ] ) ) {
         $forum["combo_parent"]="\n<select name=\"parent\" size=\"1\" ".($result["i_am_parent"]?"disabled=\"disabled\"":"").">";
+    }
+    if ( isset( $forum[ "combo_parent" ] ) ) {
         $forum["combo_parent"].="\n<option value=\"0\"".($result["id_parent"]==0?"selected=\"selected\"":"").">".$language["NONE"]."</option>";
+    }
+    if ( isset( $parents ) ) {
         foreach($parents as $id=>$parent)
             $forum["combo_parent"].="\n<option value=\"".$parent["id"]."\"".($result["id_parent"]==$parent["id"]?"selected=\"selected\"":"").">".$parent["name"]."</option>";
+    }
+    if ( isset( $forum[ "combo_parent" ] ) ) {
         $forum["combo_parent"].="\n</select>".($result["i_am_parent"]?"&nbsp;&nbsp;".$language["FORUM_SORRY_PARENT"]:"");
+    }
 
         $forum["combo_min_read"]="\n<select name=\"readlevel\" size=\"1\">";
         foreach($alevel as $level)
-            $forum["combo_min_read"].="\n<option value=\"".$level["id_level"].($result["minclassread"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+            if ( isset( $forum[ "combo_min_read" ] ) ) {
+                if ( isset( $result[ "minclassread" ] ) ) {
+                    $forum["combo_min_read"].="\n<option value=\"".$level["id_level"].($result["minclassread"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+                }
+            }
         $forum["combo_min_read"].="\n</select>";
 
         $forum["combo_min_write"]="\n<select name=\"writelevel\" size=\"1\">";
         foreach($alevel as $level)
-            $forum["combo_min_write"].="\n<option value=\"".$level["id_level"].($result["minclasswrite"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+            if ( isset( $forum[ "combo_min_write" ] ) ) {
+                if ( isset( $result[ "minclasswrite" ] ) ) {
+                    $forum["combo_min_write"].="\n<option value=\"".$level["id_level"].($result["minclasswrite"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+                }
+            }
         $forum["combo_min_write"].="\n</select>";
 
         $forum["combo_min_create"]="\n<select name=\"createlevel\" size=\"1\">";
         foreach($alevel as $level)
-            $forum["combo_min_create"].="\n<option value=\"".$level["id_level"].($result["minclasscreate"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+            if ( isset( $forum[ "combo_min_create" ] ) ) {
+                if ( isset( $result[ "minclasscreate" ] ) ) {
+                    $forum["combo_min_create"].="\n<option value=\"".$level["id_level"].($result["minclasscreate"] == $level["id_level"] ? "\" selected=\"selected\">" : "\">").$level["level"]."</option>";
+                }
+            }
         $forum["combo_min_create"].="\n</select>";
-        
+
+    if ( isset( $forum[ "sortorder" ] ) ) {
         $forum["sortorder"] = $result["sort"];
+    }
 
         unset($result);
         unset($reslevel);
