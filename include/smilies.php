@@ -150,7 +150,6 @@ $smilies = array(
   ':console:' => 'console.gif',
   ':smurf:' => 'smurf.gif',
   ':spidey:' => 'spidey.gif',
-  ':smurf:' => 'smurf.gif',
   ':rant:' => 'rant.gif',
   ':pimp:' => 'pimp.gif',
   ':nuke:' => 'nuke.gif',
