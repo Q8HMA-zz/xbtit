@@ -66,7 +66,7 @@ if ($GLOBALS["ajax_poller"])
       }      
       ?>      
       <!-- <a href="#poll" onclick="castMyVote(<?php echo $pollerId; ?>,document.forms['poller'])"><img src="images/vote_button.gif"></a> -->
-      <img src="images/vote_button.gif" alt="<?php if (isset($language)) {echo $language['CAST_VOTE'];} ?>" title="<?php if (isset($language)) {echo $language['CAST_VOTE'];} ?>" onclick="castMyVote(<?php if (isset($pollerId)) {echo $pollerId;} ?>,document.forms['poller'])" style="cursor:pointer;"/>
+      <img src="images/vote_button.gif" alt="<?php if (isset($language['CAST_VOTE'])) {echo $language['CAST_VOTE'];} ?>" title="<?php if (isset($language['CAST_VOTE'])) {echo $language['CAST_VOTE'];} ?>" onclick="castMyVote(<?php if (isset($pollerId)) {echo $pollerId;} ?>,document.forms['poller'])" style="cursor:pointer;"/>
 
       </div>
       <div class="poller_waitMessage" id="poller_waitMessage<?php if (isset($pollerId)) {echo $pollerId;} ?>" align="center">

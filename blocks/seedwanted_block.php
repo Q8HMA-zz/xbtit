@@ -152,11 +152,8 @@ else
          echo "<tr><td class=\"lista\" colspan=\"9\" align=\"center\" style=\"text-align: center;\">" . $language["NO_TORRENTS"]  . "</td></tr>";
        }
 
-       print("</table>");
-?>
-         </div>
-         </div>
-<?
+       print("</table></div</div>");
+
        block_end();
     }
 
