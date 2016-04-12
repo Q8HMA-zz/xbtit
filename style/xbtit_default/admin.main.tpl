@@ -9,8 +9,6 @@ function update_cat(newimage)
      document.cat_image.src = "";
 }
 
-
-
 var anb=new sack();
 
 function show_wait()
