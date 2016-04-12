@@ -259,7 +259,11 @@ switch ($action)
             if ($langue["id"]==$btit_settings["default_language"])
             $btit_settings["language_combo"].="selected=\"selected\" ";
             $btit_settings["language_combo"].="value=\"".$langue["id"]."\">".$langue["language"]."</option>";
-            $btit_settings["language_combo"].=($option);
+              if ( isset( $btit_settings[ "language_combo" ] ) ) {
+                  if ( isset( $option ) ) {
+                      $btit_settings["language_combo"].=($option);
+                  }
+              }
           }
         $btit_settings["language_combo"].=("\n</select>\n");
         unset($lres);
