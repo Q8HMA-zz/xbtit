@@ -149,6 +149,7 @@ if ($CURUSER["view_users"]=="yes")
         print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=dbutil'>".$language['ACP_DBUTILS']."</a></li>");
         print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=mysql_stats'>".$language['ACP_MYSQL_STATS']."</a></li>");
         print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=logview'>".$language['ACP_SITE_LOG']."</a></li>");
+        print("<li><a href='index.php?page=admin&amp;user=".$CURUSER["uid"]."&amp;code=".$CURUSER["random"]."&do=php_log'>".$language["LOGS_PHP"]."</a></li>");
         print("</ul></li>");
         print("<li class='dropdown dropdown-submenu'><a href='#' class='dropdown-toggle' data-toggle='dropdown''>".$language['ACP_MODULES']."</a>\n");
         print("<ul class='dropdown-menu'>\n");
