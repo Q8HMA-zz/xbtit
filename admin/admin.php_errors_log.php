@@ -58,9 +58,9 @@ break;
 
 case 'save':
     
-	(isset($_POST["php_log_path"]) && !empty($_POST["php_log_path"])) ? $log_settings["php_log_path"]=mysqli_query($GLOBALS["___mysqli_ston"],str_replace("\\", "/", $_POST["php_log_path"])) : $log_settings["php_log_path"]="";
-	$log_settings["php_log_name"]=isset($_POST["php_log_name"])?mysqli_query($GLOBALS["___mysqli_ston"],htmlentities($_POST["php_log_name"])):$log_settings["php_log_name"]="";
-	$log_settings["php_log_lines"]=isset($_POST["php_log_lines"])?mysqli_query($GLOBALS["___mysqli_ston"],intval(0+$_POST["php_log_lines"])):$log_settings["php_log_lines"]="";
+	(isset($_POST["php_log_path"]) && !empty($_POST["php_log_path"])) ? $log_settings["php_log_path"]=mysqli_query($GLOBALS["conn"],str_replace("\\", "/", $_POST["php_log_path"])) : $log_settings["php_log_path"]="";
+	$log_settings["php_log_name"]=isset($_POST["php_log_name"])?mysqli_query($GLOBALS["conn"],htmlentities($_POST["php_log_name"])):$log_settings["php_log_name"]="";
+	$log_settings["php_log_lines"]=isset($_POST["php_log_lines"])?mysqli_query($GLOBALS["conn"],intval(0+$_POST["php_log_lines"])):$log_settings["php_log_lines"]="";
 	
 	foreach($log_settings as $key=>$value)
           {
@@ -70,8 +70,8 @@ case 'save':
             $values[]="(".sqlesc($key).",".sqlesc($value).")";
         }
 		$Match = "php_log_";
-        mysqli_query($GLOBALS["___mysqli_ston"], "DELETE FROM {$TABLE_PREFIX}settings WHERE `key` LIKE '%".$Match."%'") or stderr($language["ERROR"],((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
-        mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO {$TABLE_PREFIX}settings (`key`,`value`) VALUES ".implode(",",$values).";") or stderr($language["ERROR"],((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+        mysqli_query($GLOBALS["conn"], "DELETE FROM {$TABLE_PREFIX}settings WHERE `key` LIKE '%".$Match."%'") or stderr($language["ERROR"],((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+        mysqli_query($GLOBALS["conn"], "INSERT INTO {$TABLE_PREFIX}settings (`key`,`value`) VALUES ".implode(",",$values).";") or stderr($language["ERROR"],((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
         header("Location: $BASEURL/$returnto");
 break;
 

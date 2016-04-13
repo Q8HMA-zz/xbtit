@@ -157,7 +157,7 @@ switch ($do)
                 $language2=$language;
                 require_once($basedir."/smf/Settings.php");
                 $language=$language2;
-                do_sqlquery("UPDATE `{$db_prefix}members` SET `email".(($GLOBALS["FORUMLINK"]=="smf")?"A":"_a")."ddress`='".((isset($GLOBALS["___mysqli_ston"]) && is_object($GLOBALS["___mysqli_ston"])) ? mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $newmail) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."' WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")."=".$getacc["smf_fid"],true);
+                do_sqlquery("UPDATE `{$db_prefix}members` SET `email".(($GLOBALS["FORUMLINK"]=="smf")?"A":"_a")."ddress`='".((isset($GLOBALS["conn"]) && is_object($GLOBALS["conn"])) ? mysqli_real_escape_string($GLOBALS["conn"], $newmail) : ((trigger_error("[MySQLConverterToo] Fix the mysql_escape_string() call! This code does not work.", E_USER_ERROR)) ? "" : ""))."' WHERE ".(($GLOBALS["FORUMLINK"]=="smf")?"`ID_MEMBER`":"`id_member`")."=".$getacc["smf_fid"],true);
             }
             elseif($GLOBALS["FORUMLINK"]=="ipb")
                 IPSMember::save($getacc["ipb_fid"], array("members" => array("email" => "$newmail")));

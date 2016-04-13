@@ -49,13 +49,13 @@ require_once($BASEDIR."/include/common.php");
 require_once($BASEDIR."/language/english/lang_smf_import.php");
 
 // Lets open a connection to the database
-((bool)mysqli_query( ($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost, $dbuser, $dbpass)), "USE $database"));
+((bool)mysqli_query( ($GLOBALS["conn"] = mysqli_connect($dbhost, $dbuser, $dbpass)), "USE $database"));
 
 $cookie=test_my_cookie();
 
 if($cookie["is_valid"]===true)
 {
-    $res=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT `ul`.`admin_access` FROM `{$TABLE_PREFIX}users` `u` LEFT JOIN `{$TABLE_PREFIX}users_level` `ul` ON `u`.`id_level`=`ul`.`id` WHERE `u`.`id`=".$cookie["id"]);
+    $res=mysqli_query($GLOBALS["conn"], "SELECT `ul`.`admin_access` FROM `{$TABLE_PREFIX}users` `u` LEFT JOIN `{$TABLE_PREFIX}users_level` `ul` ON `u`.`id_level`=`ul`.`id` WHERE `u`.`id`=".$cookie["id"]);
     if(@mysqli_num_rows($res)==1)
         $row=mysqli_fetch_assoc($res);
 }
@@ -65,7 +65,7 @@ if(!isset($row["admin_access"]))
 if($cookie["is_valid"]===false || $row["admin_access"]=="no")
     die($lang[38]);
 
-$lock=mysqli_fetch_assoc(mysqli_query($GLOBALS["___mysqli_ston"], "SELECT random FROM {$TABLE_PREFIX}users WHERE id=1"));
+$lock=mysqli_fetch_assoc(mysqli_query($GLOBALS["conn"], "SELECT random FROM {$TABLE_PREFIX}users WHERE id=1"));
 if($lock["random"]==54345)
     die($lang[26] . $lang[27] . $lang[35]);
 
@@ -125,7 +125,7 @@ if($act=="")
     // (There should be 41 as of v1.1.4 but lets be generous and ensure
     // there are at least 35 SMF tables)
     $count=0;
-    $tablelist=mysqli_query($GLOBALS["___mysqli_ston"], "SHOW TABLES FROM $database"); 
+    $tablelist=mysqli_query($GLOBALS["conn"], "SHOW TABLES FROM $database"); 
 
     while($list=mysqli_fetch_assoc($tablelist))
     {
@@ -135,7 +135,7 @@ if($act=="")
     (($count<35) ? $smf_installed=$lang[1] : $smf_installed=$lang[0]);
 
     // Check the SMF Version
-    $res=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT `value` FROM `{$db_prefix}settings` WHERE `variable`='smfVersion'");
+    $res=mysqli_query($GLOBALS["conn"], "SELECT `value` FROM `{$db_prefix}settings` WHERE `variable`='smfVersion'");
     if(@mysqli_num_rows($res)>0)
     {
         $row=mysqli_fetch_assoc($res);
@@ -184,9 +184,9 @@ elseif($act=="init_setup"  && $confirm=="yes")
     $smf_type=$_GET["smf_type"];
 
     // Purge the current forum settings we're about to rebuild
-    @mysqli_query($GLOBALS["___mysqli_ston"], "TRUNCATE TABLE {$db_prefix}board_permissions");
-    @mysqli_query($GLOBALS["___mysqli_ston"], "TRUNCATE TABLE {$db_prefix}permissions");
-    @mysqli_query($GLOBALS["___mysqli_ston"], "TRUNCATE TABLE {$db_prefix}membergroups");
+    @mysqli_query($GLOBALS["conn"], "TRUNCATE TABLE {$db_prefix}board_permissions");
+    @mysqli_query($GLOBALS["conn"], "TRUNCATE TABLE {$db_prefix}permissions");
+    @mysqli_query($GLOBALS["conn"], "TRUNCATE TABLE {$db_prefix}membergroups");
 
     // Get current tracker ranks
     $query ="SELECT id_level+10 AS id_level, level, edit_forum, admin_access ";
@@ -194,7 +194,7 @@ elseif($act=="init_setup"  && $confirm=="yes")
     $query.="WHERE id_level>1 ";
     $query.="ORDER BY id_level ASC";
     
-    $getranks=mysqli_query($GLOBALS["___mysqli_ston"], $query);
+    $getranks=mysqli_query($GLOBALS["conn"], $query);
     $ranklist="";
     while($rank=mysqli_fetch_assoc($getranks))
     {
@@ -414,15 +414,15 @@ elseif($act=="init_setup"  && $confirm=="yes")
             $query3.="(".$rank["id_level"].", '".$rank["level"]."', '', -1, '')";
         }
         // Run the queries
-        @mysqli_query($GLOBALS["___mysqli_ston"], $query1);
-        @mysqli_query($GLOBALS["___mysqli_ston"], $query2);
-        @mysqli_query($GLOBALS["___mysqli_ston"], $query3);
-        @mysqli_query($GLOBALS["___mysqli_ston"],"UPDATE `{$TABLE_PREFIX}users_level` SET `smf_group_mirror`=".$rank["id_level"]." WHERE `level`='".mysqli_query($GLOBALS["___mysqli_ston"],$rank["level"])."'");
+        @mysqli_query($GLOBALS["conn"], $query1);
+        @mysqli_query($GLOBALS["conn"], $query2);
+        @mysqli_query($GLOBALS["conn"], $query3);
+        @mysqli_query($GLOBALS["conn"],"UPDATE `{$TABLE_PREFIX}users_level` SET `smf_group_mirror`=".$rank["id_level"]." WHERE `level`='".mysqli_query($GLOBALS["conn"],$rank["level"])."'");
     }
     // Allow all ranks to see the initial test forum
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$db_prefix}boards` SET `member".(($smf_type=="smf")?"G":"_g")."roups`='".substr($ranklist,0,strlen($ranklist)-1).",-1' WHERE ".(($smf_type=="smf")?"`ID_BOARD`":"`id_board`")."=1");
+    @mysqli_query($GLOBALS["conn"], "UPDATE `{$db_prefix}boards` SET `member".(($smf_type=="smf")?"G":"_g")."roups`='".substr($ranklist,0,strlen($ranklist)-1).",-1' WHERE ".(($smf_type=="smf")?"`ID_BOARD`":"`id_board`")."=1");
     // Disable forum registration
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$db_prefix}settings` SET `value`=3 WHERE `variable`='registration_method'");
+    @mysqli_query($GLOBALS["conn"], "UPDATE `{$db_prefix}settings` SET `value`=3 WHERE `variable`='registration_method'");
 
     $smf_lang="smf/Themes/default/languages/Errors.english.php";
     require_once($smf_lang);
@@ -449,16 +449,16 @@ elseif($act=="init_setup"  && $confirm=="yes")
     fclose($fd);
 
     // Make sure there is an smf_fid column in the users table, if not add one
-    $query=mysqli_query($GLOBALS["___mysqli_ston"], "SHOW COLUMNS FROM `{$TABLE_PREFIX}users` WHERE `Field`='smf_fid'");
+    $query=mysqli_query($GLOBALS["conn"], "SHOW COLUMNS FROM `{$TABLE_PREFIX}users` WHERE `Field`='smf_fid'");
     $count=mysqli_num_rows($query);
     if ($count==0)
-        @mysqli_query($GLOBALS["___mysqli_ston"], "ALTER TABLE `{$TABLE_PREFIX}users` ADD `smf_fid` INT( 10 ) NOT NULL DEFAULT '0',  ADD INDEX (`smf_fid`)");
+        @mysqli_query($GLOBALS["conn"], "ALTER TABLE `{$TABLE_PREFIX}users` ADD `smf_fid` INT( 10 ) NOT NULL DEFAULT '0',  ADD INDEX (`smf_fid`)");
     else
     {
-        $indexed=mysqli_query($GLOBALS["___mysqli_ston"], "SHOW INDEX FROM `{$TABLE_PREFIX}users` WHERE `Key_name`='smf_fid'");
+        $indexed=mysqli_query($GLOBALS["conn"], "SHOW INDEX FROM `{$TABLE_PREFIX}users` WHERE `Key_name`='smf_fid'");
         if(@mysqli_num_rows($indexed)==0)
         {
-            mysqli_query($GLOBALS["___mysqli_ston"], "ALTER TABLE `{$TABLE_PREFIX}users` ADD INDEX (`smf_fid`)");
+            mysqli_query($GLOBALS["conn"], "ALTER TABLE `{$TABLE_PREFIX}users` ADD INDEX (`smf_fid`)");
         }
     }
     die($lang[24] . $lang[25] . $lang[35]);
@@ -475,24 +475,24 @@ elseif($act=="member_import" && $confirm=="yes")
     
     if($lastacc==0)
     {
-        $last=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT `id` FROM `{$TABLE_PREFIX}users` ORDER BY `id` DESC LIMIT 1");
+        $last=mysqli_query($GLOBALS["conn"], "SELECT `id` FROM `{$TABLE_PREFIX}users` ORDER BY `id` DESC LIMIT 1");
         $acc=mysqli_fetch_assoc($res);
         $lastacc=$acc["id"];
     }
     
     // Import Tracker accounts to the forum
     $query="SELECT `u`.`id`, `u`.`username`, `u`.`id_level`+10 `id_level`, `u`.`password`, `u`.`pass_type`, `u`.`email`, UNIX_TIMESTAMP(`u`.`joined`) `joined`, `u`.`lip`, COUNT(`p`.`userid`) `posts` FROM `{$TABLE_PREFIX}users` `u` LEFT JOIN `{$TABLE_PREFIX}posts` `p` ON `u`.`id`=`p`.`userid` WHERE `u`.`id` >=$start AND `u`.`id` <=$end GROUP BY `u`.`id` ORDER BY `u`.`id` ASC";
-    $list=mysqli_query($GLOBALS["___mysqli_ston"], $query);
+    $list=mysqli_query($GLOBALS["conn"], $query);
     $count=mysqli_num_rows($list);
     if($start==2)
-        @mysqli_query($GLOBALS["___mysqli_ston"], "TRUNCATE TABLE `{$db_prefix}members`");
+        @mysqli_query($GLOBALS["conn"], "TRUNCATE TABLE `{$db_prefix}members`");
     if($count>0)
     {
         while ($account=mysqli_fetch_assoc($list))
         {
             $counter++;
-            @mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO `{$db_prefix}members` (".(($smf_type=="smf")?"`ID_MEMBER`, `memberName`, `dateRegistered`, `ID_GROUP`, `realName`, `passwd`, `emailAddress`, `memberIP`, `memberIP2`, `is_activated`, `passwordSalt`":"`id_member`, `member_name`, `date_registered`, `id_group`, `real_name`, `passwd`, `email_address`, `member_ip`, `member_ip2`, `is_activated`, `password_salt`").", `posts`) VALUES (".$account["id"].", '".$account["username"]."', ".$account["joined"].", ".$account["id_level"].", '".$account["username"]."', '".(($account["pass_type"]==1)?$account["password"]:"ffffffffffffffffffffffffffffffffffffffff")."', '".$account["email"]."', '".long2ip($account["lip"])."', '".long2ip($account["lip"])."', 1, '',".$account["posts"].")");
-            @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$TABLE_PREFIX}users` SET `smf_fid`=".$account["id"]." WHERE `id`=".$account["id"]);
+            @mysqli_query($GLOBALS["conn"], "INSERT INTO `{$db_prefix}members` (".(($smf_type=="smf")?"`ID_MEMBER`, `memberName`, `dateRegistered`, `ID_GROUP`, `realName`, `passwd`, `emailAddress`, `memberIP`, `memberIP2`, `is_activated`, `passwordSalt`":"`id_member`, `member_name`, `date_registered`, `id_group`, `real_name`, `passwd`, `email_address`, `member_ip`, `member_ip2`, `is_activated`, `password_salt`").", `posts`) VALUES (".$account["id"].", '".$account["username"]."', ".$account["joined"].", ".$account["id_level"].", '".$account["username"]."', '".(($account["pass_type"]==1)?$account["password"]:"ffffffffffffffffffffffffffffffffffffffff")."', '".$account["email"]."', '".long2ip($account["lip"])."', '".long2ip($account["lip"])."', 1, '',".$account["posts"].")");
+            @mysqli_query($GLOBALS["conn"], "UPDATE `{$TABLE_PREFIX}users` SET `smf_fid`=".$account["id"]." WHERE `id`=".$account["id"]);
         }
         print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SELF"]."?act=member_import&confirm=yes&start=$newstart&counter=$counter&lastacc=$lastacc&smf_type=$smf_type'</script>");
     }
@@ -501,9 +501,9 @@ elseif($act=="member_import" && $confirm=="yes")
         print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SELF"]."?act=member_import&confirm=yes&start=$newstart&counter=$counter&lastacc=$lastacc&smf_type=$smf_type'</script>");
     }
     
-    $last=mysqli_fetch_assoc(mysqli_query($GLOBALS["___mysqli_ston"], "SELECT ".(($smf_type=="smf")?"`ID_MEMBER`, `memberName`":"`id_member`, `member_name`")." FROM `{$db_prefix}members` ORDER BY ".(($smf_type=="smf")?"`ID_MEMBER`":"`id_member`")." DESC LIMIT 1"));
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE {$db_prefix}settings SET value='".(($smf_type=="smf")?$last["memberName"]:$last["member_name"])."' WHERE variable='latestRealName'");
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE {$db_prefix}settings SET value='".(($smf_type=="smf")?$last["ID_MEMBER"]:$last["id_member"])."' WHERE variable='latestMember'");
+    $last=mysqli_fetch_assoc(mysqli_query($GLOBALS["conn"], "SELECT ".(($smf_type=="smf")?"`ID_MEMBER`, `memberName`":"`id_member`, `member_name`")." FROM `{$db_prefix}members` ORDER BY ".(($smf_type=="smf")?"`ID_MEMBER`":"`id_member`")." DESC LIMIT 1"));
+    @mysqli_query($GLOBALS["conn"], "UPDATE {$db_prefix}settings SET value='".(($smf_type=="smf")?$last["memberName"]:$last["member_name"])."' WHERE variable='latestRealName'");
+    @mysqli_query($GLOBALS["conn"], "UPDATE {$db_prefix}settings SET value='".(($smf_type=="smf")?$last["ID_MEMBER"]:$last["id_member"])."' WHERE variable='latestMember'");
     print($lang[28] . $counter . $lang[29]);
 }
 elseif($act=="import_forum" && $confirm!="yes")
@@ -512,7 +512,7 @@ elseif($act=="import_forum" && $confirm=="yes")
 {
     $smf_type=$_GET["smf_type"];
 
-    $res=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT COUNT(*) `count` FROM `{$TABLE_PREFIX}forums`");
+    $res=mysqli_query($GLOBALS["conn"], "SELECT COUNT(*) `count` FROM `{$TABLE_PREFIX}forums`");
     $row=mysqli_fetch_assoc($res);
     if($row["count"]==0)
         print("<script LANGUAGE='javascript'>window.location.href='".$_SERVER["PHP_SELF"]."?act=completed&smf_type=$smf_type'</script>");
@@ -532,7 +532,7 @@ elseif($act=="import_forum" && $confirm=="yes")
         $sqlquery.="GROUP BY `membergroups`";
     }
 
-    $res=mysqli_query($GLOBALS["___mysqli_ston"], $sqlquery) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
+    $res=mysqli_query($GLOBALS["conn"], $sqlquery) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
     $row=mysqli_fetch_assoc($res);
     $membergroups=substr($row["membergroups"], 0, strlen($row["membergroups"])-3);
     $nextboard=$row["nextboard"];
@@ -541,16 +541,16 @@ elseif($act=="import_forum" && $confirm=="yes")
     $sqlquery ="INSERT INTO `{$db_prefix}categories` ";
     $sqlquery.="SET `cat".(($smf_type=="smf")?"O":"_o")."rder`=$nextcat, `name`='My BTI Import'";
 
-    @mysqli_query($GLOBALS["___mysqli_ston"], $sqlquery) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
+    @mysqli_query($GLOBALS["conn"], $sqlquery) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
 
-    $ourcat=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+    $ourcat=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["conn"]))) ? false : $___mysqli_res);
 
     // SQL Query to grab the current Internal Forum Layout
     $sqlquery ="SELECT * ";
     $sqlquery.="FROM `{$TABLE_PREFIX}forums` ";
     $sqlquery.="ORDER BY `id` ASC";
 
-    $res=mysqli_query($GLOBALS["___mysqli_ston"], $sqlquery) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
+    $res=mysqli_query($GLOBALS["conn"], $sqlquery) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
     $forumlist=array();
 
     // Lets put all the found results into a single array for later
@@ -577,11 +577,11 @@ elseif($act=="import_forum" && $confirm=="yes")
         else
             $sqlquery.="(`id_cat`, `board_order`, `member_groups`, `name`, `description`) ";
         $sqlquery.="VALUES ($ourcat, $nextboard, '".$forumlist[$i]["permissions"]."', ";
-        $sqlquery.=" '".mysqli_query($GLOBALS["___mysqli_ston"],$forumlist[$i]["name"])."', ";
-        $sqlquery.="'".mysqli_query($GLOBALS["___mysqli_ston"],$forumlist[$i]["description"])."')";
+        $sqlquery.=" '".mysqli_query($GLOBALS["conn"],$forumlist[$i]["name"])."', ";
+        $sqlquery.="'".mysqli_query($GLOBALS["conn"],$forumlist[$i]["description"])."')";
 
-        @mysqli_query($GLOBALS["___mysqli_ston"], $sqlquery) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
-        $forumlist[$i]["newid"]=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+        @mysqli_query($GLOBALS["conn"], $sqlquery) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
+        $forumlist[$i]["newid"]=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["conn"]))) ? false : $___mysqli_res);
         if($forumlist[$i]["id_parent"]!=0) $subcat.=$i .",";
         $nextboard++;
     }
@@ -597,11 +597,11 @@ elseif($act=="import_forum" && $confirm=="yes")
                 $sqlquery="UPDATE `{$db_prefix}boards` SET `ID_PARENT`=$newparent WHERE `ID_BOARD`=".$forid;
             else
                 $sqlquery="UPDATE `{$db_prefix}boards` SET `id_parent`=$newparent WHERE `id_board`=".$forid;
-            @mysqli_query($GLOBALS["___mysqli_ston"], $sqlquery); /* or die(mysql_error()."<br />SQL Query:<br />".$sqlquery); */
+            @mysqli_query($GLOBALS["conn"], $sqlquery); /* or die(mysql_error()."<br />SQL Query:<br />".$sqlquery); */
         }
     }
     $sqlquery="SELECT * FROM `{$TABLE_PREFIX}topics` ORDER BY `id` ASC";
-    $res=mysqli_query($GLOBALS["___mysqli_ston"], $sqlquery) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
+    $res=mysqli_query($GLOBALS["conn"], $sqlquery) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
     while($topiclist=mysqli_fetch_assoc($res))
     {
         $i=$topiclist["id"];
@@ -619,12 +619,12 @@ elseif($act=="import_forum" && $confirm=="yes")
         if(isset($forumlist[$topics[$i]["forumid"]]["newid"]) && !empty($forumlist[$topics[$i]["forumid"]]["newid"]))
         {
             $sqlquery.="VALUES (".$topics[$i]["sticky"].", ".$forumlist[$topics[$i]["forumid"]]["newid"].", ".rand(0,2147483647).", ".rand(0,2147483647).", ".$topics[$i]["userid"].", ".$topics[$i]["views"].", ".$topics[$i]["locked"].")";
-            @mysqli_query($GLOBALS["___mysqli_ston"], $sqlquery) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
-            $topics[$i]["newtopicid"]=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+            @mysqli_query($GLOBALS["conn"], $sqlquery) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
+            $topics[$i]["newtopicid"]=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["conn"]))) ? false : $___mysqli_res);
         }
     }
     $sqlquery="SELECT `p`.* , `u`.`username`, `u`.`email`, `u`.`lip`, `ua`.`username` `edit_username` FROM `{$TABLE_PREFIX}posts` `p` LEFT JOIN `{$TABLE_PREFIX}users` `u` ON `p`.`userid` = `u`.`id` LEFT JOIN `{$TABLE_PREFIX}users` `ua` ON `p`.`editedby` = `ua`.`id` ORDER BY `p`.`id` ASC";
-    $res=mysqli_query($GLOBALS["___mysqli_ston"], $sqlquery) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
+    $res=mysqli_query($GLOBALS["conn"], $sqlquery) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
 
     while($postlist=mysqli_fetch_assoc($res))
     {
@@ -641,24 +641,24 @@ elseif($act=="import_forum" && $confirm=="yes")
 
         if(isset($topics[$posts[$i]["topicid"]]["newtopicid"]) && !empty($topics[$posts[$i]["topicid"]]["newtopicid"]))
         {
-            $sqlquery.="VALUES (".$topics[$posts[$i]["topicid"]]["newtopicid"].", ".$forumlist[$topics[$posts[$i]["topicid"]]["forumid"]]["newid"].", ".$posts[$i]["added"].", ".$posts[$i]["userid"].", '".mysqli_query($GLOBALS["___mysqli_ston"],$topics[$posts[$i]["topicid"]]["subject"])."', '".$posts[$i]["username"]."', '".$posts[$i]["email"]."', '".long2ip($posts[$i]["lip"])."', 1, ".$posts[$i]["editedat"].", '".(($posts[$i]["editedby"]==0) ? "" : $posts[$i]["edit_username"])."', '".mysqli_query($GLOBALS["___mysqli_ston"],$posts[$i]["body"])."')";
-            @mysqli_query($GLOBALS["___mysqli_ston"], $sqlquery) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
-            $posts[$i]["newpostid"]=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+            $sqlquery.="VALUES (".$topics[$posts[$i]["topicid"]]["newtopicid"].", ".$forumlist[$topics[$posts[$i]["topicid"]]["forumid"]]["newid"].", ".$posts[$i]["added"].", ".$posts[$i]["userid"].", '".mysqli_query($GLOBALS["conn"],$topics[$posts[$i]["topicid"]]["subject"])."', '".$posts[$i]["username"]."', '".$posts[$i]["email"]."', '".long2ip($posts[$i]["lip"])."', 1, ".$posts[$i]["editedat"].", '".(($posts[$i]["editedby"]==0) ? "" : $posts[$i]["edit_username"])."', '".mysqli_query($GLOBALS["conn"],$posts[$i]["body"])."')";
+            @mysqli_query($GLOBALS["conn"], $sqlquery) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
+            $posts[$i]["newpostid"]=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["conn"]))) ? false : $___mysqli_res);
         }
     }
     $sqlquery="SELECT MAX(".(($smf_type=="smf")?"`ID_MSG`":"`id_msg`").") `max`, ".(($smf_type=="smf")?"`ID_BOARD`":"`id_board`")." `idb` FROM `{$db_prefix}messages` GROUP BY `idb`";
-    $res=mysqli_query($GLOBALS["___mysqli_ston"], $sqlquery) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
+    $res=mysqli_query($GLOBALS["conn"], $sqlquery) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
     while($row=mysqli_fetch_assoc($res))
     {
         $sqlquery="UPDATE `{$db_prefix}boards` SET ".(($smf_type=="smf")?"`ID_LAST_MSG`":"`id_last_msg`")."=".$row["max"]." WHERE ".(($smf_type=="smf")?"`ID_BOARD`":"`id_board`")."=".$row["idb"];
-        @mysqli_query($GLOBALS["___mysqli_ston"], $sqlquery) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
+        @mysqli_query($GLOBALS["conn"], $sqlquery) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
     }
     $sqlquery="SELECT MIN(".(($smf_type=="smf")?"`ID_MSG`":"`id_msg`").") `min`, MAX(".(($smf_type=="smf")?"`ID_MSG`":"`id_msg`").") `max`, ".(($smf_type=="smf")?"`ID_TOPIC`":"`id_topic`")." `idt` FROM `{$db_prefix}messages` GROUP BY `idt`";
-    $res=mysqli_query($GLOBALS["___mysqli_ston"], $sqlquery) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
+    $res=mysqli_query($GLOBALS["conn"], $sqlquery) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
     while($row=mysqli_fetch_assoc($res))
     {
         $sqlquery="UPDATE `{$db_prefix}topics` SET ".(($smf_type=="smf")?"`ID_FIRST_MSG`":"`id_first_msg`")."=".$row["min"].", ".(($smf_type=="smf")?"`ID_LAST_MSG`":"`id_last_msg`")."=".$row["max"]." WHERE ".(($smf_type=="smf")?"`ID_TOPIC`":"`id_topic`")."=".$row["idt"];
-        @mysqli_query($GLOBALS["___mysqli_ston"], $sqlquery) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
+        @mysqli_query($GLOBALS["conn"], $sqlquery) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false))."<br />SQL Query:<br />".$sqlquery);
     }
 print("<script LANGUAGE=\"javascript\">window.location.href='".$_SERVER["PHP_SELF"]."?act=completed&smf_type=$smf_type'</script>");
 }
@@ -666,8 +666,8 @@ elseif($act=="completed")
 {
     $smf_type=$_GET["smf_type"];
     // Lock import file from future use and change to smf mode
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$TABLE_PREFIX}settings` SET `value` ='smf".(($smf_type=="smf")?"":"2")."' WHERE `key`='forum'");
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$TABLE_PREFIX}users` SET `random`=54345 WHERE `id`=1");
+    @mysqli_query($GLOBALS["conn"], "UPDATE `{$TABLE_PREFIX}settings` SET `value` ='smf".(($smf_type=="smf")?"":"2")."' WHERE `key`='forum'");
+    @mysqli_query($GLOBALS["conn"], "UPDATE `{$TABLE_PREFIX}users` SET `random`=54345 WHERE `id`=1");
     echo $lang[32] . $lang[33] . $lang[35];
 }
 

@@ -244,7 +244,7 @@ function check_online($session_id, $location)
     {
         @quickQuery("UPDATE {$TABLE_PREFIX}online SET session_id='$session_id', user_name=$uname, user_group=$ugroup, prefixcolor=$prefix, suffixcolor=$suffix, location=$location, user_id=$uid, lastaction=UNIX_TIMESTAMP() $where");
         // record don't already exist, then insert it
-        if (mysqli_affected_rows($GLOBALS["___mysqli_ston"])==0)
+        if (mysqli_affected_rows($GLOBALS["conn"])==0)
         { 
             @quickQuery("UPDATE {$TABLE_PREFIX}users SET lastconnect=NOW() WHERE id=$uid AND id>1");
             @quickQuery("INSERT INTO {$TABLE_PREFIX}online SET session_id='$session_id', user_name=$uname, user_group=$ugroup, prefixcolor=$prefix, suffixcolor=$suffix, user_id=$uid, user_ip='$ip', location=$location, lastaction=UNIX_TIMESTAMP()");
@@ -660,26 +660,26 @@ function dbconn($do_clean=false) {
   global $dbhost, $dbuser, $dbpass, $database, $language;
 
   if ($GLOBALS['persist'])
-    $conres=($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
+    $conres=($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
   else
-    $conres=($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
+    $conres=($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
 
   if (!$conres) {
-    switch (((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false))) {
+    switch (((is_object($GLOBALS["conn"])) ? mysqli_errno($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false))) {
       case 1040:
       case 2002:
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
           die('<html><head><meta http-equiv=refresh content="20;'.$_SERVER['REQUEST_URI'].'"></head><body><table border="0" width="100%" height="100%"><tr><td><h3 align="center">'.$language['ERR_SERVER_LOAD'].'</h3></td></tr></table></body></html>');
         die($language['ERR_CANT_CONNECT']);
       default:
-        die('['.((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_errno($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)).'] dbconn: mysql_connect: '.((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+        die('['.((is_object($GLOBALS["conn"])) ? mysqli_errno($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)).'] dbconn: mysql_connect: '.((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
     }
   }
 
   if($GLOBALS["charset"]=="UTF-8")
       do_sqlquery("SET NAMES utf8");
 
-  ((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE $database")) or die($language['ERR_CANT_OPEN_DB'].' '.$database.' - '.((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+  ((bool)mysqli_query($GLOBALS["conn"], "USE $database")) or die($language['ERR_CANT_OPEN_DB'].' '.$database.' - '.((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
 
   userlogin();
 
@@ -718,7 +718,7 @@ function cleandata() {
   if ($ts + $clean_interval > $now)
     return;
   do_sqlquery("UPDATE {$TABLE_PREFIX}tasks SET last_time=$now WHERE task='sanity' AND last_time = $ts");
-  if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"]))
+  if (!mysqli_affected_rows($GLOBALS["conn"]))
     return;
 
   require_once $CURRENTPATH.'/sanity.php';
@@ -747,7 +747,7 @@ function updatedata() {
     return;
 
   do_sqlquery("UPDATE {$TABLE_PREFIX}tasks SET last_time=$now WHERE task='update' AND last_time = $ts");
-  if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"]))
+  if (!mysqli_affected_rows($GLOBALS["conn"]))
     return;
 
   $res = get_result("SELECT announce_url FROM {$TABLE_PREFIX}files WHERE external='yes' ORDER BY lastupdate ASC LIMIT 1",true,$btit_settings['cache_duration']);
@@ -1429,7 +1429,7 @@ function sqlerr($file='',$line='') {
   <table border="0" bgcolor="" align=left cellspacing=0 cellpadding=10 style="background: blue">
     <tr>
           <td class=embedded><font color="#FFFFFF"><h1><?php echo ERR_SQL_ERR; ?></h1>
-            <b><?php echo ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)).$file;?></b></font></td>
+            <b><?php echo ((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)).$file;?></b></font></td>
         </tr>
     </table>
 <?php

@@ -84,7 +84,7 @@ if ($action=="prune")
                 $ipb_stats=unserialize($ipb_res[0]["cs_value"]);
                 $ipb_stats["mem_count"]-=$ipb_counter;
                 $updated_ipb_stats=serialize($ipb_stats);
-                do_sqlquery("UPDATE `{$ipb_prefix}cache_store` SET `cs_value`='".mysqli_query($GLOBALS["___mysqli_ston"],$updated_ipb_stats)."' WHERE `cs_key`='stats'",true);
+                do_sqlquery("UPDATE `{$ipb_prefix}cache_store` SET `cs_value`='".mysqli_query($GLOBALS["conn"],$updated_ipb_stats)."' WHERE `cs_key`='stats'",true);
             }
         }
     }

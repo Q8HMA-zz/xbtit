@@ -98,7 +98,7 @@ case "edit":
            {
             $block_title=$language["FORUM_EDIT"];
             $id=intval($_GET["id"]);
-            $resforums=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT *,IF((SELECT COUNT(*) FROM {$TABLE_PREFIX}forums WHERE id_parent=$id)>0,1,0) as i_am_parent FROM {$TABLE_PREFIX}forums WHERE id=".$id);
+            $resforums=mysqli_query($GLOBALS["conn"], "SELECT *,IF((SELECT COUNT(*) FROM {$TABLE_PREFIX}forums WHERE id_parent=$id)>0,1,0) as i_am_parent FROM {$TABLE_PREFIX}forums WHERE id=".$id);
            }
         if (isset($resforums) && $resforums)
            $result=mysqli_fetch_assoc($resforums);
@@ -108,7 +108,7 @@ case "edit":
             stdfoot(false,false,true);
             exit();
         }
-        $rlevel=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT DISTINCT id_level, predef_level, level FROM {$TABLE_PREFIX}users_level ORDER BY id_level");
+        $rlevel=mysqli_query($GLOBALS["conn"], "SELECT DISTINCT id_level, predef_level, level FROM {$TABLE_PREFIX}users_level ORDER BY id_level");
         $alevel=array();
         while($reslevel=mysqli_fetch_assoc($rlevel))
             $alevel[]=$reslevel;
@@ -188,13 +188,13 @@ case "edit":
     case "delete":
         $id=intval($_GET["id"]);
         // control if there are posts/topics
-        $resforum=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT *,IF((SELECT COUNT(*) FROM {$TABLE_PREFIX}forums WHERE id_parent=$id)>0,1,0) as i_am_parent FROM {$TABLE_PREFIX}forums WHERE id=$id");
+        $resforum=mysqli_query($GLOBALS["conn"], "SELECT *,IF((SELECT COUNT(*) FROM {$TABLE_PREFIX}forums WHERE id_parent=$id)>0,1,0) as i_am_parent FROM {$TABLE_PREFIX}forums WHERE id=$id");
 
         if ($_GET["confirm"]==1)
            {
-             mysqli_query($GLOBALS["___mysqli_ston"], "DELETE FROM {$TABLE_PREFIX}posts WHERE topicid IN (SELECT id FROM {$TABLE_PREFIX}topics WHERE forumid=$id)") or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
-             mysqli_query($GLOBALS["___mysqli_ston"], "DELETE FROM {$TABLE_PREFIX}topics WHERE forumid=$id") or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
-             mysqli_query($GLOBALS["___mysqli_ston"], "DELETE FROM {$TABLE_PREFIX}forums WHERE id=$id") or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+             mysqli_query($GLOBALS["conn"], "DELETE FROM {$TABLE_PREFIX}posts WHERE topicid IN (SELECT id FROM {$TABLE_PREFIX}topics WHERE forumid=$id)") or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+             mysqli_query($GLOBALS["conn"], "DELETE FROM {$TABLE_PREFIX}topics WHERE forumid=$id") or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+             mysqli_query($GLOBALS["conn"], "DELETE FROM {$TABLE_PREFIX}forums WHERE id=$id") or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
              redirect("index.php?page=admin&user=".$CURUSER["uid"]."&code=".$CURUSER["random"]."&do=forum&action=read");
              exit();
            }

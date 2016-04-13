@@ -131,11 +131,11 @@ require_once ("include/config.php");
 
 dbconn();
 
-     $res =mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM {$TABLE_PREFIX}polls WHERE status='true'") or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+     $res =mysqli_query($GLOBALS["conn"], "SELECT * FROM {$TABLE_PREFIX}polls WHERE status='true'") or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
      $result=mysqli_fetch_array($res);
    $pid=$result["pid"];
 if($result){
-     $res2=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM {$TABLE_PREFIX}poll_voters WHERE pid='$pid'") or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+     $res2=mysqli_query($GLOBALS["conn"], "SELECT * FROM {$TABLE_PREFIX}poll_voters WHERE pid='$pid'") or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
      $question=$result["poll_question"];
      block_begin("Poll: $question");
      print("<tr><td class=blocklist align=center>\n");
@@ -220,7 +220,7 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Submit' && isset($_POST['poll
   $memberid=$CURUSER["uid"];
   $ip= $_SERVER['REMOTE_ADDR'];
   $new_poll_array=array();
-  mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO poll_voters SET ip='$ip', votedate='".time()."', pid='$pid', memberid='$memberid'");
+  mysqli_query($GLOBALS["conn"], "INSERT INTO poll_voters SET ip='$ip', votedate='".time()."', pid='$pid', memberid='$memberid'");
   $poll_answers = unserialize(stripslashes($result["choices"]));
   reset($poll_answers);
 
@@ -233,7 +233,7 @@ if(isset($_POST['submit']) && $_POST['submit'] == 'Submit' && isset($_POST['poll
   }
   $votings= addslashes(serialize($new_poll_array));
   $uvotes=$result["votes"]+1;
-  mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE {$TABLE_PREFIX}polls SET votes='$uvotes', choices='$votings' WHERE pid='$pid'");
+  mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}polls SET votes='$uvotes', choices='$votings' WHERE pid='$pid'");
   redirect("index.php");
   
 }

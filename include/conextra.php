@@ -6,7 +6,7 @@ function getConnection () {
 
     include($CURRENTPATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
     
-    $Econn = ($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
+    $Econn = ($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
     if (!$Econn) {
             echo "Connection to DB was not possible!";
             end;
@@ -17,7 +17,7 @@ function getConnection () {
         }
         
         if(isset($GLOBALS["charset"]) && $GLOBALS["charset"]=="UTF-8")
-            mysqli_query($GLOBALS["___mysqli_ston"], "SET NAMES utf8");
+            mysqli_query($GLOBALS["conn"], "SET NAMES utf8");
         
         return $Econn;
 }

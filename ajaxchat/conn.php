@@ -40,7 +40,7 @@ function getDBConnection () {
     include($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
     //include($INC_PATH."/config.php");
     
-    $conn = ($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
+    $conn = ($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
     if (!$conn) {
             echo "Connection to DB was not possible!";
             end;
@@ -51,7 +51,7 @@ function getDBConnection () {
         }
         
         if($GLOBALS["charset"]=="UTF-8")
-            mysqli_query($GLOBALS["___mysqli_ston"], "SET NAMES utf8");
+            mysqli_query($GLOBALS["conn"], "SET NAMES utf8");
         
         return $conn;
 }
@@ -65,7 +65,7 @@ function his_getDBConnection () {
 
     include($INC_PATH."/settings.php"); # contains the given DB setup $database, $dbhost, $dbuser, $dbpass
     //include($INC_PATH."/config.php");
-    $conn = ($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
+    $conn = ($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
     if (!$conn) {
             echo "Connection to DB was not possible!";
             end;
@@ -75,7 +75,7 @@ function his_getDBConnection () {
             end;
         }
         if($GLOBALS["charset"]=="UTF-8")
-            mysqli_query($GLOBALS["___mysqli_ston"], "SET NAMES utf8");
+            mysqli_query($GLOBALS["conn"], "SET NAMES utf8");
             
         return $conn;
 }

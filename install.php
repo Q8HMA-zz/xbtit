@@ -137,7 +137,7 @@ function language_list()
          global $TABLE_PREFIX;
 
          $ret = array();
-         $res = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM {$TABLE_PREFIX}language ORDER BY language");
+         $res = mysqli_query($GLOBALS["conn"], "SELECT * FROM {$TABLE_PREFIX}language ORDER BY language");
 
          while ($row = mysqli_fetch_assoc($res))
              $ret[] = $row;
@@ -154,7 +154,7 @@ function style_list()
          global $TABLE_PREFIX;
 
          $ret = array();
-         $res = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM {$TABLE_PREFIX}style ORDER BY id");
+         $res = mysqli_query($GLOBALS["conn"], "SELECT * FROM {$TABLE_PREFIX}style ORDER BY id");
 
          while ($row = mysqli_fetch_assoc($res))
              $ret[] = $row;
@@ -371,14 +371,14 @@ elseif ($action == 'sql_import') {
     require(dirname(__FILE__) . '/include/settings.php');
 
     // Attempt a connection.
-    $db_connection = @($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
+    $db_connection = @($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
     
     // No dice?  Let's try adding the prefix they specified, just in case they misread the instructions ;).
     if (!$db_connection)
     {
-        $mysql_error = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+        $mysql_error = ((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
 
-        $db_connection = @($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost,  $TABLE_PREFIX . $dbuser,  $dbpass));
+        $db_connection = @($GLOBALS["conn"] = mysqli_connect($dbhost,  $TABLE_PREFIX . $dbuser,  $dbpass));
         if ($db_connection != false)
         {
             $db_user = $TABLE_PREFIX . $dbuser;
@@ -471,13 +471,13 @@ elseif ($action == 'sql_import') {
             continue;
         }
 
-        if (mysqli_query($GLOBALS["___mysqli_ston"], $current_statement) === false)
+        if (mysqli_query($GLOBALS["conn"], $current_statement) === false)
         {
             // Error 1050: Table already exists!
             if (((is_object($db_connection)) ? mysqli_errno($db_connection) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) === 1050 && preg_match('~^\s*CREATE TABLE ([^\s\n\r]+?)~', $current_statement, $match) == 1)
                 $exists[] = $match[1];
             else
-                $failures[$count] = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+                $failures[$count] = ((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
         }
 
         $current_statement = '';
@@ -493,8 +493,8 @@ elseif ($action == 'site_config') {
     // getting started
     require (dirname(__FILE__)."/include/settings.php");
 
-    ($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
-    ((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE $database"));
+    ($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
+    ((bool)mysqli_query($GLOBALS["conn"], "USE $database"));
     
     // finding the host
     $host = empty($_SERVER['HTTP_HOST']) ? $_SERVER['SERVER_NAME'] . (empty($_SERVER['SERVER_PORT']) || $_SERVER['SERVER_PORT'] == '80' ? '' : ':' . $_SERVER['SERVER_PORT']) : $_SERVER['HTTP_HOST'];
@@ -566,8 +566,8 @@ elseif ($action == 'save_tracker') {
     // getting started
     require (dirname(__FILE__)."/include/settings.php");
 
-    @($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
-    @((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE $database"));
+    @($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
+    @((bool)mysqli_query($GLOBALS["conn"], "USE $database"));
     
     if($forum=="smf")
     {
@@ -580,7 +580,7 @@ elseif ($action == 'save_tracker') {
         // Now to check they've actually installed it by checking the database
         require (dirname(__FILE__)."/smf/Settings.php");
         
-        $smf=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT `value` FROM `{$db_prefix}settings` WHERE variable='smfVersion'");
+        $smf=mysqli_query($GLOBALS["conn"], "SELECT `value` FROM `{$db_prefix}settings` WHERE variable='smfVersion'");
         if(mysqli_num_rows($smf)==0)
             die($install_lang["smf_err_2"]);
         else
@@ -625,7 +625,7 @@ elseif ($action == 'save_tracker') {
         // Now to check they've actually installed it by checking the database
         require ($BASEDIR."/ipb/conf_global.php");
         
-        $ipb=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT `name` FROM `".$INFO["sql_tbl_prefix"]."members` LIMIT 1;");
+        $ipb=mysqli_query($GLOBALS["conn"], "SELECT `name` FROM `".$INFO["sql_tbl_prefix"]."members` LIMIT 1;");
         if(@mysqli_num_rows($ipb)==0)
             die($install_lang["ipb_err_2"]);
 
@@ -683,13 +683,13 @@ elseif ($action == 'save_tracker') {
             die($install_lang["ipb_err_5"] . $BASEDIR."/ipb/conf_global.php" . $install_lang["ipb_err_3b"]);
     }
     
-    @mysqli_query($GLOBALS["___mysqli_ston"], "ALTER TABLE {$TABLE_PREFIX}users CHANGE `language` `language` TINYINT( 4 ) NOT NULL DEFAULT '$default_lang'") or ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
-    @mysqli_query($GLOBALS["___mysqli_ston"], "ALTER TABLE {$TABLE_PREFIX}users CHANGE `style` `style` TINYINT( 4 ) NOT NULL DEFAULT '$default_style'") or ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '$baseurl' WHERE `key` = 'url'") or ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '$sitename' WHERE `key` = 'name'") or ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '$torrentdir' WHERE `key` = 'torrentdir'") or ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '$val_mode' WHERE `key` = 'validation'") or ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '$forum' WHERE `key` = 'forum'") or ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+    @mysqli_query($GLOBALS["conn"], "ALTER TABLE {$TABLE_PREFIX}users CHANGE `language` `language` TINYINT( 4 ) NOT NULL DEFAULT '$default_lang'") or ((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+    @mysqli_query($GLOBALS["conn"], "ALTER TABLE {$TABLE_PREFIX}users CHANGE `style` `style` TINYINT( 4 ) NOT NULL DEFAULT '$default_style'") or ((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+    @mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '$baseurl' WHERE `key` = 'url'") or ((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+    @mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '$sitename' WHERE `key` = 'name'") or ((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+    @mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '$torrentdir' WHERE `key` = 'torrentdir'") or ((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+    @mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '$val_mode' WHERE `key` = 'validation'") or ((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+    @mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}settings SET `value` = '$forum' WHERE `key` = 'forum'") or ((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
         
     echo ($install_lang["tracker_saved"]);
     echo ("<div align=\"right\"><input type=\"submit\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=owner&amp;forumtype=$forum'\" /></div>");
@@ -722,8 +722,8 @@ elseif ($action == 'save_owner') {
     // getting started
     require (dirname(__FILE__)."/include/settings.php");
 
-    @($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
-    @((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE $database"));
+    @($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
+    @((bool)mysqli_query($GLOBALS["conn"], "USE $database"));
     
     function validemail($email) {
              return preg_match('/^[\w.-]+@([\w.-]+\.)+[a-z]{2,6}$/is', $email);
@@ -823,19 +823,19 @@ elseif ($action == 'save_owner') {
 
         foreach($sql_lines as $v)
         {
-            @mysqli_query($GLOBALS["___mysqli_ston"], $v);
+            @mysqli_query($GLOBALS["conn"], $v);
         }
 
         $smfpass = array(sha1(strtolower($username) . $password), substr(md5(rand()), 0, 4));
 
     if($forum=="smf")
-        @mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO `{$db_prefix}members` (`ID_MEMBER`, `memberName`, `dateRegistered`, `ID_GROUP`, `realName`, `passwd`, `emailAddress`, `memberIP`, `memberIP2`, `is_activated`, `passwordSalt`) VALUES (2 ,'$username', UNIX_TIMESTAMP(), 18, '$username', '$smfpass[0]', '$email', '".$_SERVER["REMOTE_ADDR"]."', '".$_SERVER["REMOTE_ADDR"]."', 1, '$smfpass[1]')");
+        @mysqli_query($GLOBALS["conn"], "INSERT INTO `{$db_prefix}members` (`ID_MEMBER`, `memberName`, `dateRegistered`, `ID_GROUP`, `realName`, `passwd`, `emailAddress`, `memberIP`, `memberIP2`, `is_activated`, `passwordSalt`) VALUES (2 ,'$username', UNIX_TIMESTAMP(), 18, '$username', '$smfpass[0]', '$email', '".$_SERVER["REMOTE_ADDR"]."', '".$_SERVER["REMOTE_ADDR"]."', 1, '$smfpass[1]')");
     else
-        @mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO `{$db_prefix}members` (`id_member`, `member_name`, `date_registered`, `id_group`, `real_name`, `passwd`, `email_address`, `member_ip`, `member_ip2`, `is_activated`, `password_salt`) VALUES (2 ,'$username', UNIX_TIMESTAMP(), 18, '$username', '$smfpass[0]', '$email', '".$_SERVER["REMOTE_ADDR"]."', '".$_SERVER["REMOTE_ADDR"]."', 1, '$smfpass[1]')");
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$db_prefix}settings` SET `value` = 2 WHERE `variable` = 'latestMember'");
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$db_prefix}settings` SET `value` = '$username' WHERE `variable` = 'latestRealName'");
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$db_prefix}settings` SET `value` = UNIX_TIMESTAMP() WHERE `variable` = 'memberlist_updated'");
-    @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$TABLE_PREFIX}users_level` SET `smf_group_mirror`=`id`+10");
+        @mysqli_query($GLOBALS["conn"], "INSERT INTO `{$db_prefix}members` (`id_member`, `member_name`, `date_registered`, `id_group`, `real_name`, `passwd`, `email_address`, `member_ip`, `member_ip2`, `is_activated`, `password_salt`) VALUES (2 ,'$username', UNIX_TIMESTAMP(), 18, '$username', '$smfpass[0]', '$email', '".$_SERVER["REMOTE_ADDR"]."', '".$_SERVER["REMOTE_ADDR"]."', 1, '$smfpass[1]')");
+    @mysqli_query($GLOBALS["conn"], "UPDATE `{$db_prefix}settings` SET `value` = 2 WHERE `variable` = 'latestMember'");
+    @mysqli_query($GLOBALS["conn"], "UPDATE `{$db_prefix}settings` SET `value` = '$username' WHERE `variable` = 'latestRealName'");
+    @mysqli_query($GLOBALS["conn"], "UPDATE `{$db_prefix}settings` SET `value` = UNIX_TIMESTAMP() WHERE `variable` = 'memberlist_updated'");
+    @mysqli_query($GLOBALS["conn"], "UPDATE `{$TABLE_PREFIX}users_level` SET `smf_group_mirror`=`id`+10");
     
     $smf_lang="smf/Themes/default/languages/Errors.english.php";
 
@@ -877,16 +877,16 @@ elseif ($action == 'save_owner') {
 
         foreach($sql_lines as $v)
         {
-            @mysqli_query($GLOBALS["___mysqli_ston"], $v);
+            @mysqli_query($GLOBALS["conn"], $v);
         }
         // Disable forum registration
-        $res=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT `cs_value` FROM `{$ipb_prefix}cache_store` WHERE `cs_key`='settings'");
+        $res=mysqli_query($GLOBALS["conn"], "SELECT `cs_value` FROM `{$ipb_prefix}cache_store` WHERE `cs_key`='settings'");
         $row=mysqli_fetch_assoc($res);
         $array=unserialize($row["cs_value"]);
         $array["no_reg"]=1;
         $cs_value=serialize($array);
-        @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$ipb_prefix}cache_store` SET `cs_value`='".$cs_value."' WHERE `cs_key`='settings'");
-        @mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE {$ipb_prefix}core_sys_conf_settings` SET `conf_value`=1 WHERE `conf_key`='no_reg'");
+        @mysqli_query($GLOBALS["conn"], "UPDATE `{$ipb_prefix}cache_store` SET `cs_value`='".$cs_value."' WHERE `cs_key`='settings'");
+        @mysqli_query($GLOBALS["conn"], "UPDATE {$ipb_prefix}core_sys_conf_settings` SET `conf_value`=1 WHERE `conf_key`='no_reg'");
 
         // Update the registration closed message to something more appropriate
 
@@ -921,13 +921,13 @@ elseif ($action == 'save_owner') {
         $seo_username=IPSText::makeSeoTitle($username);
         $ipbpass=ipb_passgen($password);
 
-       @mysqli_query($GLOBALS["___mysqli_ston"],"INSERT INTO `{$ipb_prefix}members` (`member_id`,`name`, `member_group_id`, `email`, `joined`, `ip_address`, `allow_admin_mails`, `time_offset`, `language`, `members_display_name`, `members_seo_name`, `members_created_remote`, `members_l_display_name`, `members_l_username`, `members_pass_hash`, `members_pass_salt`, `bday_day`, `bday_month`, `bday_year`, `msg_show_notification`, `last_visit`, `last_activity`, `posts`) VALUES (2, '".$username."', 8, '".$email."', UNIX_TIMESTAMP(), '".$_SERVER["REMOTE_ADDR"]."', 1, 0, 1, '".$username."', '".$seo_username."', 1, '".$l_username."', '".$l_username."', '".$ipbpass[0]."', '".$ipbpass[1]."', 0, 0, 0, 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 1)");
-        @mysqli_query($GLOBALS["___mysqli_ston"],"INSERT INTO `{$ipb_prefix}pfields_content` (`member_id`) VALUES (2)");
-        @mysqli_query($GLOBALS["___mysqli_ston"],"INSERT INTO `{$ipb_prefix}profile_portal` (`pp_member_id`, `pp_setting_count_friends`, `pp_setting_count_comments`) VALUES (2, 1, 1)");
-        @mysqli_query($GLOBALS["___mysqli_ston"],"UPDATE `{$ipb_prefix}forums` SET `last_poster_id`='2', `last_poster_name`='".$username."' WHERE `id`=2");
-        @mysqli_query($GLOBALS["___mysqli_ston"],"UPDATE `{$ipb_prefix}posts` SET `author_id`= '2', `author_name`='".$username."' WHERE `pid`=1");
-        @mysqli_query($GLOBALS["___mysqli_ston"],"UPDATE `{$ipb_prefix}topics` SET `starter_id`='2', `last_poster_id`='2', `starter_name`='".$username."', `last_poster_name`='".$username."', `seo_last_name`='".$seo_username."', `seo_first_name`='".$seo_username."' WHERE `tid`=1");
-        $myres=@mysqli_query($GLOBALS["___mysqli_ston"],"SELECT `cs_value` FROM `{$ipb_prefix}cache_store` WHERE `cs_key`='stats'");
+       @mysqli_query($GLOBALS["conn"],"INSERT INTO `{$ipb_prefix}members` (`member_id`,`name`, `member_group_id`, `email`, `joined`, `ip_address`, `allow_admin_mails`, `time_offset`, `language`, `members_display_name`, `members_seo_name`, `members_created_remote`, `members_l_display_name`, `members_l_username`, `members_pass_hash`, `members_pass_salt`, `bday_day`, `bday_month`, `bday_year`, `msg_show_notification`, `last_visit`, `last_activity`, `posts`) VALUES (2, '".$username."', 8, '".$email."', UNIX_TIMESTAMP(), '".$_SERVER["REMOTE_ADDR"]."', 1, 0, 1, '".$username."', '".$seo_username."', 1, '".$l_username."', '".$l_username."', '".$ipbpass[0]."', '".$ipbpass[1]."', 0, 0, 0, 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP(), 1)");
+        @mysqli_query($GLOBALS["conn"],"INSERT INTO `{$ipb_prefix}pfields_content` (`member_id`) VALUES (2)");
+        @mysqli_query($GLOBALS["conn"],"INSERT INTO `{$ipb_prefix}profile_portal` (`pp_member_id`, `pp_setting_count_friends`, `pp_setting_count_comments`) VALUES (2, 1, 1)");
+        @mysqli_query($GLOBALS["conn"],"UPDATE `{$ipb_prefix}forums` SET `last_poster_id`='2', `last_poster_name`='".$username."' WHERE `id`=2");
+        @mysqli_query($GLOBALS["conn"],"UPDATE `{$ipb_prefix}posts` SET `author_id`= '2', `author_name`='".$username."' WHERE `pid`=1");
+        @mysqli_query($GLOBALS["conn"],"UPDATE `{$ipb_prefix}topics` SET `starter_id`='2', `last_poster_id`='2', `starter_name`='".$username."', `last_poster_name`='".$username."', `seo_last_name`='".$seo_username."', `seo_first_name`='".$seo_username."' WHERE `tid`=1");
+        $myres=@mysqli_query($GLOBALS["conn"],"SELECT `cs_value` FROM `{$ipb_prefix}cache_store` WHERE `cs_key`='stats'");
         $myrow=mysqli_fetch_assoc($myres);
         $in=unserialize($myrow["cs_value"]);
         $in["mem_count"]=1;
@@ -935,12 +935,12 @@ elseif ($action == 'save_owner') {
         $in["last_mem_id"]=2;
         $in["last_mem_name_seo"]=$seo_username;
         $out=serialize($in);
-        @mysqli_query($GLOBALS["___mysqli_ston"],"UPDATE `{$ipb_prefix}cache_store` SET `cs_value`='".$out."'  WHERE `cs_key`='stats'");
-        @mysqli_query($GLOBALS["___mysqli_ston"],"UPDATE `{$TABLE_PREFIX}users_level` SET `ipb_group_mirror`=`id`");
+        @mysqli_query($GLOBALS["conn"],"UPDATE `{$ipb_prefix}cache_store` SET `cs_value`='".$out."'  WHERE `cs_key`='stats'");
+        @mysqli_query($GLOBALS["conn"],"UPDATE `{$TABLE_PREFIX}users_level` SET `ipb_group_mirror`=`id`");
         $ipb_fid=2;
     }
 
-    mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO {$TABLE_PREFIX}users (id, username, password, random, id_level, email, joined, lastconnect, pid, time_offset, smf_fid, ipb_fid) VALUES (2, '$username', '" . md5($password) . "', $random, 8, '$email', NOW(), NOW(), '".md5(uniqid(rand(),true))."', 0, $smf_fid, $ipb_fid)");
+    mysqli_query($GLOBALS["conn"], "INSERT INTO {$TABLE_PREFIX}users (id, username, password, random, id_level, email, joined, lastconnect, pid, time_offset, smf_fid, ipb_fid) VALUES (2, '$username', '" . md5($password) . "', $random, 8, '$email', NOW(), NOW(), '".md5(uniqid(rand(),true))."', 0, $smf_fid, $ipb_fid)");
     echo ($install_lang["create_owner_account"]."&nbsp;".$install_lang["is_succes"]);
     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=finished'\" /></div>");
 }

@@ -139,7 +139,7 @@ switch ($action)
               // insert non exist torrent into xbt_files
               do_sqlquery("INSERT INTO xbt_files (info_hash, mtime, ctime) SELECT UNHEX(info_hash), unix_timestamp(), unix_timestamp() FROM {$TABLE_PREFIX}files WHERE UNHEX(info_hash) NOT IN (SELECT info_hash FROM xbt_files) AND external='no'",true);
               // control missed field (latest xbt don't have torrent_pass field)
-              $mf=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM $database.xbt_users");
+              $mf=mysqli_query($GLOBALS["conn"], "SELECT * FROM $database.xbt_users");
              
               $tp_present=false;
               $tpv_present=false;
@@ -193,18 +193,18 @@ switch ($action)
         }
 
         //die(implode(",",$values));
-        mysqli_query($GLOBALS["___mysqli_ston"], "DELETE FROM {$TABLE_PREFIX}settings") or stderr($language["ERROR"],((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
-        mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO {$TABLE_PREFIX}settings (`key`,`value`) VALUES ".implode(",",$values).";") or stderr($language["ERROR"],((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+        mysqli_query($GLOBALS["conn"], "DELETE FROM {$TABLE_PREFIX}settings") or stderr($language["ERROR"],((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+        mysqli_query($GLOBALS["conn"], "INSERT INTO {$TABLE_PREFIX}settings (`key`,`value`) VALUES ".implode(",",$values).";") or stderr($language["ERROR"],((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
         // update guest values for language, style, torrentsxpage etc...
-        mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE {$TABLE_PREFIX}users SET language=".sqlesc($btit_settings["default_language"]).",
+        mysqli_query($GLOBALS["conn"], "UPDATE {$TABLE_PREFIX}users SET language=".sqlesc($btit_settings["default_language"]).",
                             style=".sqlesc($btit_settings["default_style"]).",
-                            torrentsperpage=".sqlesc($btit_settings["max_torrents_per_page"])." WHERE id=1") or stderr($language["ERROR"],((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+                            torrentsperpage=".sqlesc($btit_settings["max_torrents_per_page"])." WHERE id=1") or stderr($language["ERROR"],((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
 
             if ( isset( $alter ) ) {
                 if($alter===true)
                 {
-                    mysqli_query($GLOBALS["___mysqli_ston"], "ALTER TABLE `{$TABLE_PREFIX}users` CHANGE `torrentsperpage` `torrentsperpage` TINYINT( 3 ) UNSIGNED NOT NULL DEFAULT ".sqlesc($btit_settings["max_torrents_per_page"]));
-                    mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE `{$TABLE_PREFIX}users` SET `torrentsperpage`=".sqlesc($btit_settings["max_torrents_per_page"])." WHERE `torrentsperpage`=".sqlesc($old_setting));
+                    mysqli_query($GLOBALS["conn"], "ALTER TABLE `{$TABLE_PREFIX}users` CHANGE `torrentsperpage` `torrentsperpage` TINYINT( 3 ) UNSIGNED NOT NULL DEFAULT ".sqlesc($btit_settings["max_torrents_per_page"]));
+                    mysqli_query($GLOBALS["conn"], "UPDATE `{$TABLE_PREFIX}users` SET `torrentsperpage`=".sqlesc($btit_settings["max_torrents_per_page"])." WHERE `torrentsperpage`=".sqlesc($old_setting));
                 }
             }
 

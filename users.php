@@ -65,7 +65,7 @@ else
          $addparams="";
          if ($search!="")
             {
-            $where=" AND u.username LIKE '%".htmlspecialchars(mysqli_query($GLOBALS["___mysqli_ston"],$_GET["searchtext"]))."%'";
+            $where=" AND u.username LIKE '%".htmlspecialchars(mysqli_query($GLOBALS["conn"],$_GET["searchtext"]))."%'";
             $addparams="searchtext=$search";
             }
          else

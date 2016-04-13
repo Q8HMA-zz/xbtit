@@ -108,7 +108,7 @@ srand((double)microtime()*1000000);
 $random = rand($floor, $ceiling);
 
 do_sqlquery("UPDATE {$TABLE_PREFIX}users SET random='$random' WHERE id='".$arr["id"]."'",true);
-if (mysqli_affected_rows($GLOBALS["___mysqli_ston"])==0)
+if (mysqli_affected_rows($GLOBALS["conn"])==0)
     stderr($language["ERROR"],"".$language["ERR_DB_ERR"].",".$arr["id"].",".$email.",".$random."");
 
 $user_temp_id = $arr["id"];
@@ -145,9 +145,9 @@ if ($random!=$arr["random"])
     $multipass=hash_generate(array("salt" => ""), $newpassword, $arr["username"]);
     $i=$btit_settings["secsui_pass_type"];
 
- do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `password`='".mysqli_query($GLOBALS["___mysqli_ston"],$multipass[$i]["rehash"])."', `salt`='".mysqli_query($GLOBALS["___mysqli_ston"],$multipass[$i]["salt"])."', `pass_type`='".$i."', `dupe_hash`='".mysqli_query($GLOBALS["___mysqli_ston"],$multipass[$i]["dupehash"])."' WHERE `id`=$id AND `random`=$random",true);
+ do_sqlquery("UPDATE `{$TABLE_PREFIX}users` SET `password`='".mysqli_query($GLOBALS["conn"],$multipass[$i]["rehash"])."', `salt`='".mysqli_query($GLOBALS["conn"],$multipass[$i]["salt"])."', `pass_type`='".$i."', `dupe_hash`='".mysqli_query($GLOBALS["conn"],$multipass[$i]["dupehash"])."' WHERE `id`=$id AND `random`=$random",true);
 
-    if (!mysqli_affected_rows($GLOBALS["___mysqli_ston"]))
+    if (!mysqli_affected_rows($GLOBALS["conn"]))
         stderr($language["ERROR"],$language["ERR_UPDATE_USER"]);
 
     if(substr($GLOBALS["FORUMLINK"],0,3)=="smf")

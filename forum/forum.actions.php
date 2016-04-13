@@ -79,9 +79,9 @@ switch ($action)
         }
 
         do_sqlquery("DELETE FROM {$TABLE_PREFIX}topics WHERE id=$topicid",true);
-        $numtopic=mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
+        $numtopic=mysqli_affected_rows($GLOBALS["conn"]);
         do_sqlquery("DELETE FROM {$TABLE_PREFIX}posts WHERE topicid=$topicid",true);
-        $numposts=mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
+        $numposts=mysqli_affected_rows($GLOBALS["conn"]);
         do_sqlquery("DELETE FROM {$TABLE_PREFIX}readposts WHERE topicid=$topicid",true);
 
         do_sqlquery("UPDATE {$TABLE_PREFIX}forums SET topiccount=topiccount-$numtopic,postcount=postcount-$numposts WHERE id=$forumid",true);
@@ -218,7 +218,7 @@ switch ($action)
 
       //------- Delete post
       do_sqlquery("DELETE FROM {$TABLE_PREFIX}posts WHERE id=$postid",true);
-      $numposts=mysqli_affected_rows($GLOBALS["___mysqli_ston"]);
+      $numposts=mysqli_affected_rows($GLOBALS["conn"]);
     
       // update post's count
       do_sqlquery("UPDATE {$TABLE_PREFIX}forums SET postcount=postcount-$numposts WHERE id=$forumid");

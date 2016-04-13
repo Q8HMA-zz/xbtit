@@ -67,7 +67,7 @@ function send_pm($sender,$recepient,$subject,$msg) {
         # insert message
         quickQuery("INSERT INTO `{$db_prefix}personal_messages` (".(($FORUMLINK=="smf")?"`ID_MEMBER_FROM`, `fromName`":"`id_member_from`, `from_name`").", `msgtime`, `subject`, `body`) VALUES (".$sender['smf_fid'].", ".sqlesc($sender['username']).", UNIX_TIMESTAMP(), ".$subject.", ".$msg.")");
         # get id of message
-        $pm_id=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+        $pm_id=((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["conn"]))) ? false : $___mysqli_res);
         # insert recepient for message
         quickQuery("INSERT INTO `{$db_prefix}pm_recipients` (".(($FORUMLINK=="smf")?"`ID_PM`, `ID_MEMBER`":"`id_pm`, `id_member`").") VALUES (".$pm_id.", ".$recepient.")");
         # notify recepient
@@ -208,9 +208,9 @@ function do_sqlquery($qrystr,$display_error=false) {
     global $num_queries;
 
     $num_queries++;
-    $ret=mysqli_query($GLOBALS["___mysqli_ston"], $qrystr);
-    if ($display_error && mysqli_errno($GLOBALS["___mysqli_ston"])!=0)
-        stderr('MySQL query error!',"<br />\nError: ".mysqli_error($GLOBALS["___mysqli_ston"])."<br />\nQuery: $qrystr<br />\n");
+    $ret=mysqli_query($GLOBALS["conn"], $qrystr);
+    if ($display_error && mysqli_errno($GLOBALS["conn"])!=0)
+        stderr('MySQL query error!',"<br />\nError: ".mysqli_error($GLOBALS["conn"])."<br />\nQuery: $qrystr<br />\n");
     return $ret;
 }
 

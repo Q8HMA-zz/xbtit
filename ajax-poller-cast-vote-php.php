@@ -51,23 +51,23 @@ if(isset($_GET['pollId'])){
   // Insert new vote into the database
   // You may put in some more code here to limit the number of votes the same ip adress could cast.
 
-  if($optionId)mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO {$TABLE_PREFIX }poller_vote(pollerID,optionID,ipAddress,voteDate,memberID) VALUES('".$pollId."','".$optionId."','".ip2long(getenv("REMOTE_ADDR"))."',unix_timestamp(),'".$userID."')");
+  if($optionId)mysqli_query($GLOBALS["conn"], "INSERT INTO {$TABLE_PREFIX }poller_vote(pollerID,optionID,ipAddress,voteDate,memberID) VALUES('".$pollId."','".$optionId."','".ip2long(getenv("REMOTE_ADDR"))."',unix_timestamp(),'".$userID."')");
 
   // Returning data as xml
 
   echo '<?xml version="1.0" ?>';
 
-  $res = mysqli_query($GLOBALS["___mysqli_ston"], "select ID,pollerTitle from {$TABLE_PREFIX}poller where ID='".$pollId."'");
+  $res = mysqli_query($GLOBALS["conn"], "select ID,pollerTitle from {$TABLE_PREFIX}poller where ID='".$pollId."'");
   if($inf = mysqli_fetch_array($res)){
     echo "<pollerTitle>".unesc($inf["pollerTitle"])."</pollerTitle>\n";
 
-    $resOptions = mysqli_query($GLOBALS["___mysqli_ston"], "select ID,optionText from {$TABLE_PREFIX}poller_option where pollerID='".$inf["ID"]."' order by pollerOrder") or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+    $resOptions = mysqli_query($GLOBALS["conn"], "select ID,optionText from {$TABLE_PREFIX}poller_option where pollerID='".$inf["ID"]."' order by pollerOrder") or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
     while($infOptions = mysqli_fetch_array($resOptions)){
       echo "<option>\n";
       echo "\t<optionText>".unesc($infOptions["optionText"])."</optionText>\n";
       echo "\t<optionId>".$infOptions["ID"]."</optionId>\n";
 
-      $resVotes = mysqli_query($GLOBALS["___mysqli_ston"], "select count(ID) from {$TABLE_PREFIX}poller_vote where optionID='".$infOptions["ID"]."' AND pollerID='".$inf["ID"]."'");
+      $resVotes = mysqli_query($GLOBALS["conn"], "select count(ID) from {$TABLE_PREFIX}poller_vote where optionID='".$infOptions["ID"]."' AND pollerID='".$inf["ID"]."'");
       if($infVotes = mysqli_fetch_array($resVotes)){
         echo "\t<votes>".$infVotes["count(ID)"]."</votes>\n";
       }

@@ -53,9 +53,9 @@ $uid = (int)$u;  # userid from the form
 include("../include/settings.php");
 include("../include/common.php");
 require("../include/crk_protection.php");//xss fix
-((bool)mysqli_query( ($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost, $dbuser, $dbpass)), "USE $database"));
+((bool)mysqli_query( ($GLOBALS["conn"] = mysqli_connect($dbhost, $dbuser, $dbpass)), "USE $database"));
 
-$secsui_res=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM `{$TABLE_PREFIX}settings`");
+$secsui_res=mysqli_query($GLOBALS["conn"], "SELECT * FROM `{$TABLE_PREFIX}settings`");
 while($secsui_arr=mysqli_fetch_assoc($secsui_res))
 {
     $btit_settings[$secsui_arr["key"]]=$secsui_arr["value"];
@@ -69,14 +69,14 @@ if($cookie["is_valid"]===false || $cookie["id"]==1)
 if($cookie["id"]!=$uid)
 {
     // select first owner (default id_level=8) from users table
-    $ra=mysqli_fetch_assoc(mysqli_query($GLOBALS["___mysqli_ston"], "SELECT `id` FROM `{$TABLE_PREFIX}users` WHERE `id_level`=8 ORDER BY `id` LIMIT 1"));
+    $ra=mysqli_fetch_assoc(mysqli_query($GLOBALS["conn"], "SELECT `id` FROM `{$TABLE_PREFIX}users` WHERE `id_level`=8 ORDER BY `id` LIMIT 1"));
     $admin_pm_id=$ra['id'];
 
     $ip=getip();
     $name="Hacker [$ip]";
     $uid=1;
     $text="[color=red][b]I am a hacker who deserves to be banned![/b][/color] :axe:";
-    $res=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT `id`, `username` FROM `{$TABLE_PREFIX}users` WHERE `cip`='$ip' ORDER BY `id` ASC");
+    $res=mysqli_query($GLOBALS["conn"], "SELECT `id`, `username` FROM `{$TABLE_PREFIX}users` WHERE `cip`='$ip' ORDER BY `id` ASC");
     if(@mysqli_num_rows($res)>0)
     {
         $subject="Shoutbox hack attempt!";

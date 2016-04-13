@@ -166,7 +166,7 @@ $admin["infos"].=("<tr><td class=\"header\" align=\"center\">PHP version</td></t
 
 $sqlver=mysqli_fetch_row(do_sqlquery("SELECT VERSION()"));
 $admin["infos"].=("\n<tr><td class=\"header\" align=\"center\">MYSQL version</td></tr><tr><td align=\"left\">$sqlver[0]</td></tr>");
-$sqlver=mysqli_stat($GLOBALS["___mysqli_ston"]);
+$sqlver=mysqli_stat($GLOBALS["conn"]);
 $sqlver=explode('  ',$sqlver);
 $admin["infos"].=("\n<tr><td valign=\"top\" class=\"header\" align=\"center\">MYSQL stats</td></tr>\n");
 for ($i=0;$i<count($sqlver);$i++)

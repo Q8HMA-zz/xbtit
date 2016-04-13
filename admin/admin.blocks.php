@@ -81,7 +81,7 @@ function read_blocks()
       $r=0;
       $b=0;
 
-      $rlevel=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT DISTINCT id_level, predef_level, level FROM {$TABLE_PREFIX}users_level ORDER BY id_level");
+      $rlevel=mysqli_query($GLOBALS["conn"], "SELECT DISTINCT id_level, predef_level, level FROM {$TABLE_PREFIX}users_level ORDER BY id_level");
       $alevel=array();
       while($reslevel=mysqli_fetch_assoc($rlevel))
           $alevel[]=$reslevel;
@@ -395,7 +395,7 @@ switch ($action)
 
       case 'edit':
 
-        $rlevel=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT DISTINCT id_level, predef_level, level FROM {$TABLE_PREFIX}users_level ORDER BY id_level");
+        $rlevel=mysqli_query($GLOBALS["conn"], "SELECT DISTINCT id_level, predef_level, level FROM {$TABLE_PREFIX}users_level ORDER BY id_level");
         $alevel=array();
         while($reslevel=mysqli_fetch_assoc($rlevel))
             $alevel[]=$reslevel;

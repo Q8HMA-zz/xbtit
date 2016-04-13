@@ -45,9 +45,9 @@ function get_cached_config($qrystr, $cachetime=0) {
       return unserialize(file_get_contents($cache_file));
         }
 
-  ($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost,  $dbuser,  $dbpass)) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
-  ((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE $database")) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
-  $mr=mysqli_query($GLOBALS["___mysqli_ston"], $qrystr." -- ".$mySecret) or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+  ($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass)) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+  ((bool)mysqli_query($GLOBALS["conn"], "USE $database")) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+  $mr=mysqli_query($GLOBALS["conn"], $qrystr." -- ".$mySecret) or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
   while ($mz=mysqli_fetch_assoc($mr)) {
     if ($mz['value']=='true')
       $return[$mz['key']]= true;
@@ -61,7 +61,7 @@ function get_cached_config($qrystr, $cachetime=0) {
 
   unset($mz);
   ((mysqli_free_result($mr) || (is_object($mr) && (get_class($mr) == "mysqli_result"))) ? true : false);
-  ((is_null($___mysqli_res = mysqli_close($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
+  ((is_null($___mysqli_res = mysqli_close($GLOBALS["conn"]))) ? false : $___mysqli_res);
 
   if ($cachetime>0) {
     $fp=fopen($cache_file,'w');

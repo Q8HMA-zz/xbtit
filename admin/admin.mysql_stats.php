@@ -150,7 +150,7 @@ $timespanfmt = '%s days, %s hours, %s minutes and %s seconds';
 /**
  * Sends the query and buffers the result
  */
-$res = @mysqli_query($GLOBALS["___mysqli_ston"], 'SHOW STATUS') or Die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+$res = @mysqli_query($GLOBALS["conn"], 'SHOW STATUS') or Die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
     while ($row = mysqli_fetch_row($res)) {
         $serverStatus[$row[0]] = $row[1];
     }
@@ -163,7 +163,7 @@ unset($row);
  * Displays the page
  */
 //Uptime calculation
-$res = @mysqli_query($GLOBALS["___mysqli_ston"], 'SELECT UNIX_TIMESTAMP() - ' . $serverStatus['Uptime']);
+$res = @mysqli_query($GLOBALS["conn"], 'SELECT UNIX_TIMESTAMP() - ' . $serverStatus['Uptime']);
 $row = mysqli_fetch_row($res);
 //echo sprintf("Server Status Uptime", timespanFormat($serverStatus['Uptime']), localisedDate($row[0])) . "\n";
 ?>

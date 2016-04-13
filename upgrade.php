@@ -141,7 +141,7 @@ function language_list()
          global $TABLE_PREFIX;
 
          $ret = array();
-         $res = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM {$TABLE_PREFIX}language ORDER BY language");
+         $res = mysqli_query($GLOBALS["conn"], "SELECT * FROM {$TABLE_PREFIX}language ORDER BY language");
 
          while ($row = mysqli_fetch_assoc($res))
              $ret[] = $row;
@@ -158,7 +158,7 @@ function style_list()
          global $TABLE_PREFIX;
 
          $ret = array();
-         $res = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM {$TABLE_PREFIX}style ORDER BY id");
+         $res = mysqli_query($GLOBALS["conn"], "SELECT * FROM {$TABLE_PREFIX}style ORDER BY id");
 
          while ($row = mysqli_fetch_assoc($res))
              $ret[] = $row;
@@ -361,7 +361,7 @@ elseif ($action == 'sql_import') {
     require(dirname(__FILE__) . '/include/settings.php');
 
     // Attempt a connection.
-    $db_connection = @($GLOBALS["___mysqli_ston"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
+    $db_connection = @($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
     
 
     // Still no connection?  Big fat error message :P.
@@ -371,7 +371,7 @@ elseif ($action == 'sql_import') {
                 <div class="error_message">
                     <div style="color: red;">', $install_lang['mysql_fail'], '</div>
 
-                    <div style="margin: 2.5ex; font-family: monospace;"><b>', ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) , '</b></div>
+                    <div style="margin: 2.5ex; font-family: monospace;"><b>', ((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)) , '</b></div>
 
                     <a href="', $_SERVER['PHP_SELF'], '?step=0&amp;overphp=true">', $install_lang['error_message_click'], '</a> ', $install_lang['error_message_try_again'], '
                 </div>';
@@ -396,7 +396,7 @@ elseif ($action == 'sql_import') {
     $request_tables=array("{$TABLE_PREFIX}blocks", "{$TABLE_PREFIX}namemap", "{$TABLE_PREFIX}summary", "{$TABLE_PREFIX}forums","{$TABLE_PREFIX}language", "{$TABLE_PREFIX}style", "{$TABLE_PREFIX}users", "{$TABLE_PREFIX}users_level");
     for ($i=0;$i<count($request_tables);$i++)
       {
-        $rt=mysqli_num_rows(mysqli_query($GLOBALS["___mysqli_ston"], "SHOW TABLES LIKE '".$request_tables[$i]."'"));
+        $rt=mysqli_num_rows(mysqli_query($GLOBALS["conn"], "SHOW TABLES LIKE '".$request_tables[$i]."'"));
         if ($rt==0) // table not found!
                 {
                     echo '
@@ -449,13 +449,13 @@ elseif ($action == 'sql_import') {
             continue;
         }
 
-        if (mysqli_query($GLOBALS["___mysqli_ston"], $current_statement) === false)
+        if (mysqli_query($GLOBALS["conn"], $current_statement) === false)
         {
             // Error 1050: Table already exists!
             if (((is_object($db_connection)) ? mysqli_errno($db_connection) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) === 1050 && preg_match('~^\s*CREATE TABLE ([^\s\n\r]+?)~', $current_statement, $match) == 1)
                 $exists[] = $match[1];
             else
-                $failures[$count] = ((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+                $failures[$count] = ((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
         }
 
         $current_statement = '';

@@ -33,7 +33,7 @@ $mail->AddReplyTo('list@mydomain.com', 'List manager');
 $mail->Subject       = "PHPMailer Test Subject via smtp, basic with authentication";
 
 @MYSQL_CONNECT("localhost","root","password");
-@((bool)mysqli_query($GLOBALS["___mysqli_ston"], "USE my_company"));
+@((bool)mysqli_query($GLOBALS["conn"], "USE my_company"));
 $query  = "SELECT full_name, email, photo FROM employee WHERE id=$id";
 $result = @MYSQL_QUERY($query);
 

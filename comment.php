@@ -77,7 +77,7 @@ if (isset($_POST["info_hash"])) {
      exit();
      }
 	 else{	 
-  do_sqlquery("INSERT INTO {$TABLE_PREFIX}comments (added,text,ori_text,user,info_hash) VALUES (NOW(),\"$comment\",\"$comment\",\"$user\",\"" . mysqli_query($GLOBALS["___mysqli_ston"],StripSlashes($_POST["info_hash"])) . "\")",true);
+  do_sqlquery("INSERT INTO {$TABLE_PREFIX}comments (added,text,ori_text,user,info_hash) VALUES (NOW(),\"$comment\",\"$comment\",\"$user\",\"" . mysqli_query($GLOBALS["conn"],StripSlashes($_POST["info_hash"])) . "\")",true);
   redirect("index.php?page=torrent-details&id=" . StripSlashes($_POST["info_hash"])."#comments");
   die();
   }

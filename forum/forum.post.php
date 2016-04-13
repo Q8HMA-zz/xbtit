@@ -275,7 +275,7 @@ switch ($action)
             //---- Create topic
             $add_topic_count=", topiccount=topiccount+1";
             do_sqlquery("INSERT INTO {$TABLE_PREFIX}topics (userid, forumid, subject) VALUES($userid, $forumid, $subject)",true);
-            $topicid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res) or stderr($language["ERROR"],$language["ERR_NO_TOPIC_ID"]);
+            $topicid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["conn"]))) ? false : $___mysqli_res) or stderr($language["ERROR"],$language["ERR_NO_TOPIC_ID"]);
           }
           else
           {
@@ -288,7 +288,7 @@ switch ($action)
           //------ Insert post
 
           do_sqlquery("INSERT INTO {$TABLE_PREFIX}posts (topicid, userid, added, body) VALUES($topicid, $userid, UNIX_TIMESTAMP(), $body)",true);
-          $postid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res) or stderr($language["ERROR"],$language["ERR_POST_ID_NA"]);
+          $postid = ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["conn"]))) ? false : $___mysqli_res) or stderr($language["ERROR"],$language["ERR_POST_ID_NA"]);
 
           //------ Update topic last post
 
