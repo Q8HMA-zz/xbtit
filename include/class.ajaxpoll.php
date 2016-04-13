@@ -75,9 +75,8 @@ class poll {
 
   /* Create new poller and return ID of new poller */
   function createNewPoller($pollerTitle,$userid,$active) {
-    global $db,$DBDT;
 
-    $pollerTitle=mysqli_real_escape_string($DBDT,$pollerTitle);
+    $pollerTitle=mysqli_query($GLOBALS["___mysqli_ston"],$pollerTitle);
 
     if ($active == 'yes') {
       quickQuery("UPDATE {$this->table_prefix}poller SET active='no', endDate=UNIX_TIMESTAMP() WHERE poller.active='yes'");
@@ -91,8 +90,7 @@ class poll {
 
   /* Add poller options */
   function addPollerOption($optionText,$pollerOrder) {
-   global $DBDT;
-     $optionText=mysqli_real_escape_string($DBDT,$optionText);
+     $optionText=mysqli_query($GLOBALS["___mysqli_ston"],$optionText);
      quickQuery("insert into {$this->table_prefix}poller_option(pollerID,optionText,pollerOrder)values('".$this->ID."','".$optionText."','".$pollerOrder."')") or die(((is_object($GLOBALS["___mysqli_ston"])) ? mysqli_error($GLOBALS["___mysqli_ston"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
 
     return ((is_null($___mysqli_res = mysqli_insert_id($GLOBALS["___mysqli_ston"]))) ? false : $___mysqli_res);
@@ -110,8 +108,7 @@ class poll {
 
   /* Updating poll title */
   function setPollerTitle($pollerTitle) {
-   global $DBDT;
-  $pollerTitle=mysqli_real_escape_string($DBDT,$pollerTitle);
+  $pollerTitle=mysqli_query($GLOBALS["___mysqli_ston"],$pollerTitle);
     quickQuery("update {$this->table_prefix}poller set pollerTitle='$pollerTitle' where ID='".$this->ID."'");
   }
 
@@ -123,8 +120,7 @@ class poll {
 
   /* Update option label */
   function setOptionData($newText,$order,$optionId) {
-   global $DBDT;
-   $newText=mysqli_real_escape_string($DBDT,$newText);
+   $newText=mysqli_query($GLOBALS["___mysqli_ston"],$newText);
     quickQuery("update {$this->table_prefix}poller_option set optionText='".$newText."',pollerOrder='$order' where ID='".$optionId."'");
   }
 

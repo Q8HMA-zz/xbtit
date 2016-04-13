@@ -145,7 +145,7 @@ if(isset($_POST) && !empty($_POST))
             $mult=31536000;
 
         $cookie_expire=(($secsui_cookie_exp1*$mult)+time());
-        
+
         if($cookie_expire>2147483647)
             stderr($language["ERROR"], $language["SECSUI_COOKIE_TOO_FAR"]);
     }
@@ -191,12 +191,12 @@ if(isset($_POST) && !empty($_POST))
         do_sqlquery("UPDATE `{$TABLE_PREFIX}settings` SET `value`='".$secsui_cookie_domain."' WHERE `key`='secsui_cookie_domain'", true);
     if($cookie_items_changed && $btit_settings["secsui_cookie_items"]!=$secsui_cookie_items)
         do_sqlquery("UPDATE `{$TABLE_PREFIX}settings` SET `value`='".$secsui_cookie_items."' WHERE `key`='secsui_cookie_items'", true);
-    if($btit_settings["secsui_pass_min_req"]!=$secsui_pass_min_req) 
-        do_sqlquery("UPDATE `{$TABLE_PREFIX}settings` SET `value`='".$secsui_pass_min_req."' WHERE `key`='secsui_pass_min_req'", true); 
+    if($btit_settings["secsui_pass_min_req"]!=$secsui_pass_min_req)
+        do_sqlquery("UPDATE `{$TABLE_PREFIX}settings` SET `value`='".$secsui_pass_min_req."' WHERE `key`='secsui_pass_min_req'", true);
 
     foreach (glob($THIS_BASEPATH."/cache/*.txt") as $filename)
         unlink($filename);
-    
+
     if($btit_settings["secsui_cookie_type"]!=$secsui_cookie_type || $btit_settings["secsui_pass_type"]!=$secsui_pass_type)
     {
         logoutcookie();
