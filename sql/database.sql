@@ -982,12 +982,7 @@ CREATE TABLE `{$db_prefix}style` (
 -- 
 
 INSERT INTO `{$db_prefix}style` (`id`, `style`, `style_url`, `style_type`) VALUES
-(1, 'xBtit Default', 'style/xbtit_default', 3),
-(2, 'Mint', 'style/mintgreen', 3),
-(3, 'Dark Lair', 'style/darklair', 3),
-(4, 'Yellow Jacket', 'style/thehive', 3),
-(5, 'Frosted', 'style/frosted', 3),
-(6, 'Holiday Spirit', 'style/holiday-spirit', 3);
+(1, 'xBtit Default', 'style/xbtit_default', 3);
 -- --------------------------------------------------------
 
 -- 
