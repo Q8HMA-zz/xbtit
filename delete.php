@@ -35,15 +35,15 @@ if (!defined("IN_BTIT"))
       die("non direct access!");
 
 
-$id = mysqli_query($GLOBALS["conn"],$_GET["info_hash"]);
+$id = mysqli_real_escape_string($GLOBALS['conn'],$_GET["info_hash"]);
 
 if (!isset($id) || !$id)
     die("Error ID");
 
 if ($XBTT_USE)
-   $res = do_sqlquery("SELECT f.info_hash, f.uploader, f.filename, f.url, UNIX_TIMESTAMP(f.data) as data, f.size, f.comment, c.name as cat_name, f.seeds+ ifnull(x.seeders,0) as seeds, f.leechers+ ifnull(x.leechers,0) as leechers, f.finished+ ifnull(x.completed,0) as finished, f.speed FROM {$TABLE_PREFIX}files f LEFT JOIN xbt_files x ON x.info_hash=f.bin_hash LEFT JOIN {$TABLE_PREFIX}categories c ON c.id=f.category WHERE f.info_hash ='" . $id . "'",true);
+    $res = do_sqlquery("SELECT ".$query1_select." f.info_hash, f.uploader, f.filename, f.url, UNIX_TIMESTAMP(f.data) as data, f.size, f.comment, c.name as cat_name, f.seeds+ ifnull(x.seeders,0) as seeds, f.leechers+ ifnull(x.leechers,0) as leechers, f.finished+ ifnull(x.completed,0) as finished, f.speed FROM {$TABLE_PREFIX}files f LEFT JOIN xbt_files x ON x.info_hash=f.bin_hash LEFT JOIN {$TABLE_PREFIX}categories c ON c.id=f.category WHERE f.info_hash ='" . $id . "'",true);
 else
-    $res = do_sqlquery("SELECT f.info_hash, f.uploader, f.filename, f.url, UNIX_TIMESTAMP(f.data) as data, f.size, f.comment, c.name as cat_name, f.seeds, f.leechers, f.finished, f.speed FROM {$TABLE_PREFIX}files f LEFT JOIN {$TABLE_PREFIX}categories c ON c.id=f.category WHERE f.info_hash ='" . $id . "'",true);
+    $res = do_sqlquery("SELECT ".$query1_select." f.info_hash, f.uploader, f.filename, f.url, UNIX_TIMESTAMP(f.data) as data, f.size, f.comment, c.name as cat_name, f.seeds, f.leechers, f.finished, f.speed FROM {$TABLE_PREFIX}files f LEFT JOIN {$TABLE_PREFIX}categories c ON c.id=f.category WHERE f.info_hash ='" . $id . "'",true);
 
 $row = mysqli_fetch_assoc($res);
 
@@ -65,7 +65,7 @@ if (isset($_POST["action"])) {
 
    if ($_POST["action"]==$language["FRM_DELETE"]) {
 
-      $ris = do_sqlquery("SELECT info_hash,filename,url FROM {$TABLE_PREFIX}files WHERE info_hash=\"$hash\"",true);
+       $ris = do_sqlquery("SELECT f.info_hash, f.filename, f.url, f.uploader, u.username FROM {$TABLE_PREFIX}files f , {$TABLE_PREFIX}users u WHERE f.uploader=u.id AND info_hash=\"$hash\"") or die(mysqli_error($GLOBALS['conn']));
       if (mysqli_num_rows($ris)==0)
             {
             stderr("Sorry!", "torrent $hash not found.");
@@ -76,19 +76,20 @@ if (isset($_POST["action"])) {
             }
       write_log("Deleted torrent $torname ($torhash)","delete");
 
-      @mysqli_query($GLOBALS["conn"], "DELETE FROM {$TABLE_PREFIX}files WHERE info_hash=\"$hash\"");
-      @mysqli_query($GLOBALS["conn"], "DELETE FROM {$TABLE_PREFIX}timestamps WHERE info_hash=\"$hash\"");
-      @mysqli_query($GLOBALS["conn"], "DELETE FROM {$TABLE_PREFIX}comments WHERE info_hash=\"$hash\"");
-      @mysqli_query($GLOBALS["conn"], "DELETE FROM {$TABLE_PREFIX}ratings WHERE infohash=\"$hash\"");
-      @mysqli_query($GLOBALS["conn"], "DELETE FROM {$TABLE_PREFIX}peers WHERE infohash=\"$hash\"");
-      @mysqli_query($GLOBALS["conn"], "DELETE FROM {$TABLE_PREFIX}history WHERE infohash=\"$hash\"");
+       @do_sqlquery("DELETE FROM {$TABLE_PREFIX}files WHERE info_hash=\"$hash\"");
+       @do_sqlquery("DELETE FROM {$TABLE_PREFIX}timestamps WHERE info_hash=\"$hash\"");
+       @do_sqlquery("DELETE FROM {$TABLE_PREFIX}comments WHERE info_hash=\"$hash\"");
+       @do_sqlquery("DELETE FROM {$TABLE_PREFIX}ratings WHERE infohash=\"$hash\"");
+       @do_sqlquery("DELETE FROM {$TABLE_PREFIX}peers WHERE infohash=\"$hash\"");
+       @do_sqlquery("DELETE FROM {$TABLE_PREFIX}history WHERE infohash=\"$hash\"");
 
-      IF ($XBTT_USE)
-          mysqli_query($GLOBALS["conn"], "UPDATE xbt_files SET flags=1 WHERE info_hash=UNHEX('$hash')") or die(((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false)));
+       IF ($XBTT_USE)
+           do_sqlquery("UPDATE xbt_files SET flags=1 WHERE info_hash=UNHEX('$hash')") or die(mysqli_error($GLOBALS['conn']));
 
-      unlink($TORRENTSDIR."/$hash.btf");
+       unlink($TORRENTSDIR."/$hash.btf");
 
-      redirect($link);
+
+       redirect($link);
       exit();
 
    }
