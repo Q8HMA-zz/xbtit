@@ -4,7 +4,7 @@
 //
 // Copyright (C) 2004 - 2015  Btiteam
 //
-//    This file is part of xbtit.
+//    This file is part of xbtitFM.
 //
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
@@ -39,17 +39,17 @@ if (!defined("IN_ACP"))
 if(isset($_POST) && !empty($_POST))
 {
     (isset($_POST["secsui_quarantine_search_terms"]) && !empty($_POST["secsui_quarantine_search_terms"])) ? $secsui_quarantine_search_terms=
-    mysqli_real_escape_string($DBDT,strtolower(str_replace(array("\r\n", "\n\r", " "), array(",", ",", ""), $_POST["secsui_quarantine_search_terms"]))) : $secsui_quarantine_search_terms="";
-    (isset($_POST["secsui_quarantine_dir"]) && !empty($_POST["secsui_quarantine_dir"])) ? $secsui_quarantine_dir=mysqli_real_escape_string($DBDT,str_replace("\\", "/", $_POST["secsui_quarantine_dir"])) : $secsui_quarantine_dir="";
+    mysqli_real_escape_string($GLOBALS['conn'],strtolower(str_replace(array("\r\n", "\n\r", " "), array(",", ",", ""), $_POST["secsui_quarantine_search_terms"]))) : $secsui_quarantine_search_terms="";
+    (isset($_POST["secsui_quarantine_dir"]) && !empty($_POST["secsui_quarantine_dir"])) ? $secsui_quarantine_dir=mysqli_real_escape_string($GLOBALS['conn'],str_replace("\\", "/", $_POST["secsui_quarantine_dir"])) : $secsui_quarantine_dir="";
     (isset($_POST["secsui_quarantine_pm"]) && !empty($_POST["secsui_quarantine_pm"]) && is_numeric($_POST["secsui_quarantine_pm"]) && $_POST["secsui_quarantine_pm"]>=2) ? $secsui_quarantine_pm=(int)0+$_POST["secsui_quarantine_pm"] : $secsui_quarantine_pm=2;
-    (isset($_POST["secsui_pass_type"]) && !empty($_POST["secsui_pass_type"]) && is_numeric($_POST["secsui_pass_type"]) && $_POST["secsui_pass_type"]>=1 && $_POST["secsui_pass_type"]<=6) ? $secsui_pass_type=(int)0+$_POST["secsui_pass_type"] : $secsui_pass_type=1;
-    (isset($_POST["secsui_ss"]) && !empty($_POST["secsui_ss"])) ? $secsui_ss=mysqli_real_escape_string($DBDT,$_POST["secsui_ss"]) : $secsui_ss="";
+    (isset($_POST["secsui_pass_type"]) && !empty($_POST["secsui_pass_type"]) && is_numeric($_POST["secsui_pass_type"]) && $_POST["secsui_pass_type"]>=1 && $_POST["secsui_pass_type"]<=7) ? $secsui_pass_type=(int)0+$_POST["secsui_pass_type"] : $secsui_pass_type=1;
+    (isset($_POST["secsui_ss"]) && !empty($_POST["secsui_ss"])) ? $secsui_ss=mysqli_real_escape_string($GLOBALS['conn'],$_POST["secsui_ss"]) : $secsui_ss="";
     (isset($_POST["secsui_cookie_type"]) && !empty($_POST["secsui_cookie_type"]) && is_numeric($_POST["secsui_cookie_type"]) && $_POST["secsui_cookie_type"]>=1 && $_POST["secsui_cookie_type"]<=3) ? $secsui_cookie_type=(int)0+$_POST["secsui_cookie_type"] : $secsui_cookie_type=1;
     (isset($_POST["secsui_cookie_exp1"]) && !empty($_POST["secsui_cookie_exp1"]) && is_numeric($_POST["secsui_cookie_exp1"]) && $_POST["secsui_cookie_exp1"]>=1) ? $secsui_cookie_exp1=(int)0+$_POST["secsui_cookie_exp1"] : $secsui_cookie_exp1=1;
     (isset($_POST["secsui_cookie_exp2"]) && !empty($_POST["secsui_cookie_exp2"]) && is_numeric($_POST["secsui_cookie_exp2"]) && $_POST["secsui_cookie_exp2"]>=1 && $_POST["secsui_cookie_exp2"]<=6) ? $secsui_cookie_exp2=(int)0+$_POST["secsui_cookie_exp2"] : $secsui_cookie_exp2=2;
-    (isset($_POST["secsui_cookie_name"]) && !empty($_POST["secsui_cookie_name"])) ? $secsui_cookie_name=mysqli_real_escape_string($DBDT,preg_replace('/[^A-Za-z0-9]/', '', $_POST["secsui_cookie_name"])) : $secsui_cookie_name="";
-    (isset($_POST["secsui_cookie_path"]) && !empty($_POST["secsui_cookie_path"])) ? $secsui_cookie_path=mysqli_real_escape_string($DBDT,$_POST["secsui_cookie_path"]) : $secsui_cookie_path="";
-    (isset($_POST["secsui_cookie_domain"]) && !empty($_POST["secsui_cookie_domain"])) ? $secsui_cookie_domain=mysqli_real_escape_string($DBDT,$_POST["secsui_cookie_domain"]) : $secsui_cookie_domain="";
+    (isset($_POST["secsui_cookie_name"]) && !empty($_POST["secsui_cookie_name"])) ? $secsui_cookie_name=mysqli_real_escape_string($GLOBALS['conn'],preg_replace('/[^A-Za-z0-9]/', '', $_POST["secsui_cookie_name"])) : $secsui_cookie_name="";
+    (isset($_POST["secsui_cookie_path"]) && !empty($_POST["secsui_cookie_path"])) ? $secsui_cookie_path=mysqli_real_escape_string($GLOBALS['conn'],$_POST["secsui_cookie_path"]) : $secsui_cookie_path="";
+    (isset($_POST["secsui_cookie_domain"]) && !empty($_POST["secsui_cookie_domain"])) ? $secsui_cookie_domain=mysqli_real_escape_string($GLOBALS['conn'],$_POST["secsui_cookie_domain"]) : $secsui_cookie_domain="";
     (isset($_POST["pass_min_char"]) && !empty($_POST["pass_min_char"]) && is_numeric($_POST["pass_min_char"]) && $_POST["pass_min_char"]>=4) ? $pass_min_char=(int)0+$_POST["pass_min_char"] : $pass_min_char=4;
     (isset($_POST["pass_min_lct"]) && !empty($_POST["pass_min_lct"]) && is_numeric($_POST["pass_min_lct"]) && $_POST["pass_min_lct"]>=0) ? $pass_min_lct=(int)0+$_POST["pass_min_lct"] : $pass_min_lct=0;
     (isset($_POST["pass_min_uct"]) && !empty($_POST["pass_min_uct"]) && is_numeric($_POST["pass_min_uct"]) && $_POST["pass_min_uct"]>=0) ? $pass_min_uct=(int)0+$_POST["pass_min_uct"] : $pass_min_uct=0;
@@ -122,12 +122,12 @@ if(isset($_POST) && !empty($_POST))
             }
         }
         shuffle($cookie_items_arr);
-        $secsui_cookie_items=mysqli_real_escape_string($DBDT,implode(",", $cookie_items_arr));
+        $secsui_cookie_items=mysqli_real_escape_string($GLOBALS['conn'],implode(",", $cookie_items_arr));
     }
     else
     {
         $cookie_items_changed=true;
-        $secsui_cookie_items=mysqli_real_escape_string($DBDT,"1-0,2-0,3-0,4-0,5-0,6-0,7-0,8-0[+]0");
+        $secsui_cookie_items=mysqli_real_escape_string($GLOBALS['conn'],"1-0,2-0,3-0,4-0,5-0,6-0,7-0,8-0[+]0");
     }
 
     if($secsui_cookie_type==2)
@@ -145,7 +145,7 @@ if(isset($_POST) && !empty($_POST))
             $mult=31536000;
 
         $cookie_expire=(($secsui_cookie_exp1*$mult)+time());
-
+        
         if($cookie_expire>2147483647)
             stderr($language["ERROR"], $language["SECSUI_COOKIE_TOO_FAR"]);
     }
@@ -208,11 +208,10 @@ if(isset($_POST) && !empty($_POST))
     }
 }
 
-$get_pm_user=get_result("SELECT `u`.`username`, `ul`.`prefixcolor`, `ul`.`suffixcolor` FROM `{$TABLE_PREFIX}users` `u` LEFT JOIN `{$TABLE_PREFIX}users_level` `ul` ON `u`.`id_level`=`ul`.`id` WHERE `u`.`id`=".mysqli_real_escape_string($DBDT,$btit_settings["secsui_quarantine_pm"]), true, $btit_settings["cache_duration"]);
-
+$get_pm_user=get_result("SELECT `u`.`username`, `ul`.`prefixcolor`, `ul`.`suffixcolor` FROM `{$TABLE_PREFIX}users` `u` LEFT JOIN `{$TABLE_PREFIX}users_level` `ul` ON `u`.`id_level`=`ul`.`id` WHERE `u`.`id`=".mysqli_real_escape_string($GLOBALS['conn'],$btit_settings["secsui_quarantine_pm"]), true, $btit_settings["cache_duration"]);
 
 $btit_settings["secsui_quarantine_search_terms"]=str_replace(",", "\n", $btit_settings["secsui_quarantine_search_terms"]);
-$btit_settings["secsui_quarantine_user"]=((count($get_pm_user)==1)?"<a href='index.php?page=userdetails&id=".$btit_settings["secsui_quarantine_pm"]."'>".unesc($get_pm_user[0]["prefixcolor"].$get_pm_user[0]["username"].$get_pm_user[0]["suffixcolor"])."</a>":"<span style='background-color:#FF0000;color:#FFFF00;font-weight:bold;'>".$language["SETTING_QUAR_INV_USR"]."</span>");
+$btit_settings["secsui_quarantine_user"]=((count($get_pm_user)==1)?"<a href='".(($btit_settings["fmhack_SEO_panel"]=="enabled" && $res_seo["activated_user"]=="true")?$btit_settings["secsui_quarantine_pm"]."_".strtr($get_pm_user[0]["username"], $res_seo["str"], $res_seo["strto"]).".html":"index.php?page=userdetails&id=".$btit_settings["secsui_quarantine_pm"])."'>".unesc($get_pm_user[0]["prefixcolor"].$get_pm_user[0]["username"].$get_pm_user[0]["suffixcolor"])."</a>":"<span style='background-color:#FF0000;color:#FFFF00;font-weight:bold;'>".$language["SETTING_QUAR_INV_USR"]."</span>");
 $admintpl->set("uid",$CURUSER["uid"]);
 $admintpl->set("random",$CURUSER["random"]);
 $admintpl->set("language",$language);
@@ -235,6 +234,7 @@ $types[3]["name"]=$language["SECSUI_PASSHASH_TYPE_3"];
 $types[4]["name"]=$language["SECSUI_PASSHASH_TYPE_4"];
 $types[5]["name"]=$language["SECSUI_PASSHASH_TYPE_5"];
 $types[6]["name"]=$language["SECSUI_PASSHASH_TYPE_6"];
+$types[7]["name"]=$language["SECSUI_PASSHASH_TYPE_7"];
 
 $admintpl->set("not_gazelle", (($btit_settings["secsui_pass_type"]==4)?false:true), true);
 
