@@ -364,62 +364,53 @@ echo ($install_lang["file_not_exists"]);
 }
 
 // checking the database connection
-elseif ($action == 'sql_import') {
-    step ($install_lang["mysql_import"],$install_lang["step"]."&nbsp;".$install_lang["mysql_import_step"],"3");
-
+elseif($action == 'sql_import')
+{
+    step($install_lang["mysql_import"], $install_lang["step"]."&nbsp;".$install_lang["mysql_import_step"], "3");
     // Make sure it works.
-    require(dirname(__FILE__) . '/include/settings.php');
-
+    require (dirname(__file__).'/include/settings.php');
     // Attempt a connection.
-    $db_connection = @($GLOBALS["conn"] = mysqli_connect($dbhost,  $dbuser,  $dbpass));
-    
+    $GLOBALS['conn'] = mysqli_connect($dbhost, $dbuser, $dbpass);
     // No dice?  Let's try adding the prefix they specified, just in case they misread the instructions ;).
-    if (!$db_connection)
+    if(!$GLOBALS['conn'])
     {
-        $mysql_error = ((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
-
-        $db_connection = @($GLOBALS["conn"] = mysqli_connect($dbhost,  $TABLE_PREFIX . $dbuser,  $dbpass));
-        if ($db_connection != false)
+        $mysqli_error = mysqli_error($GLOBALS['conn']);
+        $GLOBALS['conn'] = mysqli_connect($dbhost, $TABLE_PREFIX.$dbuser, $dbpass);
+        if($GLOBALS['conn'] != false)
         {
-            $db_user = $TABLE_PREFIX . $dbuser;
+            $db_user = $TABLE_PREFIX.$dbuser;
             updateSettingsFile(array('db_user' => $dbuser));
         }
     }
-
     // Still no connection?  Big fat error message :P.
-    if (!$db_connection)
+    if(!$GLOBALS['conn'])
     {
         echo '
                 <div class="error_message">
                     <div style="color: red;">', $install_lang['error_mysql_connect'], '</div>
 
-                    <div style="margin: 2.5ex; font-family: monospace;"><b>', $mysql_error, '</b></div>
+                    <div style="margin: 2.5ex; font-family: monospace;"><b>', $mysqli_error, '</b></div>
 
                     <a href="', $_SERVER['PHP_SELF'], '?step=0&amp;overphp=true">', $install_lang['error_message_click'], '</a> ', $install_lang['error_message_try_again'], '
                 </div>';
         return false;
     }
-
     // Let's try that database on for size...
-    if ($database != '')
-        mysqli_query( $db_connection, "
-            CREATE DATABASE IF NOT EXISTS `$database` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci");
-
+    if($database != '')
+        mysqli_query($GLOBALS['conn'],"CREATE DATABASE IF NOT EXISTS `$database` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
     // Okay, let's try the prefix if it didn't work...
-    if (!((bool)mysqli_query( $db_connection, "USE $database")) && $database != '')
+    if(!mysqli_select_db($GLOBALS['conn'],$database) && $database != '')
     {
-        mysqli_query( $db_connection, "
-            CREATE DATABASE IF NOT EXISTS `".$TABLE_PREFIX.$database."` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci");
-
-        if (((bool)mysqli_query( $db_connection, "USE $TABLE_PREFIX . $database")))
+        mysqli_query($GLOBALS['conn'],"
+            CREATE DATABASE IF NOT EXISTS `".$TABLE_PREFIX.$database."` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci");
+        if(mysqli_select_db($GLOBALS['conn'],$TABLE_PREFIX.$database))
         {
-            $db_name = $TABLE_PREFIX . $db_name;
+            $db_name = $TABLE_PREFIX.$db_name;
             updateSettingsFile(array('database' => $database));
         }
     }
-
     // Okay, now let's try to connect...
-    if (!((bool)mysqli_query( $db_connection, "USE $database")))
+    if(!mysqli_select_db($GLOBALS['conn'],$database))
     {
         echo '
                 <div class="error_message">
@@ -427,63 +418,50 @@ elseif ($action == 'sql_import') {
                     <br />
                     <a href="', $_SERVER['PHP_SELF'], '?step=0&amp;overphp=true">', $install_lang['error_message_click'], '</a> ', $install_lang['error_message_try_again'], '
                 </div>';
-
         return false;
     }
-
-    $replaces = array(
-        '{$db_prefix}' => $TABLE_PREFIX,
-    );
-    foreach ($install_lang as $key => $value)
+    $replaces = array('{$db_prefix}' => $TABLE_PREFIX, );
+    foreach($install_lang as $key => $value)
     {
-        if (substr($key, 0, 8) == 'default_')
-            $replaces['{$' . $key . '}'] = addslashes($value);
+        if(substr($key, 0, 8) == 'default_')
+            $replaces['{$'.$key.'}'] = addslashes($value);
     }
-
-    if (isset($replaces['{$default_reserved_names}']))
-       $replaces['{$default_reserved_names}'] = strtr($replaces['{$default_reserved_names}'], array('\\\\n' => '\\n'));
-
-    // If the UTF-8 setting was enabled, add it to the table definitions.
-    if (isset($_POST['utf8']))
-        $replaces[') TYPE=MyISAM;'] = ') TYPE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;';
-
+    if(isset($replaces['{$default_reserved_names}']))
+        $replaces['{$default_reserved_names}'] = strtr($replaces['{$default_reserved_names}'], array('\\\\n' => '\\n'));
+    $replaces["); -- TABLEOPT --"] = ") DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ENGINE=MyISAM;";
     // Read in the SQL.  Turn this on and that off... internationalize... etc.
-    $sql_lines = explode("\n", strtr(implode(' ', file(dirname(__FILE__) . '/sql/database.sql')), $replaces));
-
+    $sql_lines = explode("\n", strtr(implode(' ', file(dirname(__file__).'/sql/database.sql')), $replaces));
     // Execute the SQL.
     $current_statement = '';
     $failures = array();
     $exists = array();
-    foreach ($sql_lines as $count => $line)
+    foreach($sql_lines as $count => $line)
     {
         // No comments allowed!
-        if (substr(trim($line), 0, 1) != '#')
-            $current_statement .= "\n" . rtrim($line);
-
+        if(substr(trim($line), 0, 1) != '#')
+            $current_statement .= "\n".rtrim($line);
         // Is this the end of the query string?
-        if (empty($current_statement) || (preg_match('~;[\s]*$~s', $line) == 0 && $count != count($sql_lines)))
+        if(empty($current_statement) || (preg_match('~;[\s]*$~s', $line) == 0 && $count != count($sql_lines)))
             continue;
-
         // Does this table already exist?  If so, don't insert more data into it!
-        if (preg_match('~^\s*INSERT INTO ([^\s\n\r]+?)~', $current_statement, $match) != 0 && in_array($match[1], $exists))
+        if(preg_match('~^\s*INSERT INTO ([^\s\n\r]+?)~', $current_statement, $match) != 0 && in_array($match[1], $exists))
         {
             $current_statement = '';
             continue;
         }
-
-        if (mysqli_query($GLOBALS["conn"], $current_statement) === false)
+        if(mysqli_query($GLOBALS['conn'],$current_statement) === false)
         {
             // Error 1050: Table already exists!
-            if (((is_object($db_connection)) ? mysqli_errno($db_connection) : (($___mysqli_res = mysqli_connect_errno()) ? $___mysqli_res : false)) === 1050 && preg_match('~^\s*CREATE TABLE ([^\s\n\r]+?)~', $current_statement, $match) == 1)
+            if(mysqli_errno($GLOBALS['conn']) === 1050 && preg_match('~^\s*CREATE TABLE ([^\s\n\r]+?)~', $current_statement, $match) == 1)
                 $exists[] = $match[1];
             else
-                $failures[$count] = ((is_object($GLOBALS["conn"])) ? mysqli_error($GLOBALS["conn"]) : (($___mysqli_res = mysqli_connect_error()) ? $___mysqli_res : false));
+                $failures[$count] = mysqli_error($GLOBALS['conn']);
         }
-
         $current_statement = '';
     }
-     echo ($install_lang["database_saved"]);
-     echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"]."&amp;action=site_config'\" /></div>");
+    echo ($install_lang["database_saved"]);
+    echo ("<div align=\"right\"><input type=\"button\" class=\"button\" name=\"continue\" value=\"".$install_lang["next"]."\" onclick=\"javascript:document.location.href='install.php?lang_file=".$_SESSION["install_lang"].
+        "&amp;action=site_config'\" /></div>");
 }
 
 // site config
