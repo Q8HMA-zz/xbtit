@@ -91,11 +91,11 @@ if ((implode(" ",$current_version)!=implode(" ",$last_version)))
   {
   $your_version.="<table width=\"100%\"><tr><td align=\"left\">Installed version:</td><td align=\"left\">".implode(" ",$current_version)."</td></tr>\n";
   $your_version.="<tr><td align=\"left\">Current version:</td><td align=\"left\">".implode(" ",$last_version)."</td></tr>\n";
-  $your_version.="<tr><td colspan=\"2\" align=\"center\">Get Last Version <a href=\"http://www.btiteam.org\" target=\"_blank\">here</a>!</td></tr>\n</table>";
+  $your_version.="<tr><td colspan=\"2\" align=\"center\">Get Latest Release <a href=\"http://www.btiteam.org\" target=\"_blank\">here</a>!</td></tr>\n</table>";
 }
 else
   {
-  $your_version.="You have the latest xBtit version installed.($tracker_version Rev.$tracker_revision)";
+  $your_version.="You have the latest xBtit version installed.($tracker_version)";
 
 }
 
